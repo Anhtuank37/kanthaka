@@ -1,8 +1,8 @@
-package com.uom.kanthaka.preprocessor.rulereader;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+package com.uom.kanthaka.preprocessor.rulereader;
 
 import java.util.concurrent.ConcurrentHashMap;
 

@@ -1,9 +1,11 @@
-package com.uom.kanthaka.preprocessor.rulereader;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+package com.uom.kanthaka.preprocessor.rulereader;
 
+import com.uom.kanthaka.preprocessor.CDRreader.Rule;
+import com.uom.kanthaka.preprocessor.CDRreader.conditionField;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -12,9 +14,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
-
-import com.uom.kanthaka.preprocessor.CDRreader.Rule;
-import com.uom.kanthaka.preprocessor.CDRreader.conditionField;
 
 /**
  *
@@ -189,8 +188,6 @@ public class CdrRead extends TimerTask {
 //        if ((conField.getValue()).equalsIgnoreCase(cdr.getSourceChannelType())) {
         if ((conField.getConditionName()).equalsIgnoreCase("Called_No") || (conField.getConditionName()).equalsIgnoreCase("Smsed_No")) {
             return (conField.getValue()).equalsIgnoreCase(cdr.getDestinationAddress());
-//        } else if ((conField.getConditionName()).equalsIgnoreCase("No_of_Calls")||(conField.getConditionName()).equalsIgnoreCase("No_of_SMSs")) {
-//            return (conField.getValue()).equalsIgnoreCase(cdr.getSourceChannelType());
         } else if ((conField.getConditionName()).equalsIgnoreCase("Connection_Type")) {
             return (conField.getValue()).equalsIgnoreCase(cdr.getBillingType());
         } else if ((conField.getConditionName()).equalsIgnoreCase("Channel_Type")) {
@@ -275,12 +272,6 @@ public class CdrRead extends TimerTask {
     @Override
     public void run() {
         updateRuleMaps();
-
-//        try {
         Thread.yield();
-//        } catch (InterruptedException ex) {
-//            ex.printStackTrace();
-//        }
-
     }
 }

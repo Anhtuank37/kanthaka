@@ -1,13 +1,12 @@
-package com.uom.kanthaka.preprocessor.rulereader;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+package com.uom.kanthaka.preprocessor.rulereader;
 
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.TreeSet;
-import com.uom.kanthaka.preprocessor.CDRreader.counterConditionFields;
+import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  *
@@ -15,131 +14,103 @@ import com.uom.kanthaka.preprocessor.CDRreader.counterConditionFields;
  */
 public class processResultSet {
 
-    ArrayList<String> setOne;
-    ArrayList<String> setTwo;
-    ArrayList<String> setThree;
-    ArrayList<String> setFour;
-    ArrayList<ArrayList<counterConditionFields>> counterConditionFields;
+    HashSet<String> setOne;
+    HashSet<String> setTwo;
+    HashSet<String> setThree;
+    HashSet<String> setFour;
+    ArrayList<ArrayList<HashSet<String>>> result;
 
     public processResultSet() {
-        counterConditionFields = new ArrayList<ArrayList<counterConditionFields>>();
-        ArrayList<counterConditionFields> list1 = new ArrayList<counterConditionFields>();
-        ArrayList<counterConditionFields> list2 = new ArrayList<counterConditionFields>();
-        ArrayList<counterConditionFields> list3 = new ArrayList<counterConditionFields>();
-        list1.add(new counterConditionFields("Tel", ">", "5"));
 
-        list2.add(new counterConditionFields("Tel", ">", "5"));
-        list2.add(new counterConditionFields("Tel", ">", "5"));
-
-        list3.add(new counterConditionFields("Tel", ">", "5"));
-
-        this.setOne = new ArrayList<String>();
+        this.setOne = new HashSet<String>();
         setOne.add("1111");
         setOne.add("1112");
         setOne.add("1113");
         setOne.add("1114");
         setOne.add("1115");
 
-        this.setTwo = new ArrayList<String>();
+        this.setTwo = new HashSet<String>();
         setTwo.add("1112");
         setTwo.add("1113");
         setTwo.add("1114");
 
-        this.setThree = new ArrayList<String>();
+        this.setThree = new HashSet<String>();
         setThree.add("1112");
         setThree.add("1115");
         setThree.add("1116");
         setThree.add("1117");
 
-        this.setFour = new ArrayList<String>();
-        setThree.add("1112");
-        setThree.add("1115");
-        setThree.add("1116");
-        setThree.add("1117");
+        this.setFour = new HashSet<String>();
+        setFour.add("1112");
+        setFour.add("1115");
+        setFour.add("1116");
+        setFour.add("1117");
+
+        ArrayList<HashSet<String>> orOne = new ArrayList<HashSet<String>>();
+        orOne.add(setOne);
+        orOne.add(setTwo);
+        ArrayList<HashSet<String>> orTwo = new ArrayList<HashSet<String>>();
+        orTwo.add(setTwo);
+        orTwo.add(setThree);
+        ArrayList<HashSet<String>> orThree = new ArrayList<HashSet<String>>();
+        orThree.add(setFour);
+
+        result = new ArrayList<ArrayList<HashSet<String>>>();
+        result.add(orOne);
+        result.add(orTwo);
+        result.add(orThree);
+
     }
 
     public static void main(String args[]) {
+        processResultSet process = new processResultSet();
+        process.compareResultSet(process.result);
     }
 
-//    public void compareCdrAndRule() {
-//        //ArrayList<ArrayList<conditionField>> conditionComp = getRule().getConditionFields();
-//        boolean condition = true;
-//        for (int i = 0; i < counterConditionFields.size(); i++) {
-//            ArrayList<counterConditionFields> conditionOr = counterConditionFields.get(i);
-//            int count = 0;
-//            Set<String> innerCondition;
-//            for (int k = 0; k < conditionOr.size(); k++) {
-//                innerCondition = union(innerCondition, innerCondition);
-////                counterConditionFields conField = conditionOr.get(k);
-//////                System.out.print(conField.getConditionName() + ", " + conField.getValue());
-////                if (conditionOr.size() > 1) {
-////                    innerCondition = (innerCondition || checkCdrAttribute(conField, this));
-////                } else {
-////                    innerCondition = checkCdrAttribute(conField, this);
-////                }
-////                count++;
-////                if (count > 0 && count < conditionOr.size()) {
-//////                    System.out.print(" OR ");
-////                }
+    public void compareResultSet(ArrayList<ArrayList<HashSet<String>>> resultSet) {
+        HashSet<String> outerCondition = new HashSet<String>();
+        int initializer = 0;
+        for (int i = 0; i < resultSet.size(); i++) {
+            ArrayList<HashSet<String>> orOperationList = resultSet.get(i);
+            if ((initializer == 0) && (orOperationList.size() == 1)) {
+                outerCondition.addAll(orOperationList.get(i));
+                initializer++;
+            }
+            HashSet<String> innerCondition = new HashSet<String>();
+            for (int j = 0; j < orOperationList.size(); j++) {
+                innerCondition = union(innerCondition, orOperationList.get(j));
+            }
+            if ((initializer == 0)) {
+                outerCondition.addAll(innerCondition);
+                initializer++;
+            } else {
+                outerCondition = intersection(outerCondition, innerCondition);
+            }
+//            if (initializer != 0) {
+//                outerCondition = intersection(outerCondition, innerCondition);
 //            }
-//            if ((j < conditionComp.size() - 1) && !(count == 0)) {
-////                System.out.println("");
-////                System.out.println(" AND ");
-//            }
-//            condition = (condition && innerCondition);
-//        }
-////        System.out.println("");
-//        if (condition) {
-////            System.out.println(" ------------------------- ");
-////            System.out.println(" ----- Satisfy Rule ------ " + tempRuleComp.getRuleName());
-////            System.out.println(" ------------------------- ");
-////            System.out.println("");
-//            if ((this.getSourceChannelType() != null) && this.getSourceChannelType().equalsIgnoreCase("cas")) {
-//                ConcurrentHashMap<String, Long> callCounter = getCallMap().getDataMap();
-//                if (callCounter.containsKey(this.getSourceAddress())) {
-//                    long currentCount = callCounter.get(this.getSourceAddress());
-//                    callCounter.replace(this.getSourceAddress(), currentCount, currentCount + 1L);
-//                } else {
-//                    callCounter.put(this.getSourceAddress(), 1L);
-//                }
-////                ConcurrentHashMap<String, Long> callCounter = getRule().getRuleMaps().get("No_of_Calls");
-////                if (callCounter.containsKey(this.getSourceAddress())) {
-////                    long currentCount = callCounter.get(this.getSourceAddress());
-////                    callCounter.replace(this.getSourceAddress(), currentCount, currentCount + 1L);
-//////                    callCounter.remove(this.getSourceAddress());
-//////                    callCounter.put(this.getSourceAddress(), currentCount + 1L);
-////                } else {
-////                    callCounter.put(this.getSourceAddress(), 1L);
-////                }
-//            } else if ((this.getSourceChannelType() != null) && this.getSourceChannelType().equalsIgnoreCase("sms")) {
-//                ConcurrentHashMap<String, Long> smsCounter = getSmsMap().getDataMap();
-//                if (smsCounter.containsKey(this.getSourceAddress())) {
-//                    long currentCount = smsCounter.get(this.getSourceAddress());
-//                    smsCounter.replace(this.getSourceAddress(), currentCount, currentCount + 1L);
-//                } else {
-//                    smsCounter.put(this.getSourceAddress(), 1L);
-//                }
-////                ConcurrentHashMap<String, Long> smsCounter = getRule().getRuleMaps().get("No_of_SMSs");
-////                if (smsCounter.containsKey(this.getSourceAddress())) {
-////                    long currentCount = smsCounter.get(this.getSourceAddress());
-////                    smsCounter.replace(this.getSourceAddress(), currentCount, currentCount + 1L);
-//////                    smsCounter.put(this.getSourceAddress(), currentCount + 1L);
-////                } else {
-////                    smsCounter.put(this.getSourceAddress(), 1L);
-////                }
-//            } else {
-//            }
-//        }
-//    }
-
-    public static Set<String> union(Set<String> setA, Set<String> setB) {
-        Set<String> tmp = new TreeSet<String>(setA);
-        tmp.addAll(setB);
-        return tmp;
+            System.out.println("Set : " + outerCondition);
+        }
+        System.out.println("Final Set : " + outerCondition);
     }
 
-    public static Set<String> intersection(Set<String> setA, Set<String> setB) {
-        Set<String> tmp = new TreeSet<String>();
+    public HashSet<String> union(HashSet<HashSet<String>> setList) {
+        HashSet<String> tempSet = new HashSet<String>();
+        for (Iterator<HashSet<String>> it = setList.iterator(); it.hasNext();) {
+//            HashSet<String> set = it.next();
+            tempSet.addAll(it.next());
+        }
+        return tempSet;
+    }
+
+    public HashSet<String> union(HashSet<String> setA, HashSet<String> setB) {
+        HashSet<String> tempSet = new HashSet<String>(setA);
+        tempSet.addAll(setB);
+        return tempSet;
+    }
+
+    public HashSet<String> intersection(HashSet<String> setA, HashSet<String> setB) {
+        HashSet<String> tmp = new HashSet<String>();
         for (String x : setA) {
             if (setB.contains(x)) {
                 tmp.add(x);
@@ -148,15 +119,15 @@ public class processResultSet {
         return tmp;
     }
 
-    public static Set<String> difference(Set<String> setA, Set<String> setB) {
-        Set<String> tmp = new TreeSet<String>(setA);
+    public HashSet<String> difference(HashSet<String> setA, HashSet<String> setB) {
+        HashSet<String> tmp = new HashSet<String>(setA);
         tmp.removeAll(setB);
         return tmp;
     }
 
-    public static Set<String> symDifference(Set<String> setA, Set<String> setB) {
-        Set<String> tmpA;
-        Set<String> tmpB;
+    public HashSet<String> symDifference(HashSet<String> setA, HashSet<String> setB) {
+        HashSet<String> tmpA;
+        HashSet<String> tmpB;
 
         tmpA = union(setA, setB);
         tmpB = intersection(setA, setB);

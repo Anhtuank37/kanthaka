@@ -1,16 +1,14 @@
-package com.uom.kanthaka.preprocessor.CDRreader;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+package com.uom.kanthaka.preprocessor.CDRreader;
 
 //import DBUpdater.CounterCreater;
-
-import java.io.File;
-import java.util.ArrayList;
-
 import com.uom.kanthaka.preprocessor.rulereader.CdrRead;
 import com.uom.kanthaka.preprocessor.rulereader.RecordMap;
+import java.io.File;
+import java.util.ArrayList;
 
 /**
  *
@@ -23,7 +21,7 @@ public class BusinessRuleReadMain {
 
     public static void main(String[] args) {
         readBusinessRule readRules = new readBusinessRule();
-        ArrayList<Rule> businessRules = readRules.readFilesOnPath(new File(ruleUrl));
+        ArrayList<Rule> businessRules = readRules.readFilesOnPath();
 
 //        CounterCreater counterCreater = new CounterCreater();
 //        counterCreater.createKeyspace();

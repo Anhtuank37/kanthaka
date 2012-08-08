@@ -1,14 +1,14 @@
 package com.uom.kanthaka.preprocessor.CDRreader;
 
+import com.uom.kanthaka.preprocessor.rulereader.RecordMap;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.uom.kanthaka.preprocessor.rulereader.RecordMap;
-
 public class Rule {
 
     private String ruleName;
+    private String ruleString;
     private String channelType;
 //    private StringBuffer query;
     private Set<String> cdrReadingFields;
@@ -58,6 +58,10 @@ public class Rule {
         return ruleName;
     }
 
+    public String getRuleString() {
+        return ruleString;
+    }
+    
     public Set<String> getCdrReadingFields() {
         return cdrReadingFields;
     }
@@ -74,12 +78,12 @@ public class Rule {
         return counters;
     }
     
-    public void setRuleName(String ruleName) {
-        this.ruleName = ruleName;
-    }
-
     public ArrayList<String> getFields() {
         return fields;
+    }
+    
+    public void setRuleName(String ruleName) {
+        this.ruleName = ruleName;
     }
 
     public void setChannelType(String channelType) {
@@ -98,6 +102,10 @@ public class Rule {
         this.counters = counters;
     }
 
+    public void setRuleString(String ruleString) {
+        this.ruleString = ruleString;
+    }
+    
 //    public void setRuleMaps(HashMap<String, ConcurrentHashMap<String, Long>> ruleMaps) {
 //        this.ruleMaps = ruleMaps;
 //    }
