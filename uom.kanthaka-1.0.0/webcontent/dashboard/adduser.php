@@ -56,6 +56,7 @@ include('lock.php');
 				<ul>
                     <li><a href="addpromotion.php" title="Add Promotion">Add New Promotion</a></li>
                     <li><a href="viewpromotions.php" title="View Promotions">View Promotions</a></li>
+					<li><a href="viewselections.php" title="View Promotions">View Selections</a></li>
 				</ul>
             </li>
 			<li class="active">

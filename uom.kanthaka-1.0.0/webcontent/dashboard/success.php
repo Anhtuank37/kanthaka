@@ -67,17 +67,18 @@ include('config.php');
 	$r6c2v = $_POST["r6c2v"];
 	
 	$rule = "";
+	$rule = $_POST["rule"];
 	
 	$r = array();
 	$o = array();
 	$v = array();
 
-	if ($r1c1r!="(Select)") {
+	if ($r1c1r!="") {
 		$rule.="( ".$r1c1r." ".$r1c1o." ".$r1c1v;
 		array_push($r,$r1c1r);
 		array_push($o,$r1c1o);
 		array_push($v,$r1c1v);
-		if ($r1c2r!="(Select)") {
+		if ($r1c2r!="") {
 			$rule.=" || ".$r1c2r." ".$r1c2o." ".$r1c2v." )"; 
 			array_push($r,$r1c2r);
 			array_push($o,$r1c2o);
@@ -85,12 +86,12 @@ include('config.php');
 		}
 		else $rule.=" )";
 	}
-	if ($r2c1r!="(Select)") {
+	if ($r2c1r!="") {
 		$rule.=" && ( ".$r2c1r." ".$r2c1o." ".$r2c1v;
 		array_push($r,$r2c1r);
 		array_push($o,$r2c1o);
 		array_push($v,$r2c1v);
-		if ($r2c2r!="(Select)") {
+		if ($r2c2r!="") {
 			$rule.=" || ".$r2c2r." ".$r2c2o." ".$r2c2v." )";
 			array_push($r,$r2c2r);
 			array_push($o,$r2c2o);
@@ -98,12 +99,12 @@ include('config.php');
 		}
 		else $rule.=" )";
 	}
-	if ($r3c1r!="(Select)") {
+	if ($r3c1r!="") {
 		$rule.=" && ( ".$r3c1r." ".$r3c1o." ".$r3c1v;
 		array_push($r,$r3c1r);
 		array_push($o,$r3c1o);
 		array_push($v,$r3c1v);
-		if ($r3c2r!="(Select)") {
+		if ($r3c2r!="") {
 			$rule.=" || ".$r3c2r." ".$r3c2o." ".$r3c2v." )"; 
 			array_push($r,$r3c2r);
 			array_push($o,$r3c2o);
@@ -111,12 +112,12 @@ include('config.php');
 		}
 		else $rule.=" )";
 	}
-	if ($r4c1r!="(Select)") {
+	if ($r4c1r!="") {
 		$rule.=" && ( ".$r4c1r." ".$r4c1o." ".$r4c1v;
 		array_push($r,$r4c1r);
 		array_push($o,$r4c1o);
 		array_push($v,$r4c1v);
-		if ($r4c2r!="(Select)") {
+		if ($r4c2r!="") {
 			$rule.=" || ".$r4c2r." ".$r4c2o." ".$r4c2v." )"; 
 			array_push($r,$r4c2r);
 			array_push($o,$r4c2o);
@@ -124,12 +125,12 @@ include('config.php');
 		}
 		else $rule.=" )";
 	}
-	if ($r5c1r!="(Select)") {
+	if ($r5c1r!="") {
 		$rule.=" && ( ".$r5c1r." ".$r5c1o." ".$r5c1v;
 		array_push($r,$r5c1r);
 		array_push($o,$r5c1o);
 		array_push($v,$r5c1v);
-		if ($r5c2r!="(Select)") {
+		if ($r5c2r!="") {
 			$rule.=" || ".$r5c2r." ".$r5c2o." ".$r5c2v." )";
 			array_push($r,$r5c2r);
 			array_push($o,$r5c2o);
@@ -137,12 +138,12 @@ include('config.php');
 		}
 		else $rule.=" )";
 	}
-	if ($r6c1r!="(Select)") {
+	if ($r6c1r!="") {
 		$rule.=" && ( ".$r6c1r." ".$r6c1o." ".$r6c1v;
 		array_push($r,$r6c1r);
 		array_push($o,$r6c1o);
 		array_push($v,$r6c1v);
-		if ($r6c2r!="(Select)") {
+		if ($r6c2r!="") {
 			$rule.=" || ".$r6c2r." ".$r6c2o." ".$r6c2v." )"; 
 			array_push($r,$r6c2r);
 			array_push($o,$r6c2o);
@@ -157,6 +158,9 @@ include('config.php');
 
 	mysql_query("INSERT INTO promotions (name, type, start_date, end_date, description, rule)
 	VALUES ('$name', '$type', '$dateStart', '$dateEnd', '$description', '$rule');");
+	
+	mysql_query("UPDATE promotions SET type='$type', start_date='$dateStart', end_Date='$dateEnd', description='$description'
+			WHERE name='$name'");
 
 	//mysql_close($con);
 ?>
@@ -181,6 +185,7 @@ include('config.php');
 				<ul>
                     <li><a href="addpromotion.php" title="Add Promotion">Add New Promotion</a></li>
                     <li><a href="viewpromotions.php" title="View Promotions">View Promotions</a></li>
+					<li><a href="viewselections.php" title="View Promotions">View Selections</a></li>
 				</ul>
             </li>
 			<li class="subitems">

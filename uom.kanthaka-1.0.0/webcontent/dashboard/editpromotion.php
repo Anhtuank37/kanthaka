@@ -1,5 +1,11 @@
 <?php
 include('lock.php');
+include('config.php');
+
+$id = $_POST["id"]; 
+$result = mysql_query("SELECT * FROM promotions WHERE name='$id'");
+$row = mysql_fetch_assoc($result);
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -58,6 +64,7 @@ include('lock.php');
 				<ul>
                     <li><a href="addpromotion.php" title="Add Promotion">Add New Promotion</a></li>
                     <li><a href="viewpromotions.php" title="View Promotions">View Promotions</a></li>
+					<li><a href="viewselections.php" title="View Promotions">View Selections</a></li>
 				</ul>
             </li>
 			<li class="subitems">
@@ -102,30 +109,30 @@ include('lock.php');
 		<fieldset>
 			<div id="basic">
 				<label>Promotion Name:</label>
-				<span class="small_input"><input class="small" name="name" type="text" value="" /></span><br class="hid" />
-				<!--<span class="negative"></span><br class="hid" />
-				<span class="positive"></span><br class="hid" />-->
+				<span class="small_input"><input class="small" name="pname" type="text" value="<?php echo $id; ?>" disabled="disabled"/></span>
+				<input name="name" type="hidden" value="<?php echo $id; ?>" /><br class="hid" />
 				
 				<label>Promotion Type:</label>
 				<select name="type"  style="width: 247px;">
-					<option value="Local">Local</option>
-					<option value="Corporate">Corporate</option>
-					<option value="IDD" >IDD</option>
-					<option value="Roaming">Roaming</option>
-					<option value="Seasonal">Seasonal</option>
+					<option value="Local" <?php if ($row['type']=='Local') echo 'SELECTED'; ?> >Local</option>
+					<option value="Corporate" <?php if ($row['type']=='Corporate') echo 'SELECTED'; ?> >Corporate</option>
+					<option value="IDD"<?php if ($row['type']=='IDD') echo 'SELECTED'; ?> >IDD</option>
+					<option value="Roaming" <?php if ($row['type']=='Roaming') echo 'SELECTED'; ?> >Roaming</option>
+					<option value="Seasonal" <?php if ($row['type']=='Seasonal') echo 'SELECTED'; ?> >Seasonal</option>
 				</select>
 				<br class="hid" />
 				
 				<label>Running Period:</label>
-				<input class="mini" placeholder="Start date" name="dateStart" type="text">
-				<input class="mini" placeholder="End date" name="dateEnd" type="text">
+				<input class="mini" placeholder="Start date" name="dateStart" type="text" value="<?php echo $row['start_date']; ?>"/>
+				<input class="mini" placeholder="End date" name="dateEnd" type="text" value="<?php echo $row['end_date']; ?>"/>
 				<p>Select Start Date & End Date of the promotion </p>
 			
 				<label>Description:</label><br class="hid" />
-				<input class="large" name="description" type="text"><br class="hid" /><br class="hid" />
+				<input class="large" name="description" type="text" value="<?php echo $row['description']; ?>"/><br class="hid" /><br class="hid" />
 				
 				<label>Promotion Rule:</label>
-				<input class="large" name="rule" type="text"><br class="hid" /><br><br><br><br><br>
+				<input class="large" name="prule" type="text" disabled="disabled" value="<?php echo $row['rule']; ?>"/>
+				<input name="rule" type="hidden" value="<?php echo  $row['rule']; ?>" /><br class="hid" /><br><br><br><br><br>
 			
 				<a href="#" class="submit button" title="Save Promotion"><span>Save Promotion</span></a><span class="clear"></span>
 				

@@ -43,6 +43,7 @@ include('config.php');
 				<ul>
                     <li><a href="addpromotion.php" title="Add Promotion">Add New Promotion</a></li>
                     <li><a href="viewpromotions.php" title="View Promotions">View Promotions</a></li>
+					<li><a href="viewselections.php" title="View Promotions">View Selections</a></li>
 				</ul>
             </li>
 			<li class="subitems">
@@ -109,7 +110,7 @@ include('config.php');
 						echo '	<td>' . $row['rule'] . '</td>';
 						echo '	<td class="action">
 									<ul>
-										<li><a class="edit" href="#" title="Edit"></a></li>
+										<li><form action="editpromotion.php" method="POST"><input type="hidden" name="id" value="'.$row['name'].'"><a class="edit submit" href="#" title="Edit"></a></form></a></li>
 										<li><form action="delete.php" method="POST"><input type="hidden" name="id" value="'.$row['name'].'"><a class="delete submit" href="#" title="Delete"></a></form></li>
 									</ul>
 								</td>';
