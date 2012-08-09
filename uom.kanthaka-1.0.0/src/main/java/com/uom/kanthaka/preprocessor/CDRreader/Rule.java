@@ -98,6 +98,14 @@ public class Rule {
         this.conditionFields = conditionFields;
     }
 
+    public void setRecordMaps(ArrayList<RecordMap> recordMaps) {
+        this.recordMaps = recordMaps;
+    }
+    
+    public void setcounterConditionFields(ArrayList<ArrayList<counterConditionFields>> counterConditionFd) {
+        this.counterConditionFields = counterConditionFd;
+    }
+
     public void setCounters(ArrayList<String> counters) {
         this.counters = counters;
     }
@@ -113,5 +121,6 @@ public class Rule {
     public void setFields(ArrayList<String> conditionFields) {
         this.fields = conditionFields;
     }
+
     
 }

@@ -50,14 +50,17 @@ public class CassandraUpdater3 {
         keyspace = HFactory.createKeyspace(BasicConf.KEYSPACE, cluster);
     }
 
-    public void createTable(String tableName) {
+    public void createTable(String tableName,String keyType) {
         Cluster cluster = HFactory.getOrCreateCluster(
                 BasicConf.CASSANDRA_CLUSTER, BasicConf.CLUSTER_PORT);
 
         ColumnFamilyDefinition cfDef = HFactory.createColumnFamilyDefinition(
                 BasicConf.KEYSPACE, tableName, ComparatorType.UTF8TYPE);
-        cfDef.setKeyValidationClass("org.apache.cassandra.db.marshal.BytesType");
-
+        if(keyType.equals("s")){
+        cfDef.setKeyValidationClass("org.apache.cassandra.db.marshal.UTF8Type");
+        }else if(keyType.equals("l")){
+        	 cfDef.setKeyValidationClass("org.apache.cassandra.db.marshal.LongType");
+        }
         Boolean isAlreadyExists = false;
         KeyspaceDefinition keyspaceDef = cluster.describeKeyspace(BasicConf.KEYSPACE);
         List<ColumnFamilyDefinition> columnFamilyList = keyspaceDef.getCfDefs();
@@ -70,6 +73,7 @@ public class CassandraUpdater3 {
         }
         if (!isAlreadyExists) {
             cluster.addColumnFamily(cfDef);
+            System.out.println("table"+tableName+"created");
         }
     }
 
@@ -141,9 +145,11 @@ public class CassandraUpdater3 {
             mutator2 = mutator2.addInsertion(phoneNumber, ruleName + "current_count", HFactory.createColumn(columnName, newValue, StringSerializer.get(),
                     LongSerializer.get()));
             mutator2.execute();
+            System.out.println(columnName+" value of "+phoneNumber+" updated in table ="+ruleName + "current_count");
 
         }
         mutator1.execute();
+        System.out.println("data inserted to table "+ ruleName + columnName + "count");
 
 
     }
@@ -191,12 +197,12 @@ public class CassandraUpdater3 {
 
         // creating tables with counter|4n # for sms,ussd(2 tables rule2smscount, rule2ussdcount
         for (String s : counters) {
-            couUpdater.createTable(ruleName + s + "count");
+            couUpdater.createTable(ruleName + s + "count","l");
         }
 
         // creating table for 4n#|current count(sms)|current count(ussd) -(1
         // table=rule2current_count
-        couUpdater.createTable(ruleName + "current_count");
+        couUpdater.createTable(ruleName + "current_count","s");
 
         // run periodically
         HashMap<String, ConcurrentHashMap<String, Long>> maps = new HashMap<String, ConcurrentHashMap<String, Long>>();

@@ -19,8 +19,10 @@ import java.util.TimerTask;
  */
 public class CdrReadScheduledTask extends TimerTask {
 
-    static String ruleUrl = "C:\\Users\\Makumar\\Documents\\NetBeansProjects\\XML Read\\Rules";
-    static String cdrUrl = "C:\\Users\\Makumar\\Documents\\NetBeansProjects\\XML Read\\CDR";
+    static String ruleUrl = "resources/Rules";
+    static String cdrUrl = "resources/CDR";
+//    static String ruleUrl = "C:\\Users\\Makumar\\Documents\\NetBeansProjects\\XML Read\\Rules";
+//    static String cdrUrl = "C:\\Users\\Makumar\\Documents\\NetBeansProjects\\XML Read\\CDR";
     ArrayList<Rule> businessRules;
     CassandraUpdater3 couUpdater;
 
@@ -28,8 +30,8 @@ public class CdrReadScheduledTask extends TimerTask {
         this.businessRules = businessRules;
 
 //      ******************************************************************************************
-//        couUpdater = new CassandraUpdater3();
-//        couUpdater.createKeyspace();
+        couUpdater = new CassandraUpdater3();
+        couUpdater.createKeyspace();
 //      ******************************************************************************************
     }
 
@@ -62,14 +64,14 @@ public class CdrReadScheduledTask extends TimerTask {
             Rule businessRule = businessRules.get(i);
 
 //      ******************************************************************************
-//      creating tables with counter|4n # for sms,ussd(2 tables rule2smscount, rule2ussdcount
-//            for (int j = 0; j < businessRule.getCounters().size(); j++) {
-//                couUpdater.createTable(businessRule.getRuleName() + businessRule.getCounters().get(j) + "count");
-//            }
 //      ******************************************************************************
-//      creating table for 4n#|current count(sms)|current count(ussd) -(1
-//      table=rule2current_count
-//            couUpdater.createTable(businessRule.getRuleName() + "current_count");
+            // creating tables with counter|4n # for sms,ussd(2 tables rule2smscount, rule2ussdcount
+            for (int j = 0; j < businessRule.getCounters().size(); j++) {
+                couUpdater.createTable(businessRule.getRuleName()+ businessRule.getCounters().get(j) + "count","l");
+            }
+            // creating table for 4n#|current count(sms)|current count(ussd) -(1
+            // table=rule2current_count
+		couUpdater.createTable(businessRule.getRuleName() + "current_count","s");
 //      ******************************************************************************
 
 //            System.out.println("Counter Condition Fields");
@@ -94,18 +96,12 @@ public class CdrReadScheduledTask extends TimerTask {
 
             ArrayList<RecordMap> mapList = businessRule.getRecordMaps();
 
-//      ******************************************************************************************
-//      Comment this part cz this it for testing the buffer
-//      it will remove the element after read
-//      oyage counterCreater.updateDatabaseTables(businessRule); method eke 
-//      elements db ekata dala remove karana part eka tiyenawa
-//      methendi remove unoth db ekata danna element eka nati wenawa
 
 //      ******************************************************************************************
-            while (mapList.size() > 0) {
-                RecordMap record = mapList.remove(0);
-                System.out.println(record.getType() + "  -  " + record.getDataMap());
-            }
+//            while (mapList.size() > 0) {
+//                RecordMap record = mapList.remove(0);
+//                System.out.println(record.getType() + "  -  " + record.getDataMap());
+//            }
 //      ******************************************************************************************
 
 

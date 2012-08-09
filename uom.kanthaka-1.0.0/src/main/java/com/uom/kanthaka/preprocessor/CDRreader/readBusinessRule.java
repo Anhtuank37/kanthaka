@@ -25,7 +25,7 @@ public class readBusinessRule {
 
     //  ( Called No = 729729 ) && ( No of Calls > 5 || No of SMSs 20 ) && ( Connection Type = com ) && ( No of SMSs = 7 || No of Calls = 4 )
     public ArrayList<Rule> readFilesOnPath() {
-        JDBCExample databaseConnect = new JDBCExample();
+        MysqlDatabaseUtil databaseConnect = new MysqlDatabaseUtil();
         connection = databaseConnect.initiateDB();
         rules = databaseConnect.getRulesFromDatabase(connection);
 
@@ -94,7 +94,7 @@ public class readBusinessRule {
                             getCdrFields(ruleComponent, tempRuleComp);
                         } else if (ruleComponent.equalsIgnoreCase("No_of_Calls")) {
                             String temp1 = (String) strSpace.nextElement();
-                            String temp2 = (String) strSpace.nextElement();
+                            Long temp2 = Long.parseLong((String) strSpace.nextElement());
                             conditionField conField = new conditionField("Channel_Type", "cas");
                             conditionOrFields.add(conField);
                             counterOrFields.add(new counterConditionFields("No_of_Calls", temp1, temp2));
@@ -103,7 +103,7 @@ public class readBusinessRule {
                             getCdrFields(ruleComponent, tempRuleComp);
                         } else if (ruleComponent.equalsIgnoreCase("No_of_SMSs")) {
                             String temp1 = (String) strSpace.nextElement();
-                            String temp2 = (String) strSpace.nextElement();
+                            Long temp2 = Long.parseLong((String) strSpace.nextElement());
                             conditionField conField = new conditionField("Channel_Type", "sms");
                             conditionOrFields.add(conField);
                             counterOrFields.add(new counterConditionFields("No_of_SMSs", temp1, temp2));
@@ -150,7 +150,7 @@ public class readBusinessRule {
                         //break;
                     } else if (ruleComponent.equalsIgnoreCase("No_of_Calls")) {
                         String temp1 = (String) strSpace.nextElement();
-                        String temp2 = (String) strSpace.nextElement();
+                        Long temp2 = Long.parseLong((String) strSpace.nextElement());
                         conditionField conField = new conditionField("Channel_Type", "sms");
                         conditionOrFields.add(conField);
                         counterOrFields.add(new counterConditionFields("No_of_Calls", temp1, temp2));
@@ -160,7 +160,7 @@ public class readBusinessRule {
                         //break;
                     } else if (ruleComponent.equalsIgnoreCase("No_of_SMSs")) {
                         String temp1 = (String) strSpace.nextElement();
-                        String temp2 = (String) strSpace.nextElement();
+                        Long temp2 = Long.parseLong((String) strSpace.nextElement());
                         conditionField conField = new conditionField("Channel_Type", "sms");
                         conditionOrFields.add(conField);
                         counterOrFields.add(new counterConditionFields("No_of_SMSs", temp1, temp2));

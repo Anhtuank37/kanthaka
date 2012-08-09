@@ -15,11 +15,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class JDBCExample {
+public class MysqlDatabaseUtil {
 
     Connection connection;
 
     public static void main(String[] argv) {
+        MysqlDatabaseUtil data = new MysqlDatabaseUtil();
+        Connection conn = data.initiateDB();
+        data.insertUsersToDatabase(conn);
     }
 
     public Connection initiateDB() {
@@ -68,4 +71,22 @@ public class JDBCExample {
         }
         return rules;
     }
+    
+    public void insertUsersToDatabase(Connection connection) {
+        ArrayList<Rule> rules = new ArrayList<Rule>();
+        try {
+            Statement Stmt = (Statement) connection.createStatement();
+            Stmt.executeUpdate("INSERT into selectedusers values (1, China, Local)");
+//            Stmt.executeUpdate("INSERT into selectedUsers (name, number) values (729729, 5)");
+
+//    stmt.executeUpdate("insert into employee (First_Name ,Last_Name , Address , Salary ) values ( '" + s1+ "','"+s2+ "','"+s3+ "',"+s4 + ")");
+            
+            System.out.println("");
+            connection.close();
+            Stmt.close();
+        } catch (SQLException E) {
+            System.out.println("SQLException: " + E.getMessage());
+        }
+    }
+    
 }

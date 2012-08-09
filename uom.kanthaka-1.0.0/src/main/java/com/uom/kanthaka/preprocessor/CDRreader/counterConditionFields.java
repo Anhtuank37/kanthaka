@@ -12,9 +12,9 @@ public class counterConditionFields {
 
     String conditionName;
     String condition;
-    String value;
+    Long value;
 
-    public counterConditionFields(String conditionName, String condition, String value) {
+    public counterConditionFields(String conditionName, String condition, Long value) {
         this.conditionName = conditionName;
         this.condition = condition;
         this.value = value;
@@ -32,7 +32,7 @@ public class counterConditionFields {
         return condition;
     }
 
-    public String getValue() {
+    public Long getValue() {
         return value;
     }
 
@@ -44,7 +44,7 @@ public class counterConditionFields {
         this.condition = condition;
     }
 
-    public void setValue(String value) {
+    public void setValue(Long value) {
         this.value = value;
     }
 }
