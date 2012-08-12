@@ -5,6 +5,7 @@
 package com.uom.kanthaka.cassandra.ruleExecuter;
 
 import com.uom.kanthaka.preprocessor.CDRreader.Rule;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,6 +17,7 @@ import java.util.Iterator;
  */
 public class CassandraProcessResultSet {
 
+    static Logger _logger = Logger.getLogger(CassandraProcessResultSet.class.getName());
     HashSet<String> setOne;
     HashSet<String> setTwo;
     HashSet<String> setThree;
@@ -69,6 +71,7 @@ public class CassandraProcessResultSet {
         //process.compareResultSet(process.result);
     }
 
+    // calculate ANDs and ORs and take final result
     public void compareResultSet(Rule businessRule) {
         ArrayList<ArrayList<HashSet<String>>> resultSet =  businessRule.getCounterResultSet();
         HashSet<String> outerCondition = new HashSet<String>();

@@ -1,13 +1,5 @@
 package com.uom.kanthaka.cassandra.updater;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
-
 import me.prettyprint.cassandra.model.BasicColumnDefinition;
 import me.prettyprint.cassandra.model.BasicColumnFamilyDefinition;
 import me.prettyprint.cassandra.model.CqlQuery;
@@ -26,12 +18,17 @@ import me.prettyprint.hector.api.ddl.KeyspaceDefinition;
 import me.prettyprint.hector.api.factory.HFactory;
 import me.prettyprint.hector.api.mutation.Mutator;
 import me.prettyprint.hector.api.query.QueryResult;
+import org.apache.log4j.Logger;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CassandraUpdater3 {
 
     /**
      * @param args
      */
+    static Logger _logger = Logger.getLogger(CassandraUpdater3.class.getName());
     private Keyspace keyspace;
     private Cluster cluster = null;
 
@@ -41,15 +38,19 @@ public class CassandraUpdater3 {
                 BasicConf.CLUSTER_PORT);
     }
 
+     // create keyspace to the application in cassandra
     public void createKeyspace() {
 
         KeyspaceDefinition newKeyspaceDef = HFactory.createKeyspaceDefinition(BasicConf.KEYSPACE);
         if ((cluster.describeKeyspace(BasicConf.KEYSPACE)) == null) {
             cluster.addKeyspace(newKeyspaceDef, true);
+            _logger.info("key space"+BasicConf.KEYSPACE+"created");
         }
         keyspace = HFactory.createKeyspace(BasicConf.KEYSPACE, cluster);
     }
 
+
+    //create column families in Cassandra
     public void createTable(String tableName,String keyType) {
         Cluster cluster = HFactory.getOrCreateCluster(
                 BasicConf.CASSANDRA_CLUSTER, BasicConf.CLUSTER_PORT);
@@ -77,6 +78,7 @@ public class CassandraUpdater3 {
         }
     }
 
+    // creating index to columns
     void indexColumn(String idxColumnName, String cfName) {
 
         Cluster cluster = HFactory.getOrCreateCluster(
@@ -119,6 +121,7 @@ public class CassandraUpdater3 {
 
     }
 
+    //  insert data in to cassandra
     // tablename, sms, <4n#, count>, updates 2 table rule2smscount(1) and rule2current_count(2)
     public void dataInserter(String ruleName, String columnName,
             ConcurrentHashMap<String, Long> entries) {
@@ -131,17 +134,17 @@ public class CassandraUpdater3 {
 
         Set<String> keys = entries.keySet();//4n #s
         for (String phoneNumber : keys) {
-            // searching the current value from (2)
+            // searching the current value from current_count table
             String searchCurrent = "select " + columnName + " FROM " + ruleName + "current_count WHERE KEY=" + phoneNumber;
             try {
                 currentValue = getCurrentcount(searchCurrent);
             } catch (Exception ex) {
             }
             long newValue = currentValue + entries.get(phoneNumber);
-            // adding to (1)
+            // adding to count table
             mutator1 = mutator1.addInsertion(newValue, ruleName + columnName + "count", HFactory.createColumn(phoneNumber, " ", StringSerializer.get(),
                     StringSerializer.get()));
-            // updating (2)
+            // updating current_count table
             mutator2 = mutator2.addInsertion(phoneNumber, ruleName + "current_count", HFactory.createColumn(columnName, newValue, StringSerializer.get(),
                     LongSerializer.get()));
             mutator2.execute();
@@ -154,6 +157,7 @@ public class CassandraUpdater3 {
 
     }
 
+    // get current value in current_count table
     long getCurrentcount(String query) {
 
         long currentcount = 0;
@@ -173,11 +177,8 @@ public class CassandraUpdater3 {
                 for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
                     HColumn column = (HColumn) iterator.next();
 
-                    System.out.print(column.getName() + ":" + column.getValue()
-                            + "\t");
                     currentcount = (Long) column.getValue();
                 }
-                System.out.println("");
             }
         }
 

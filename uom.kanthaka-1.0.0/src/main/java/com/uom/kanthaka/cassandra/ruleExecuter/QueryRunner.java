@@ -13,6 +13,7 @@ import me.prettyprint.hector.api.beans.HColumn;
 import me.prettyprint.hector.api.beans.Row;
 import me.prettyprint.hector.api.factory.HFactory;
 import me.prettyprint.hector.api.query.QueryResult;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,15 +23,12 @@ import java.util.List;
 
 public class QueryRunner {
 
-	
-	
-	
-	 //private ArrayList<ArrayList<counterConditionFields>> counterConditionFields;
-	
-	HashSet<String> queryCompiler(String query){
-		
-		
-		
+
+    static Logger _logger = Logger.getLogger(QueryRunner.class.getName());
+
+    // compile query on Cassandra and return the result
+    HashSet<String> queryCompiler(String query){
+
 		Cluster cluster = HFactory.getOrCreateCluster(
 				BasicConf.CASSANDRA_CLUSTER, BasicConf.CLUSTER_PORT);
 		Keyspace keyspace = HFactory
@@ -40,7 +38,6 @@ public class QueryRunner {
 				HFactory.createKeyspace(BasicConf.KEYSPACE, cluster), StringSerializer.get(), StringSerializer.get(),LongSerializer.get());
 		
 		HashSet<String> returnSet=new HashSet<String>();
-	//	cqlQuery.setQuery("SELECT * FROM rule01 WHERE No_of_SMSs=32");
 		cqlQuery.setQuery(query);
 	
 		QueryResult<CqlRows<String, String, Long>> result = cqlQuery
@@ -48,25 +45,16 @@ public class QueryRunner {
 		if (result != null && result.get() != null) {
 			List<Row<String, String, Long>> list = result.get().getList();
 			for (Row row : list) {
-				System.out.println("");
 				List columns = row.getColumnSlice().getColumns();
 				for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
 					HColumn column = (HColumn) iterator.next();
 					
-//					if(column.getName().equals("No_of_SMSs")){
-//						
-//						System.out.print(column.getName() + ":" + column.getValueBytes().getLong()
-//								+ "\t");
-//					}else
-					System.out.print(column.getName() + ":" + column.getValue()
-							+ "\t");
                     String s=(String)column.getName();
                     if(!"KEY".equals(s)){
                         returnSet.add(s);
                     }
 
 			}
-			System.out.println("");
 			}
 		}
 		
@@ -87,17 +75,19 @@ public class QueryRunner {
                 System.out.println(resultset);
 
             }
-            ANDlist.add(ORlist);
+            ANDlist.add(ORlist);          // adding sets need to take AND
         }
 
         CassandraProcessResultSet processResultSet = new CassandraProcessResultSet();
-        processResultSet.compareResultSet(rule);
+        processResultSet.compareResultSet(rule);      // send to combine results to get ANDs ORs
     }
 
+   // create query string
     String createQuery(counterConditionFields c, String ruleName) {
         String query = "SELECT * FROM " + ruleName + c.getConditionName() + "count WHERE KEY" + c.getCondition() + c.getValue();
         return query;
 	}
+
 	public static void main(String[] args) {
 		
 		//(a|b)
