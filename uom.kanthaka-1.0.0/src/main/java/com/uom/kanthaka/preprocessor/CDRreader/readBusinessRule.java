@@ -2,12 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uom.kanthaka.preprocessor.CDRreader;
+package main.java.com.uom.kanthaka.preprocessor.CDRreader;
 
-import com.uom.kanthaka.preprocessor.rulereader.CdrFields;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import main.java.com.uom.kanthaka.preprocessor.rulereader.CdrFields;
 
 /**
  *
@@ -19,11 +19,22 @@ public class readBusinessRule {
     ArrayList<Rule> rules;
     //String url = "C:\\Users\\Makumar\\Documents\\NetBeansProjects\\XML Read\\Rules";
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public readBusinessRule() {
         rules = new ArrayList<Rule>();
     }
 
-    //  ( Called No = 729729 ) && ( No of Calls > 5 || No of SMSs 20 ) && ( Connection Type = com ) && ( No of SMSs = 7 || No of Calls = 4 )
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public ArrayList<Rule> readFilesOnPath() {
         MysqlDatabaseUtil databaseConnect = new MysqlDatabaseUtil();
         connection = databaseConnect.initiateDB();
@@ -45,6 +56,12 @@ public class readBusinessRule {
         return rules;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public void createQueryForRuleFile(Rule tempRuleComp) {
 //        String inputRule = "";
 //        try {
@@ -180,6 +197,12 @@ public class readBusinessRule {
         }
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public void getCdrFields(String type, Rule tempRuleComp) {
         CdrFields cdr = new CdrFields();
         String temp[] = cdr.getList(type);

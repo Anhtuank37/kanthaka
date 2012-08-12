@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uom.kanthaka.preprocessor.rulereader;
+package main.java.com.uom.kanthaka.preprocessor.rulereader;
 
 /**
  *
@@ -24,6 +24,12 @@ public class CdrFields {
     final String No_of_Calls[] = {"sourceChannelType"};
     final String No_of_SMSs[] = {"sourceChannelType"};
     
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public String[] getList(String type){
         if (type.equalsIgnoreCase("Called_No")) {
             return getCalled_No();
@@ -40,22 +46,52 @@ public class CdrFields {
         }
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     private String[] getCalled_No() {
         return Called_No;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     private String[] getSMSed_No() {
         return Smsed_No;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     private String[] getConnection_Type() {
         return Connection_Type;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     private String[] getNo_of_Calls() {
         return No_of_Calls;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     private String[] getNo_of_SMSs() {
         return No_of_SMSs;
     }

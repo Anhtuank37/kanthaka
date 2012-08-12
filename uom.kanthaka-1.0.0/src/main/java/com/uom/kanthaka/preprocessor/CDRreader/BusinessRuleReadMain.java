@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uom.kanthaka.preprocessor.CDRreader;
+package main.java.com.uom.kanthaka.preprocessor.CDRreader;
 
 //import DBUpdater.CounterCreater;
-import com.uom.kanthaka.preprocessor.rulereader.CdrRead;
-import com.uom.kanthaka.preprocessor.rulereader.RecordMap;
 import java.io.File;
 import java.util.ArrayList;
+import main.java.com.uom.kanthaka.preprocessor.rulereader.CdrRead;
+import main.java.com.uom.kanthaka.preprocessor.rulereader.RecordMap;
 
 /**
  *

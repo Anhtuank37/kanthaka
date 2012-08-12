@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uom.kanthaka.preprocessor.rulereader;
+package main.java.com.uom.kanthaka.preprocessor.rulereader;
 
 /**
  *
@@ -14,8 +14,8 @@ package com.uom.kanthaka.preprocessor.rulereader;
 //	No of SMSs          -   sourceAddress, sourceChannelType 
 //	Connection Type     -   sourceAddress, billingType
 //	Call Duration
-public class CdrAttributeMapping {
 
+public class CdrAttributeMapping {
     final int timeStamp = 3;
     final int sourceAddress = 9;
     final int destinationAddress = 13;
@@ -23,6 +23,12 @@ public class CdrAttributeMapping {
     final int sourceChannelType = 11;
 //    int duration = ;
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public int getMappingNo(String attribute) {
         if (attribute.equalsIgnoreCase("timeStamp")) {
             return timeStamp;

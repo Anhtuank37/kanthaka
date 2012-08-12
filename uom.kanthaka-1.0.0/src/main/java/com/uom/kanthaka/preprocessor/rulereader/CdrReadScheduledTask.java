@@ -2,16 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uom.kanthaka.preprocessor.rulereader;
+package main.java.com.uom.kanthaka.preprocessor.rulereader;
 
 //import DBUpdater.CounterCreater;
-import com.uom.kanthaka.cassandra.updater.CassandraUpdater3;
-import com.uom.kanthaka.preprocessor.CDRreader.Rule;
-import com.uom.kanthaka.preprocessor.CDRreader.conditionField;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import main.java.com.uom.kanthaka.cassandra.updater.CassandraUpdater3;
+import main.java.com.uom.kanthaka.preprocessor.CDRreader.Rule;
+import main.java.com.uom.kanthaka.preprocessor.CDRreader.conditionField;
+import main.java.com.uom.kanthaka.preprocessor.Constant;
 
 /**
  *
@@ -19,13 +20,15 @@ import java.util.TimerTask;
  */
 public class CdrReadScheduledTask extends TimerTask {
 
-    static String ruleUrl = "resources/Rules";
-    static String cdrUrl = "resources/CDR";
-//    static String ruleUrl = "C:\\Users\\Makumar\\Documents\\NetBeansProjects\\XML Read\\Rules";
-//    static String cdrUrl = "C:\\Users\\Makumar\\Documents\\NetBeansProjects\\XML Read\\CDR";
     ArrayList<Rule> businessRules;
     CassandraUpdater3 couUpdater;
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public CdrReadScheduledTask(ArrayList<Rule> businessRules) {
         this.businessRules = businessRules;
 
@@ -35,11 +38,17 @@ public class CdrReadScheduledTask extends TimerTask {
 //      ******************************************************************************************
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     @Override
     public void run() {
 
         File files[];
-        files = new File(cdrUrl).listFiles();
+        files = new File(Constant.CDR_URL).listFiles();
 
         if (files.length > 0) {
             for (int i = 0; i < files.length; i++) {
@@ -59,6 +68,12 @@ public class CdrReadScheduledTask extends TimerTask {
         }
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public void readCdr(File file) {
         for (int i = 0; i < businessRules.size(); i++) {
             Rule businessRule = businessRules.get(i);
@@ -94,10 +109,11 @@ public class CdrReadScheduledTask extends TimerTask {
             Timer time = new Timer();                                               // Instantiate Timer Object
             time.schedule(cdr, 0, 5000);                                              // Create Repetitively task for every 1 secs
 
-            ArrayList<RecordMap> mapList = businessRule.getRecordMaps();
+
 
 
 //      ******************************************************************************************
+//            ArrayList<RecordMap> mapList = businessRule.getRecordMaps();
 //            while (mapList.size() > 0) {
 //                RecordMap record = mapList.remove(0);
 //                System.out.println(record.getType() + "  -  " + record.getDataMap());
@@ -114,6 +130,12 @@ public class CdrReadScheduledTask extends TimerTask {
         }
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public void updateDatabaseTables(Rule businessRule) {
 
         ArrayList<RecordMap> recordMaps = businessRule.getRecordMaps();

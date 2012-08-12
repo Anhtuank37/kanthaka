@@ -2,10 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uom.kanthaka.preprocessor.rulereader;
+package main.java.com.uom.kanthaka.preprocessor.rulereader;
 
-import com.uom.kanthaka.preprocessor.CDRreader.Rule;
-import com.uom.kanthaka.preprocessor.CDRreader.conditionField;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -14,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
+import main.java.com.uom.kanthaka.preprocessor.CDRreader.Rule;
+import main.java.com.uom.kanthaka.preprocessor.CDRreader.conditionField;
 
 /**
  *
@@ -32,15 +32,13 @@ public class CdrRead extends TimerTask {
     RecordMap callMap;
     RecordMap smsMap;
 
-//    public static void main(String[] args) {
-//        String url = "C:\\Users\\Makumar\\Documents\\NetBeansProjects\\XML Read\\CDR";
-//        Rule businessRule = new Rule();
-//        businessRule.getCdrReadingFields().add("sourceChannelType");
-//        businessRule.getCdrReadingFields().add("destinationAddress");
-//        businessRule.getCdrReadingFields().add("billingType");
-//        CdrRead cdr = new CdrRead();
-//        cdr.readCdrOnPath(new File(url), businessRule);
-//    }
+  
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public CdrRead(Rule buisinessRule) {
         this.rule = buisinessRule;
         this.maps = new ArrayList<RecordMap>();
@@ -50,6 +48,12 @@ public class CdrRead extends TimerTask {
         maps.add(smsMap);
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public boolean readCdrOnPath(File path) {
         File files[];
         files = path.listFiles();
@@ -67,6 +71,12 @@ public class CdrRead extends TimerTask {
         return false;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public void readCdrFile(File file) {
         try {
             BufferedReader bufReader = new BufferedReader(new FileReader(file));
@@ -103,6 +113,12 @@ public class CdrRead extends TimerTask {
         }
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public synchronized void updateRuleMaps() {
         while (maps.size() > 0) {
             RecordMap tempRec = maps.remove(0);
@@ -114,6 +130,12 @@ public class CdrRead extends TimerTask {
         }
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public void compareCdrAndRule() {
         ArrayList<ArrayList<conditionField>> conditionComp = getRule().getConditionFields();
         boolean condition = true;
@@ -184,6 +206,12 @@ public class CdrRead extends TimerTask {
         }
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public static boolean checkCdrAttribute(conditionField conField, CdrRead cdr) {
 //        if ((conField.getValue()).equalsIgnoreCase(cdr.getSourceChannelType())) {
         if ((conField.getConditionName()).equalsIgnoreCase("Called_No") || (conField.getConditionName()).equalsIgnoreCase("Smsed_No")) {
@@ -197,6 +225,12 @@ public class CdrRead extends TimerTask {
         }
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public String getMappingAttribute(String attribute) {
         if (attribute.equalsIgnoreCase("timeStamp")) {
             return getTimeStamp();
@@ -213,62 +247,151 @@ public class CdrRead extends TimerTask {
         }
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public Rule getRule() {
         return rule;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     private RecordMap getCallMap() {
         return callMap;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     private RecordMap getSmsMap() {
         return smsMap;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public String getRecord() {
         return record;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public String getTimeStamp() {
         return timeStamp;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public String getSourceAddress() {
         return sourceAddress;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public String getDestinationAddress() {
         return destinationAddress;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public String getSourceChannelType() {
         return sourceChannelType;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public String getBillingType() {
         return billingType;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     private void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     private void setSourceAddress(String sourceAddress) {
         this.sourceAddress = sourceAddress;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     private void setDestinationAddress(String destinationAddress) {
         this.destinationAddress = destinationAddress;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     private void setSourceChannelType(String sourceChannelType) {
         this.sourceChannelType = sourceChannelType;
     }
-
+/**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     private void setBillingType(String billingType) {
         this.billingType = billingType;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     @Override
     public void run() {
         updateRuleMaps();

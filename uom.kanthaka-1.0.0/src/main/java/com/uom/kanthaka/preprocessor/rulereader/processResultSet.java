@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uom.kanthaka.preprocessor.rulereader;
+package main.java.com.uom.kanthaka.preprocessor.rulereader;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,6 +20,12 @@ public class processResultSet {
     HashSet<String> setFour;
     ArrayList<ArrayList<HashSet<String>>> result;
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public processResultSet() {
 
         this.setOne = new HashSet<String>();
@@ -67,6 +73,12 @@ public class processResultSet {
         process.compareResultSet(process.result);
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public void compareResultSet(ArrayList<ArrayList<HashSet<String>>> resultSet) {
         HashSet<String> outerCondition = new HashSet<String>();
         int initializer = 0;
@@ -94,6 +106,12 @@ public class processResultSet {
         System.out.println("Final Set : " + outerCondition);
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public HashSet<String> union(HashSet<HashSet<String>> setList) {
         HashSet<String> tempSet = new HashSet<String>();
         for (Iterator<HashSet<String>> it = setList.iterator(); it.hasNext();) {
@@ -103,12 +121,24 @@ public class processResultSet {
         return tempSet;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public HashSet<String> union(HashSet<String> setA, HashSet<String> setB) {
         HashSet<String> tempSet = new HashSet<String>(setA);
         tempSet.addAll(setB);
         return tempSet;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public HashSet<String> intersection(HashSet<String> setA, HashSet<String> setB) {
         HashSet<String> tmp = new HashSet<String>();
         for (String x : setA) {
@@ -119,12 +149,24 @@ public class processResultSet {
         return tmp;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public HashSet<String> difference(HashSet<String> setA, HashSet<String> setB) {
         HashSet<String> tmp = new HashSet<String>(setA);
         tmp.removeAll(setB);
         return tmp;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public HashSet<String> symDifference(HashSet<String> setA, HashSet<String> setB) {
         HashSet<String> tmpA;
         HashSet<String> tmpB;

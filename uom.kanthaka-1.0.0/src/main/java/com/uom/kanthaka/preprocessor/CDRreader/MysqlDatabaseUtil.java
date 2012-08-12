@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uom.kanthaka.preprocessor.CDRreader;
+package main.java.com.uom.kanthaka.preprocessor.CDRreader;
 
 /**
  *
@@ -25,6 +25,12 @@ public class MysqlDatabaseUtil {
         data.insertUsersToDatabase(conn);
     }
 
+        /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public Connection initiateDB() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -48,6 +54,12 @@ public class MysqlDatabaseUtil {
         return connection;
     }
 
+        /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public ArrayList<Rule> getRulesFromDatabase(Connection connection) {
         ArrayList<Rule> rules = new ArrayList<Rule>();
         try {
@@ -72,6 +84,12 @@ public class MysqlDatabaseUtil {
         return rules;
     }
     
+        /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public void insertUsersToDatabase(Connection connection) {
         ArrayList<Rule> rules = new ArrayList<Rule>();
         try {
