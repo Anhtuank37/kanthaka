@@ -75,28 +75,28 @@ public class QueryRunner {
 	
 	// to run all the queries related to a rule and return a list of eligible subscribers
 	void runRuleQueries(Rule rule){
-		ArrayList<ArrayList<counterConditionFields>> rulesSet=rule.getCounterConditionFields();
-		ArrayList<ArrayList<HashSet<String>>> ANDlist=new ArrayList<ArrayList<HashSet<String>>>();
-		
-		for(ArrayList<counterConditionFields> list:rulesSet){
-			ArrayList<HashSet<String>> ORlist=new ArrayList<HashSet<String>>();
-			for(counterConditionFields counterConditionFields:list){
-				String query=this.createQuery(counterConditionFields, rule.getRuleName());
-				HashSet<String> resultset=queryCompiler(query);
-				ORlist.add(resultset);
-				
-			}
-			ANDlist.add(ORlist);
-		}
-		
-		processResultSet processResultSet=new processResultSet();
-		processResultSet.compareResultSet(ANDlist);
-	}
-	
-	String createQuery(counterConditionFields c,String ruleName){
-		
-		String query="SELECT * FROM "+ ruleName+c.getConditionName()+"count WHERE KEY" +c.getCondition()+c.getValue();
-		return query;
+        ArrayList<ArrayList<counterConditionFields>> rulesSet = rule.getCounterConditionFields();
+        ArrayList<ArrayList<HashSet<String>>> ANDlist = rule.getCounterResultSet();
+
+        for (ArrayList<counterConditionFields> list : rulesSet) {
+            ArrayList<HashSet<String>> ORlist = new ArrayList<HashSet<String>>();
+            for (counterConditionFields counterConditionFields : list) {
+                String query = this.createQuery(counterConditionFields, rule.getRuleName());
+                HashSet<String> resultset = queryCompiler(query);
+                ORlist.add(resultset);
+                System.out.println(resultset);
+
+            }
+            ANDlist.add(ORlist);
+        }
+
+        CassandraProcessResultSet processResultSet = new CassandraProcessResultSet();
+        processResultSet.compareResultSet(rule);
+    }
+
+    String createQuery(counterConditionFields c, String ruleName) {
+        String query = "SELECT * FROM " + ruleName + c.getConditionName() + "count WHERE KEY" + c.getCondition() + c.getValue();
+        return query;
 	}
 	public static void main(String[] args) {
 		

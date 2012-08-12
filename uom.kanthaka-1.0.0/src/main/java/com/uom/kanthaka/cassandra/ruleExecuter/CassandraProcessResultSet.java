@@ -4,17 +4,17 @@
  */
 package com.uom.kanthaka.cassandra.ruleExecuter;
 
+import com.uom.kanthaka.preprocessor.CDRreader.Rule;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  *
  * @author Makumar
  */
-public class processResultSet {
+public class CassandraProcessResultSet {
 
     HashSet<String> setOne;
     HashSet<String> setTwo;
@@ -22,7 +22,7 @@ public class processResultSet {
     HashSet<String> setFour;
     ArrayList<ArrayList<HashSet<String>>> result;
 
-    public processResultSet() {
+    public CassandraProcessResultSet() {
 
         this.setOne = new HashSet<String>();
         setOne.add("1111");
@@ -65,11 +65,12 @@ public class processResultSet {
     }
 
     public static void main(String args[]) {
-        processResultSet process = new processResultSet();
-        process.compareResultSet(process.result);
+      //  CassandraProcessResultSet process = new CassandraProcessResultSet();
+        //process.compareResultSet(process.result);
     }
 
-    public void compareResultSet(ArrayList<ArrayList<HashSet<String>>> resultSet) {
+    public void compareResultSet(Rule businessRule) {
+        ArrayList<ArrayList<HashSet<String>>> resultSet =  businessRule.getCounterResultSet();
         HashSet<String> outerCondition = new HashSet<String>();
         int initializer = 0;
         for (int i = 0; i < resultSet.size(); i++) {
@@ -91,8 +92,9 @@ public class processResultSet {
 //            if (initializer != 0) {
 //                outerCondition = intersection(outerCondition, innerCondition);
 //            }
-            System.out.println("Set : " + outerCondition);
+            // System.out.println("Set : " + outerCondition);
         }
+        businessRule.setSelectedList(outerCondition);
         System.out.println("Final Set : " + outerCondition);
     }
 
