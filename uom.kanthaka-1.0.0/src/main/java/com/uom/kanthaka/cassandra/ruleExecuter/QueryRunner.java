@@ -3,11 +3,6 @@ package com.uom.kanthaka.cassandra.ruleExecuter;
 import com.uom.kanthaka.cassandra.updater.BasicConf;
 import com.uom.kanthaka.preprocessor.CDRreader.Rule;
 import com.uom.kanthaka.preprocessor.CDRreader.counterConditionFields;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-
 import me.prettyprint.cassandra.model.CqlQuery;
 import me.prettyprint.cassandra.model.CqlRows;
 import me.prettyprint.cassandra.serializers.LongSerializer;
@@ -18,6 +13,11 @@ import me.prettyprint.hector.api.beans.HColumn;
 import me.prettyprint.hector.api.beans.Row;
 import me.prettyprint.hector.api.factory.HFactory;
 import me.prettyprint.hector.api.query.QueryResult;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 
 
 public class QueryRunner {
@@ -60,8 +60,11 @@ public class QueryRunner {
 //					}else
 					System.out.print(column.getName() + ":" + column.getValue()
 							+ "\t");
-					returnSet.add((String)column.getName());
-					
+                    String s=(String)column.getName();
+                    if(!"KEY".equals(s)){
+                        returnSet.add(s);
+                    }
+
 			}
 			System.out.println("");
 			}
