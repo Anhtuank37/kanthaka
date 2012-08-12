@@ -15,10 +15,13 @@ public class Rule {
     private ArrayList<String> fields;
     private ArrayList<ArrayList<conditionField>> conditionFields;
     private ArrayList<ArrayList<counterConditionFields>> counterConditionFields;
-    private ArrayList<String> counters;            //   counter fields
+    ArrayList<ArrayList<HashSet<String>>> counterResultSet;
+    private ArrayList<String> counters;
+    HashSet<String> selectedList;//   counter fields
     //private HashMap<String, ConcurrentHashMap<String, Long>> ruleMaps;
     ArrayList<RecordMap> recordMaps;
 
+    ArrayList<HashSet<Long>> DoORresultset;
     public Rule() {
         super();
 //        query = new StringBuffer();
@@ -27,8 +30,11 @@ public class Rule {
         fields = new ArrayList<String>();
         conditionFields = new ArrayList<ArrayList<conditionField>>();
         counterConditionFields = new ArrayList<ArrayList<counterConditionFields>>();
+        counterResultSet = new ArrayList<ArrayList<HashSet<String>>>();
         counters = new ArrayList<String>();
         recordMaps = new  ArrayList<RecordMap>();
+        selectedList = new HashSet<String>();
+        DoORresultset=new ArrayList<HashSet<Long>>();
         //ruleMaps = new HashMap<String, ConcurrentHashMap<String, Long>>();
     }
 
@@ -113,14 +119,26 @@ public class Rule {
     public void setRuleString(String ruleString) {
         this.ruleString = ruleString;
     }
-    
-//    public void setRuleMaps(HashMap<String, ConcurrentHashMap<String, Long>> ruleMaps) {
-//        this.ruleMaps = ruleMaps;
-//    }
-    
+
     public void setFields(ArrayList<String> conditionFields) {
         this.fields = conditionFields;
     }
+
+    public ArrayList<ArrayList<HashSet<String>>> getCounterResultSet() {
+        return counterResultSet;
+    }
+    public ArrayList<HashSet<Long>> getDoORresultset() {
+        return DoORresultset;
+    }
+
+    public void setDoORresultset(ArrayList<HashSet<Long>> doORresultset) {
+        DoORresultset = doORresultset;
+    }
+    public void setSelectedList(HashSet<String> selectedList) {
+        this.selectedList = selectedList;
+    }
+    
+
 
     
 }
