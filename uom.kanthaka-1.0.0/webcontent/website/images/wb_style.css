@@ -1,0 +1,152 @@
+html, body	{ height: 100%; width: 100%; }
+body			{ line-height: 18px; font-size: 12px; }
+
+FORM              { padding: 0; margin: 0; }
+FORM TD,
+FORM INPUT,
+FORM TEXTAREA,
+FORM SELECT,
+FORM OPTION       { font-size: 12px; }
+
+.wb_mtitem        { white-space: nowrap; clear: both; }
+.wb_mtitem DIV    { white-space: nowrap; float: left; font: 12px Trebuchet MS; height: 16px; }
+
+TABLE.wb_table		{ border-collapse: collapse; }
+TABLE.wb_table TR	{ }
+TABLE.wb_table TD	{ border: 1px solid #888; z-index: 1; }
+TABLE.wb_table TD DIV.wb_ti1	{ position: relative; overflow: hidden; }
+TABLE.wb_table .selected	{ background: #FFD; }
+
+/* Lightbox styles */
+#overlay { position: fixed; _position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.25); *background: #fff; *filter: alpha(opacity=25); display: none; z-index:9999; }
+#lightbox { position: fixed; _position: absolute; top: 50%; left: 50%; padding: 10px; background: #fff; width: 600px; height: 400px; margin: -200px 0 0 -300px; display: none; z-index:10000; -moz-box-shadow: 0 0 20px rgba(0,0,0,0.7); -webkit-box-shadow: 0 0 20px rgba(0,0,0,0.7); box-shadow: 0 0 20px rgba(0,0,0,0.7); -moz-border-radius: 8px; -webkit-border-radius: 8px; border-radius: 8px; }
+#lightbox.loading { background: #fff url('images/loading-lightbox.gif') no-repeat 50% 50%; }
+#lightbox a.close { color: #111; background: #fff; position: absolute; right: 0; top: 0; display: block; font-size: 10px; z-index: 5; padding: 8px 14px 4px 6px; -moz-border-radius: 8px; -webkit-border-radius: 8px; border-radius: 8px; }
+
+/* Default gallery styles */
+.wb_gallery    { background: #000; }
+
+.gallery-image		{ background: white; padding: 5px; }
+
+.thumbnail		{ float: left; padding: 3px; }
+.thumbnail DIV	{ border: 1px solid #888; }
+
+.gallery-slideshow   { width: 100%; height: 100%; }
+.gallery-slide-image   { width: 100%; height: 100%; }
+.gallery-slide-left   { position: absolute; width: 32px; height: 32px; background: url(../images/gallery.left.gif) center center no-repeat; }
+.gallery-slide-right   { position: absolute; width: 32px; height: 32px; background: url(../images/gallery.right.gif) center center no-repeat; }
+
+.gallery-list  { }
+.gallery-list-image  { }
+.gallery-list-left  { background: url(../images/gallery.left.gif) center center no-repeat; }
+.gallery-list-thumbs  { }
+.gallery-list-right  { background: url(../images/gallery.right.gif) center center no-repeat; }
+.gallery-list .tmb-selected   { background: #888; }
+
+LI.selected		{ color: #F00 ! important; }
+LI.navigate		{ color: #F88 ! important; }
+A.selected		{ color: #F00 ! important; }
+A.navigate		{ color: #F88 ! important; }
+
+.wb_btn 				{ border: 1px solid #cccccc; background: #F6F6F6; display: inline-block;
+						-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+						margin: 0; padding: 0; text-decoration: none; }
+.wb_btn span			{ padding: 4px 12px 4px 12px; display: block; line-height: 12px;
+						font-family: arial,sans-serif; text-decoration: none;
+						font-size: 12px; color: #1c94c4; font-weight: bold; }
+.wb_btn:hover		{ border: 1px solid #fbcb09; background: #fdf5ce; }
+.wb_btn:hover span	{ color: #c77405; }
+
+.wb_block_out p	{ margin: 0 0 1em 0 !important; line-height: normal !important; }
+.wb_table_out	{ border-collapse: collapse; border: 1px solid #000000; margin: 0; padding: 0; }
+.wb_table_out td	{ border-collapse: collapse; border: 1px solid #000000; margin: 0; padding: 0; }
+.wb_table_out td	div { font-size: 12px; }
+
+.wb_news-toolbar	{ border-bottom: 1px solid #cccccc; padding: 0 0 4px 0; margin-bottom: 10px; }
+.wb_news-toolbar  span.ui-button-text { padding: 3px 1em 2px 1em; }
+.wb_news-manage		{ right: 0px; position: absolute; }
+.wb_news-data		{ float: left; }
+.wb_news-select select	{ padding: 1px 1px !important; border: 1px solid #7f9db9 !important;
+						-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+						vertical-align: top;
+						font-size: 12px !important; line-height: 12px !important; }
+.wb_news-select span.ui-button-text { padding: 3px 1em 2px 1em; }
+.wb_news-list	{ position: relative; padding: 0; margin: 0; }
+.wb_news-list span.ui-button-text	{ padding: 0.2em 1em; }	
+.wb_news-list li	{ display: block; border-top: 1px solid #cccccc; padding: 6px 2px;
+					overflow: hidden; clear: both; }
+.wb_news-first	{ border-top: none !important; }
+.wb_news-title	{ font-size: 18px; color: #007499; font-family: arial,sans-serif;
+					margin-bottom: 6px; display: block; }
+.wb_news-date	{ font-size: 10px; color: #999999; font-family: arial,sans-serif; }
+.wb_news-text	{ font-size: 13px; color: #000000; font-family: arial,sans-serif; }
+.wb_news-input	{ border: 1px solid #7f9db9; padding: 3px 4px 3px 4px !important; margin: 0 4px 0 20px;
+					vertical-align: top;
+					-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; }
+					
+.wb_blog-toolbar	{ border-bottom: 1px solid #cccccc; padding: 0 0 4px 0; margin-bottom: 10px; }
+.wb_blog-toolbar  span.ui-button-text { padding: 3px 1em 2px 1em; }
+.wb_blog-manage		{ right: 0px; position: absolute; }
+.wb_blog-data		{ float: left; }
+.wb_blog-select select	{ padding: 1px 1px !important; border: 1px solid #7f9db9 !important;
+						-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+						vertical-align: top;
+						font-size: 12px !important; line-height: 12px !important; }
+.wb_blog-select span.ui-button-text { padding: 3px 1em 2px 1em; }
+.wb_blog-list	{ position: relative; padding: 0; margin: 0; }
+.wb_blog-list span.ui-button-text	{ padding: 0.2em 1em; }	
+.wb_blog-list li	{ display: block; border-top: 1px solid #cccccc; padding: 6px 2px;
+					overflow: hidden; clear: both; }
+.wb_blog-first	{ border-top: none !important; }
+.wb_blog-title	{ font-size: 18px; color: #007499; font-family: arial,sans-serif;
+					margin-bottom: 6px; display: block; }
+.wb_blog-date	{ font-size: 10px; color: #999999; font-family: arial,sans-serif; }
+.wb_blog-text	{ font-size: 13px; color: #000000; font-family: arial,sans-serif; }
+.wb_blog-input	{ border: 1px solid #7f9db9; padding: 3px 4px 3px 4px !important; margin: 0 4px 0 20px;
+					vertical-align: top;
+					-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; }
+.wb_blog-comment-head	{ font-size: 22px; color: #007499; font-family: arial,sans-serif; }
+.wb_blog-comment-list	{ padding-top: 20px; }
+.wb_blog-comment-list ul	{ padding: 0; margin: 10px 0; border-bottom: 1px solid #cccccc; }
+.wb_blog-comment-list li	{ display: block; border-top: 1px solid #cccccc; padding: 6px 2px;
+							clear: both; position: relative; }
+.wb_blog-comment-title	{ font-size: 18px; color: #007499; font-family: arial,sans-serif;
+							margin-bottom: 6px; }
+.wb_blog-comment-date	{ font-size: 10px; color: #999999; font-family: arial,sans-serif; }
+.wb_blog-comment-text	{ font-size: 13px; color: #000000; font-family: arial,sans-serif; }
+.wb_blog-comment-list td	{ padding: 4px 0; }
+
+.wb_form 				{ padding: 0 !important; margin: 0 !important; }
+.wb_form table			{ width: 100%; height: 100%; border: none; }
+.wb_form td,
+.wb_form th				{
+	padding: 2px 0px; vertical-align: top; text-align: left; font-weight: normal;
+	background: transparent;
+}
+.wb_form td.wb-lex,
+.wb_form th.wb-lex		{ height: 100%; }
+.wb_form input[type=text],
+.wb_form input[type=password],
+.wb_form input.fld,
+.wb_form select,
+.wb_form textarea			{
+	border: 1px solid #8f97a1 !important; background: #ffffff !important;
+	margin: 0px !important; padding: 0px !important; font-size: 12px !important;
+	line-height: 14px !important; color: #000000 !important; display: inline-block !important;
+	font-family: arial,sans-serif !important; font-weight: normal !important;
+}
+.wb_form input[type=text],
+.wb_form input[type=password],
+.wb_form input.fld,
+.wb_form select			{ height: 20px !important; }
+
+.wb_button				{ border: 1px solid #cccccc; background: #F6F6F6; display: inline-block;
+						-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+						margin: 0; padding: 0; text-decoration: none; overflow: hidden; text-align: center; }
+.wb_button span			{ padding: 4px 12px 4px 12px; display: block; line-height: 12px;
+						font-family: arial,sans-serif; text-decoration: none; text-align: center;
+						font-size: 12px; color: #1c94c4; font-weight: bold; white-space: nowrap; }
+.wb_button:hover		{ border: 1px solid #fbcb09; background: #fdf5ce; }
+.wb_button:hover span	{ color: #c77405; }
+.wb_button:hover,
+.wb_button:active		{ font-size: 12px; }
