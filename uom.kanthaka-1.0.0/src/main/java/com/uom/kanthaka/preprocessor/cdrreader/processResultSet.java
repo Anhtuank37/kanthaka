@@ -2,49 +2,73 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uom.kanthaka.cassandra.ruleExecuter;
+package com.uom.kanthaka.preprocessor.cdrreader;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import org.apache.log4j.Logger;
-
-import com.uom.kanthaka.preprocessor.rulereader2.MysqlDatabaseUtil;
-import com.uom.kanthaka.preprocessor.rulereader2.Rule;
 
 /**
  * 
  * @author Makumar
  */
-public class CassandraProcessResultSet {
+public class processResultSet {
 
-  static Logger _logger = Logger.getLogger(CassandraProcessResultSet.class
-      .getName());
   HashSet<String> setOne;
   HashSet<String> setTwo;
   HashSet<String> setThree;
   HashSet<String> setFour;
   ArrayList<ArrayList<HashSet<String>>> result;
-  Connection conn;
-  MysqlDatabaseUtil mySqlMethod;
 
-  public CassandraProcessResultSet() {
+  public processResultSet() {
 
-    this.mySqlMethod = new MysqlDatabaseUtil();
-    this.conn = MysqlDatabaseUtil.getConnection();
+    this.setOne = new HashSet<String>();
+    setOne.add("1111");
+    setOne.add("1112");
+    setOne.add("1113");
+    setOne.add("1114");
+    setOne.add("1115");
+
+    this.setTwo = new HashSet<String>();
+    setTwo.add("1112");
+    setTwo.add("1113");
+    setTwo.add("1114");
+
+    this.setThree = new HashSet<String>();
+    setThree.add("1112");
+    setThree.add("1115");
+    setThree.add("1116");
+    setThree.add("1117");
+
+    this.setFour = new HashSet<String>();
+    setFour.add("1112");
+    setFour.add("1115");
+    setFour.add("1116");
+    setFour.add("1117");
+
+    ArrayList<HashSet<String>> orOne = new ArrayList<HashSet<String>>();
+    orOne.add(setOne);
+    orOne.add(setTwo);
+    ArrayList<HashSet<String>> orTwo = new ArrayList<HashSet<String>>();
+    orTwo.add(setTwo);
+    orTwo.add(setThree);
+    ArrayList<HashSet<String>> orThree = new ArrayList<HashSet<String>>();
+    orThree.add(setFour);
+
+    result = new ArrayList<ArrayList<HashSet<String>>>();
+    result.add(orOne);
+    result.add(orTwo);
+    result.add(orThree);
+
   }
 
   public static void main(String args[]) {
-    // CassandraProcessResultSet process = new CassandraProcessResultSet();
-    // process.compareResultSet(process.result);
+    processResultSet process = new processResultSet();
+    process.compareResultSet(process.result);
   }
 
-  // calculate ANDs and ORs and take final result
-  public void compareResultSet(Rule businessRule) {
-    ArrayList<ArrayList<HashSet<String>>> resultSet = businessRule
-        .getCounterResultSet();
+  public void compareResultSet(ArrayList<ArrayList<HashSet<String>>> resultSet) {
     HashSet<String> outerCondition = new HashSet<String>();
     int initializer = 0;
     for (int i = 0; i < resultSet.size(); i++) {
@@ -66,10 +90,8 @@ public class CassandraProcessResultSet {
       // if (initializer != 0) {
       // outerCondition = intersection(outerCondition, innerCondition);
       // }
-      // System.out.println("Set : " + outerCondition);
+      System.out.println("Set : " + outerCondition);
     }
-    mySqlMethod.insertUsersToDatabase(conn, businessRule);
-    businessRule.setSelectedList(outerCondition);
     System.out.println("Final Set : " + outerCondition);
   }
 

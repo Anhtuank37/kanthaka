@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uom.kanthaka.preprocessor.rulereader;
+package com.uom.kanthaka.preprocessor.cdrreader;
 
 //import DBUpdater.CounterCreater;
 
@@ -14,8 +14,8 @@ import java.util.TimerTask;
 import org.apache.log4j.Logger;
 
 import com.uom.kanthaka.cassandra.updater.CassandraUpdater4;
-import com.uom.kanthaka.preprocessor.CDRreader.Rule;
-import com.uom.kanthaka.preprocessor.CDRreader.conditionField;
+import com.uom.kanthaka.preprocessor.rulereader2.Rule;
+import com.uom.kanthaka.preprocessor.rulereader2.conditionField;
 
 /**
  * 

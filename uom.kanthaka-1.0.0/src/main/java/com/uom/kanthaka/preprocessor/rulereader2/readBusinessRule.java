@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uom.kanthaka.preprocessor.CDRreader;
+package com.uom.kanthaka.preprocessor.rulereader2;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import com.uom.kanthaka.preprocessor.rulereader.CdrFields;
+import com.uom.kanthaka.preprocessor.cdrreader.CdrFields;
 
 /**
  * 

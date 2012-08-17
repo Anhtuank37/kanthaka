@@ -23,8 +23,8 @@ import me.prettyprint.hector.api.factory.HFactory;
 import me.prettyprint.hector.api.mutation.Mutator;
 import me.prettyprint.hector.api.query.ColumnQuery;
 
-import com.uom.kanthaka.preprocessor.CDRreader.Rule;
-import com.uom.kanthaka.preprocessor.rulereader.RecordMap;
+import com.uom.kanthaka.preprocessor.cdrreader.RecordMap;
+import com.uom.kanthaka.preprocessor.rulereader2.Rule;
 
 /**
  * Created with IntelliJ IDEA. User: amila Date: 8/14/12 Time: 5:28 PM To change

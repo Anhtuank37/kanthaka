@@ -1,10 +1,10 @@
-package com.uom.kanthaka.preprocessor.CDRreader;
+package com.uom.kanthaka.preprocessor.rulereader2;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.uom.kanthaka.preprocessor.rulereader.RecordMap;
+import com.uom.kanthaka.preprocessor.cdrreader.RecordMap;
 
 public class Rule {
 

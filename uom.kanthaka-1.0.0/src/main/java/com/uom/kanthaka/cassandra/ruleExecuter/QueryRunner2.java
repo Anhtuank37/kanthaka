@@ -20,8 +20,8 @@ import me.prettyprint.hector.api.query.QueryResult;
 import org.apache.log4j.Logger;
 
 import com.uom.kanthaka.cassandra.updater.BasicConf;
-import com.uom.kanthaka.preprocessor.CDRreader.Rule;
-import com.uom.kanthaka.preprocessor.CDRreader.counterConditionFields;
+import com.uom.kanthaka.preprocessor.rulereader2.Rule;
+import com.uom.kanthaka.preprocessor.rulereader2.counterConditionFields;
 
 public class QueryRunner2 extends TimerTask {
   ArrayList<Rule> businessRules;

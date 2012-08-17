@@ -21,8 +21,8 @@ import me.prettyprint.hector.api.query.QueryResult;
 import org.apache.log4j.Logger;
 
 import com.uom.kanthaka.cassandra.updater.BasicConf;
-import com.uom.kanthaka.preprocessor.CDRreader.Rule;
-import com.uom.kanthaka.preprocessor.CDRreader.counterConditionFields;
+import com.uom.kanthaka.preprocessor.rulereader2.Rule;
+import com.uom.kanthaka.preprocessor.rulereader2.counterConditionFields;
 
 /**
  * Created with IntelliJ IDEA. User: amila Date: 8/11/12 Time: 1:43 PM To change
@@ -55,7 +55,7 @@ public class QueryDB {
           keyspace, se, se, le);
       // IndexedSlicesQuery<String, String, String> indexedSlicesQuery =
       // HFactory.createIndexedSlicesQuery(keyspace, se, se, se);
-      for (com.uom.kanthaka.preprocessor.CDRreader.counterConditionFields counterConditionFields : list) {
+      for (com.uom.kanthaka.preprocessor.rulereader2.counterConditionFields counterConditionFields : list) {
         // take ands between each record
         String conditionName = counterConditionFields.getConditionName();
         String condition = counterConditionFields.getCondition();
