@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.uom.kanthaka.cassandra.ruleExecuter;
+package com.uom.kanthaka.cassandra.ruleexecuter;
 
 import java.sql.Connection;
 import java.util.ArrayList;

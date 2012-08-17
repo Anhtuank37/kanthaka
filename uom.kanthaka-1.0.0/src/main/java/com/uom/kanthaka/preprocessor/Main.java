@@ -7,7 +7,7 @@ package com.uom.kanthaka.preprocessor;
 import java.util.ArrayList;
 import java.util.Timer;
 
-import com.uom.kanthaka.cassandra.ruleExecuter.QueryRunner2;
+import com.uom.kanthaka.cassandra.ruleexecuter.QueryRunner2;
 import com.uom.kanthaka.cassandra.updater.CassandraUpdater4;
 import com.uom.kanthaka.preprocessor.cdrreader.CdrReadScheduledTask;
 import com.uom.kanthaka.preprocessor.rulereader.Rule;

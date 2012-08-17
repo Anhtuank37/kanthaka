@@ -1,4 +1,4 @@
-package com.uom.kanthaka.cassandra.ruleExecuter;
+package com.uom.kanthaka.cassandra.ruleexecuter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
