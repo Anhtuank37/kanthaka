@@ -11,8 +11,8 @@ import java.util.Iterator;
 
 import org.apache.log4j.Logger;
 
-import com.uom.kanthaka.preprocessor.rulereader2.MysqlDatabaseUtil;
-import com.uom.kanthaka.preprocessor.rulereader2.Rule;
+import com.uom.kanthaka.preprocessor.rulereader.MysqlDatabaseUtil;
+import com.uom.kanthaka.preprocessor.rulereader.Rule;
 
 /**
  * 

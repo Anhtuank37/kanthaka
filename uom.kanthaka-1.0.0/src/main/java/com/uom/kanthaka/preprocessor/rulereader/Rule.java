@@ -1,4 +1,4 @@
-package com.uom.kanthaka.preprocessor.rulereader2;
+package com.uom.kanthaka.preprocessor.rulereader;
 
 import java.util.ArrayList;
 import java.util.HashSet;

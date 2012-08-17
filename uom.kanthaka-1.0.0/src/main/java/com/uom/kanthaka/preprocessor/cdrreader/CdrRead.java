@@ -13,8 +13,8 @@ import java.util.Iterator;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.uom.kanthaka.preprocessor.rulereader2.Rule;
-import com.uom.kanthaka.preprocessor.rulereader2.conditionField;
+import com.uom.kanthaka.preprocessor.rulereader.Rule;
+import com.uom.kanthaka.preprocessor.rulereader.conditionField;
 
 /**
  * 

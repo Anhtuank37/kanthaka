@@ -14,8 +14,8 @@ import java.util.TimerTask;
 import org.apache.log4j.Logger;
 
 import com.uom.kanthaka.cassandra.updater.CassandraUpdater4;
-import com.uom.kanthaka.preprocessor.rulereader2.Rule;
-import com.uom.kanthaka.preprocessor.rulereader2.conditionField;
+import com.uom.kanthaka.preprocessor.rulereader.Rule;
+import com.uom.kanthaka.preprocessor.rulereader.conditionField;
 
 /**
  * 

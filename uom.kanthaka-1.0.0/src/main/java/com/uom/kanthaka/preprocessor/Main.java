@@ -10,8 +10,8 @@ import java.util.Timer;
 import com.uom.kanthaka.cassandra.ruleExecuter.QueryRunner2;
 import com.uom.kanthaka.cassandra.updater.CassandraUpdater4;
 import com.uom.kanthaka.preprocessor.cdrreader.CdrReadScheduledTask;
-import com.uom.kanthaka.preprocessor.rulereader2.Rule;
-import com.uom.kanthaka.preprocessor.rulereader2.readBusinessRule;
+import com.uom.kanthaka.preprocessor.rulereader.Rule;
+import com.uom.kanthaka.preprocessor.rulereader.readBusinessRule;
 
 /**
  * 
