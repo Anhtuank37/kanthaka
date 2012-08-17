@@ -14,7 +14,7 @@ import com.uom.kanthaka.preprocessor.cdrreader.CdrFields;
  * 
  * @author Makumar
  */
-public class readBusinessRule {
+public class ReadBusinessRule {
 
   Connection connection;
   ArrayList<Rule> rules;
@@ -22,7 +22,7 @@ public class readBusinessRule {
   /**
    * Constructor to initiate class object
    */
-  public readBusinessRule() {
+  public ReadBusinessRule() {
     rules = new ArrayList<Rule>();
   }
 
@@ -56,8 +56,8 @@ public class readBusinessRule {
       String ruleComp = (String) strAND.nextElement();
       StringTokenizer strOR = new StringTokenizer(ruleComp, "||");
       if (strOR.countTokens() > 1) {
-        ArrayList<conditionField> conditionOrFields = new ArrayList<conditionField>();
-        ArrayList<counterConditionFields> counterOrFields = new ArrayList<counterConditionFields>();
+        ArrayList<ConditionField> conditionOrFields = new ArrayList<ConditionField>();
+        ArrayList<CounterConditionFields> counterOrFields = new ArrayList<CounterConditionFields>();
         while (strOR.hasMoreElements()) {
           String ruleParts = (String) strOR.nextElement();
           StringTokenizer strSpace = new StringTokenizer(ruleParts);
@@ -66,7 +66,7 @@ public class readBusinessRule {
             if (ruleComponent.equalsIgnoreCase("Dest_No")) {
               String temp1 = (String) strSpace.nextElement();
               String temp2 = (String) strSpace.nextElement();
-              conditionField conField1 = new conditionField(ruleComponent,
+              ConditionField conField1 = new ConditionField(ruleComponent,
                   temp1, temp2);
               conditionOrFields.add(conField1);
               tempRuleComp.getFields().add(ruleComponent);
@@ -74,7 +74,7 @@ public class readBusinessRule {
               // } else if (ruleComponent.equalsIgnoreCase("Smsed_No")) {
               // String temp1 = (String) strSpace.nextElement();
               // String temp2 = (String) strSpace.nextElement();
-              // conditionField conField1 = new conditionField(ruleComponent,
+              // ConditionField conField1 = new ConditionField(ruleComponent,
               // temp2);
               // conditionOrFields.add(conField1);
               // tempRuleComp.getFields().add(ruleComponent);
@@ -82,7 +82,7 @@ public class readBusinessRule {
             } else if (ruleComponent.equalsIgnoreCase("Connection_Type")) {
               String temp1 = (String) strSpace.nextElement();
               String temp2 = (String) strSpace.nextElement();
-              conditionField conField = new conditionField(ruleComponent,
+              ConditionField conField = new ConditionField(ruleComponent,
                   temp1, temp2);
               conditionOrFields.add(conField);
               tempRuleComp.getFields().add(ruleComponent);
@@ -90,10 +90,10 @@ public class readBusinessRule {
             } else if (ruleComponent.equalsIgnoreCase("No_of_Calls")) {
               String temp1 = (String) strSpace.nextElement();
               Long temp2 = Long.parseLong((String) strSpace.nextElement());
-              conditionField conField = new conditionField("Channel_Type",
+              ConditionField conField = new ConditionField("Channel_Type",
                   temp1, "cas");
               conditionOrFields.add(conField);
-              counterOrFields.add(new counterConditionFields("No_of_Calls",
+              counterOrFields.add(new CounterConditionFields("No_of_Calls",
                   temp1, temp2));
               tempRuleComp.getFields().add(ruleComponent);
               tempRuleComp.getCounters().add(ruleComponent);
@@ -101,10 +101,10 @@ public class readBusinessRule {
             } else if (ruleComponent.equalsIgnoreCase("No_of_SMSs")) {
               String temp1 = (String) strSpace.nextElement();
               Long temp2 = Long.parseLong((String) strSpace.nextElement());
-              conditionField conField = new conditionField("Channel_Type",
+              ConditionField conField = new ConditionField("Channel_Type",
                   temp1, "sms");
               conditionOrFields.add(conField);
-              counterOrFields.add(new counterConditionFields("No_of_SMSs",
+              counterOrFields.add(new CounterConditionFields("No_of_SMSs",
                   temp1, temp2));
               tempRuleComp.getFields().add(ruleComponent);
               tempRuleComp.getCounters().add(ruleComponent);
@@ -118,15 +118,15 @@ public class readBusinessRule {
           tempRuleComp.getCounterConditionFields().add(counterOrFields);
         }
       } else {
-        ArrayList<conditionField> conditionOrFields = new ArrayList<conditionField>();
-        ArrayList<counterConditionFields> counterOrFields = new ArrayList<counterConditionFields>();
+        ArrayList<ConditionField> conditionOrFields = new ArrayList<ConditionField>();
+        ArrayList<CounterConditionFields> counterOrFields = new ArrayList<CounterConditionFields>();
         StringTokenizer strSpace = new StringTokenizer(ruleComp);
         while (strSpace.hasMoreElements()) {
           String ruleComponent = ((String) strSpace.nextElement());
           if (ruleComponent.equalsIgnoreCase("Dest_No")) {
             String temp1 = (String) strSpace.nextElement();
             String temp2 = (String) strSpace.nextElement();
-            conditionField conField1 = new conditionField(ruleComponent, temp1,
+            ConditionField conField1 = new ConditionField(ruleComponent, temp1,
                 temp2);
             conditionOrFields.add(conField1);
             tempRuleComp.getFields().add(ruleComponent);
@@ -135,7 +135,7 @@ public class readBusinessRule {
             // } else if (ruleComponent.equalsIgnoreCase("Smsed_No")) {
             // String temp1 = (String) strSpace.nextElement();
             // String temp2 = (String) strSpace.nextElement();
-            // conditionField conField1 = new conditionField(ruleComponent,
+            // ConditionField conField1 = new ConditionField(ruleComponent,
             // temp2);
             // conditionOrFields.add(conField1);
             // tempRuleComp.getFields().add(ruleComponent);
@@ -144,7 +144,7 @@ public class readBusinessRule {
           } else if (ruleComponent.equalsIgnoreCase("Connection_Type")) {
             String temp1 = (String) strSpace.nextElement();
             String temp2 = (String) strSpace.nextElement();
-            conditionField conField = new conditionField(ruleComponent, temp1,
+            ConditionField conField = new ConditionField(ruleComponent, temp1,
                 temp2);
             conditionOrFields.add(conField);
             tempRuleComp.getFields().add(ruleComponent);
@@ -153,10 +153,10 @@ public class readBusinessRule {
           } else if (ruleComponent.equalsIgnoreCase("No_of_Calls")) {
             String temp1 = (String) strSpace.nextElement();
             Long temp2 = Long.parseLong((String) strSpace.nextElement());
-            conditionField conField = new conditionField("Channel_Type", temp1,
+            ConditionField conField = new ConditionField("Channel_Type", temp1,
                 "cas");
             conditionOrFields.add(conField);
-            counterOrFields.add(new counterConditionFields("No_of_Calls",
+            counterOrFields.add(new CounterConditionFields("No_of_Calls",
                 temp1, temp2));
             tempRuleComp.getFields().add(ruleComponent);
             tempRuleComp.getCounters().add(ruleComponent);
@@ -165,10 +165,10 @@ public class readBusinessRule {
           } else if (ruleComponent.equalsIgnoreCase("No_of_SMSs")) {
             String temp1 = (String) strSpace.nextElement();
             Long temp2 = Long.parseLong((String) strSpace.nextElement());
-            conditionField conField = new conditionField("Channel_Type", temp1,
+            ConditionField conField = new ConditionField("Channel_Type", temp1,
                 "sms");
             conditionOrFields.add(conField);
-            counterOrFields.add(new counterConditionFields("No_of_SMSs", temp1,
+            counterOrFields.add(new CounterConditionFields("No_of_SMSs", temp1,
                 temp2));
             tempRuleComp.getFields().add(ruleComponent);
             tempRuleComp.getCounters().add(ruleComponent);

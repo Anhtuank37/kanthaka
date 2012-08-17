@@ -10,8 +10,8 @@ import java.util.Timer;
 import com.uom.kanthaka.cassandra.ruleexecuter.QueryRunner2;
 import com.uom.kanthaka.cassandra.updater.CassandraUpdater4;
 import com.uom.kanthaka.preprocessor.cdrreader.CdrReadScheduledTask;
+import com.uom.kanthaka.preprocessor.rulereader.ReadBusinessRule;
 import com.uom.kanthaka.preprocessor.rulereader.Rule;
-import com.uom.kanthaka.preprocessor.rulereader.readBusinessRule;
 
 /**
  * 
@@ -22,7 +22,7 @@ public class Main {
 
   public static void main(String args[]) throws InterruptedException {
 
-    readBusinessRule readRules = new readBusinessRule();
+    ReadBusinessRule readRules = new ReadBusinessRule();
     ArrayList<Rule> businessRules = readRules.readFilesOnPath();
     // ArrayList<Rule> businessRules = readRules.readFilesOnPath(new
     // File(ruleUrl));

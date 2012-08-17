@@ -8,21 +8,25 @@ package com.uom.kanthaka.preprocessor.rulereader;
  * 
  * @author Makumar
  */
-public class counterConditionFields {
+public class ConditionField {
 
   String conditionName;
   String condition;
-  Long value;
+  String value;
 
-  public counterConditionFields(String conditionName, String condition,
-      Long value) {
+  public ConditionField(String conditionName, String value) {
+    this.conditionName = conditionName;
+    this.value = value;
+  }
+
+  public ConditionField(String conditionName, String condition, String value) {
     this.conditionName = conditionName;
     this.condition = condition;
     this.value = value;
   }
 
   public String printDetails() {
-    return conditionName + " " + condition + " " + value;
+    return conditionName + " - " + value;
   }
 
   public String getConditionName() {
@@ -33,7 +37,7 @@ public class counterConditionFields {
     return condition;
   }
 
-  public Long getValue() {
+  public String getValue() {
     return value;
   }
 
@@ -45,7 +49,7 @@ public class counterConditionFields {
     this.condition = condition;
   }
 
-  public void setValue(Long value) {
+  public void setValue(String value) {
     this.value = value;
   }
 }

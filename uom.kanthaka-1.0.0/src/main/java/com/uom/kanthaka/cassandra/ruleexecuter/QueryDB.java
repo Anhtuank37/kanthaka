@@ -21,8 +21,8 @@ import me.prettyprint.hector.api.query.QueryResult;
 import org.apache.log4j.Logger;
 
 import com.uom.kanthaka.cassandra.updater.BasicConf;
+import com.uom.kanthaka.preprocessor.rulereader.CounterConditionFields;
 import com.uom.kanthaka.preprocessor.rulereader.Rule;
-import com.uom.kanthaka.preprocessor.rulereader.counterConditionFields;
 
 /**
  * Created with IntelliJ IDEA. User: amila Date: 8/11/12 Time: 1:43 PM To change
@@ -46,20 +46,20 @@ public class QueryDB {
 
   ArrayList<HashSet<Long>> queryCreater(Rule rule) {
 
-    ArrayList<ArrayList<counterConditionFields>> rulesSet = rule
+    ArrayList<ArrayList<CounterConditionFields>> rulesSet = rule
         .getCounterConditionFields();// OR((and list))
     ArrayList<HashSet<Long>> ORlist = rule.getDoORresultset();
 
-    for (ArrayList<counterConditionFields> list : rulesSet) {
+    for (ArrayList<CounterConditionFields> list : rulesSet) {
       IndexedSlicesQuery<String, String, Long> ANDquery = new IndexedSlicesQuery<String, String, Long>(
           keyspace, se, se, le);
       // IndexedSlicesQuery<String, String, String> indexedSlicesQuery =
       // HFactory.createIndexedSlicesQuery(keyspace, se, se, se);
-      for (com.uom.kanthaka.preprocessor.rulereader.counterConditionFields counterConditionFields : list) {
+      for (CounterConditionFields CounterConditionFields : list) {
         // take ands between each record
-        String conditionName = counterConditionFields.getConditionName();
-        String condition = counterConditionFields.getCondition();
-        long value = counterConditionFields.getValue();
+        String conditionName = CounterConditionFields.getConditionName();
+        String condition = CounterConditionFields.getCondition();
+        long value = CounterConditionFields.getValue();
 
         if (condition.equals("<")) {
           ANDquery.addLteExpression(conditionName, value);
@@ -135,21 +135,21 @@ public class QueryDB {
   public static void main(String[] args) {
 
     // (a&b)
-    counterConditionFields conditionFieldsAND1 = new counterConditionFields(
+    CounterConditionFields conditionFieldsAND1 = new CounterConditionFields(
         "No_of_SMSs", ">", 2L);
-    counterConditionFields conditionFieldsAND2 = new counterConditionFields(
+    CounterConditionFields conditionFieldsAND2 = new CounterConditionFields(
         "No_of_Calls", "<", 4L);
-    ArrayList<counterConditionFields> conditionFieldsAND1Arr = new ArrayList<counterConditionFields>();// a|b
+    ArrayList<CounterConditionFields> conditionFieldsAND1Arr = new ArrayList<CounterConditionFields>();// a|b
     conditionFieldsAND1Arr.add(conditionFieldsAND1);
     conditionFieldsAND1Arr.add(conditionFieldsAND2);
 
-    counterConditionFields conditionFieldsAND11 = new counterConditionFields(
+    CounterConditionFields conditionFieldsAND11 = new CounterConditionFields(
         "No_of_SMSs", ">", 4L);
-    ArrayList<counterConditionFields> conditionFieldsAND2Arr = new ArrayList<counterConditionFields>();// (a)
+    ArrayList<CounterConditionFields> conditionFieldsAND2Arr = new ArrayList<CounterConditionFields>();// (a)
     conditionFieldsAND2Arr.add(conditionFieldsAND11);
 
     // (a|b)&(a)
-    ArrayList<ArrayList<counterConditionFields>> counterConditionFd = new ArrayList<ArrayList<counterConditionFields>>();
+    ArrayList<ArrayList<CounterConditionFields>> counterConditionFd = new ArrayList<ArrayList<CounterConditionFields>>();
     counterConditionFd.add(conditionFieldsAND1Arr);
     counterConditionFd.add(conditionFieldsAND2Arr);
 

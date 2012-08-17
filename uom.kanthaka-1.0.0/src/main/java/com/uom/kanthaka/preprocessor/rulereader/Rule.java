@@ -14,8 +14,8 @@ public class Rule {
   // private StringBuffer query;
   private Set<String> cdrReadingFields;
   private ArrayList<String> fields;
-  private ArrayList<ArrayList<conditionField>> conditionFields;
-  private ArrayList<ArrayList<counterConditionFields>> counterConditionFields;
+  private ArrayList<ArrayList<ConditionField>> conditionFields;
+  private ArrayList<ArrayList<CounterConditionFields>> counterConditionFields;
   ArrayList<ArrayList<HashSet<String>>> counterResultSet;
   private ArrayList<String> counters;
   HashSet<String> selectedList;// counter fields
@@ -30,8 +30,8 @@ public class Rule {
     cdrReadingFields = new HashSet<String>();
     cdrReadingFields.add("sourceAddress");
     fields = new ArrayList<String>();
-    conditionFields = new ArrayList<ArrayList<conditionField>>();
-    counterConditionFields = new ArrayList<ArrayList<counterConditionFields>>();
+    conditionFields = new ArrayList<ArrayList<ConditionField>>();
+    counterConditionFields = new ArrayList<ArrayList<CounterConditionFields>>();
     counterResultSet = new ArrayList<ArrayList<HashSet<String>>>();
     counters = new ArrayList<String>();
     recordMaps = new ArrayList<RecordMap>();
@@ -78,11 +78,11 @@ public class Rule {
     return cdrReadingFields;
   }
 
-  public ArrayList<ArrayList<conditionField>> getConditionFields() {
+  public ArrayList<ArrayList<ConditionField>> getConditionFields() {
     return conditionFields;
   }
 
-  public ArrayList<ArrayList<counterConditionFields>> getCounterConditionFields() {
+  public ArrayList<ArrayList<CounterConditionFields>> getCounterConditionFields() {
     return counterConditionFields;
   }
 
@@ -107,7 +107,7 @@ public class Rule {
   }
 
   public void setConditionFields(
-      ArrayList<ArrayList<conditionField>> conditionFields) {
+      ArrayList<ArrayList<ConditionField>> conditionFields) {
     this.conditionFields = conditionFields;
   }
 
@@ -116,7 +116,7 @@ public class Rule {
   }
 
   public void setcounterConditionFields(
-      ArrayList<ArrayList<counterConditionFields>> counterConditionFd) {
+      ArrayList<ArrayList<CounterConditionFields>> counterConditionFd) {
     this.counterConditionFields = counterConditionFd;
   }
 

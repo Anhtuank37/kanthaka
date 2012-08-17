@@ -13,8 +13,8 @@ import java.util.Iterator;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.uom.kanthaka.preprocessor.rulereader.ConditionField;
 import com.uom.kanthaka.preprocessor.rulereader.Rule;
-import com.uom.kanthaka.preprocessor.rulereader.conditionField;
 
 /**
  * 
@@ -109,15 +109,15 @@ public class CdrRead extends TimerTask {
    * Compare the CDR entries with the Rule object and process them
    */
   public void compareCdrAndRule() {
-    ArrayList<ArrayList<conditionField>> conditionComp = getRule()
+    ArrayList<ArrayList<ConditionField>> conditionComp = getRule()
         .getConditionFields();
     boolean condition = true;
     for (int j = 0; j < conditionComp.size(); j++) {
-      ArrayList<conditionField> conditionOr = conditionComp.get(j);
+      ArrayList<ConditionField> conditionOr = conditionComp.get(j);
       int count = 0;
       boolean innerCondition = false;
       for (int k = 0; k < conditionOr.size(); k++) {
-        conditionField conField = conditionOr.get(k);
+        ConditionField conField = conditionOr.get(k);
         // System.out.print(conField.getConditionName() + ", " +
         // conField.getValue());
         if (conditionOr.size() > 1) {
@@ -170,7 +170,7 @@ public class CdrRead extends TimerTask {
    * @param cdr
    * @return boolean value of success of operation
    */
-  public boolean checkCdrAttribute(conditionField conField, CdrRead cdr) {
+  public boolean checkCdrAttribute(ConditionField conField, CdrRead cdr) {
     // if ((conField.getValue()).equalsIgnoreCase(cdr.getSourceChannelType())) {
     if ((conField.getConditionName()).equalsIgnoreCase("Dest_No")) {
       if (conField.getCondition().equalsIgnoreCase("=")) {

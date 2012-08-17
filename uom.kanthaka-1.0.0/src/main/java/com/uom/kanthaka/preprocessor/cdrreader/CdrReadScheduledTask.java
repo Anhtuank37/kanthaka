@@ -14,8 +14,8 @@ import java.util.TimerTask;
 import org.apache.log4j.Logger;
 
 import com.uom.kanthaka.cassandra.updater.CassandraUpdater4;
+import com.uom.kanthaka.preprocessor.rulereader.ConditionField;
 import com.uom.kanthaka.preprocessor.rulereader.Rule;
-import com.uom.kanthaka.preprocessor.rulereader.conditionField;
 
 /**
  * 
@@ -95,14 +95,14 @@ public class CdrReadScheduledTask extends TimerTask {
       // System.out.println("Counter Condition Fields");
       // for (int j = 0; j < businessRule.getCounterConditionFields().size();
       // j++) {
-      // ArrayList<counterConditionFields> temp =
+      // ArrayList<CounterConditionFields> temp =
       // businessRule.getCounterConditionFields().get(j);
       // for (int k = 0; k < temp.size(); k++) {
       // System.out.println(temp.get(k).printDetails());
       // }
       // }
       for (int j = 0; j < businessRule.getConditionFields().size(); j++) {
-        ArrayList<conditionField> temp = businessRule.getConditionFields().get(
+        ArrayList<ConditionField> temp = businessRule.getConditionFields().get(
             j);
         for (int k = 0; k < temp.size(); k++) {
           System.out.println(temp.get(k).printDetails());

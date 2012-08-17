@@ -20,8 +20,8 @@ import me.prettyprint.hector.api.query.QueryResult;
 import org.apache.log4j.Logger;
 
 import com.uom.kanthaka.cassandra.updater.BasicConf;
+import com.uom.kanthaka.preprocessor.rulereader.CounterConditionFields;
 import com.uom.kanthaka.preprocessor.rulereader.Rule;
-import com.uom.kanthaka.preprocessor.rulereader.counterConditionFields;
 
 public class QueryRunner2 extends TimerTask {
   ArrayList<Rule> businessRules;
@@ -86,18 +86,18 @@ public class QueryRunner2 extends TimerTask {
   // to run all the queries related to a rule and return a list of eligible
   // subscribers
   void runRuleQueries(Rule rule) {
-    ArrayList<ArrayList<counterConditionFields>> rulesSet = rule
+    ArrayList<ArrayList<CounterConditionFields>> rulesSet = rule
         .getCounterConditionFields();
     ArrayList<ArrayList<HashSet<String>>> ANDlist = rule.getCounterResultSet();
 
-    for (ArrayList<counterConditionFields> list : rulesSet) {
+    for (ArrayList<CounterConditionFields> list : rulesSet) {
       ArrayList<HashSet<String>> ORlist = new ArrayList<HashSet<String>>();
-      for (counterConditionFields counterConditionFields : list) {
+      for (CounterConditionFields CounterConditionFields : list) {
         StringBuffer query = new StringBuffer("SELECT phoneNumber FROM "
             + rule.getRuleName() + " WHERE flag=1 AND "
-            + counterConditionFields.getConditionName()
-            + counterConditionFields.getCondition()
-            + counterConditionFields.getValue());
+            + CounterConditionFields.getConditionName()
+            + CounterConditionFields.getCondition()
+            + CounterConditionFields.getValue());
         HashSet<String> resultset = this.runQuery(query);
         ORlist.add(resultset);
         System.out.println(resultset);
@@ -114,21 +114,21 @@ public class QueryRunner2 extends TimerTask {
   public static void main(String[] args) {
 
     // (a|b)
-    counterConditionFields conditionFieldsOr1 = new counterConditionFields(
+    CounterConditionFields conditionFieldsOr1 = new CounterConditionFields(
         "No_of_SMSs", ">", 5L);
-    counterConditionFields conditionFieldsOr2 = new counterConditionFields(
+    CounterConditionFields conditionFieldsOr2 = new CounterConditionFields(
         "No_of_Calls", ">", 5L);
-    ArrayList<counterConditionFields> conditionFieldsOR1Arr = new ArrayList<counterConditionFields>();// a|b
+    ArrayList<CounterConditionFields> conditionFieldsOR1Arr = new ArrayList<CounterConditionFields>();// a|b
     conditionFieldsOR1Arr.add(conditionFieldsOr1);
     conditionFieldsOR1Arr.add(conditionFieldsOr2);
 
-    counterConditionFields conditionFieldsOr11 = new counterConditionFields(
+    CounterConditionFields conditionFieldsOr11 = new CounterConditionFields(
         "No_of_SMSs", ">", 3L);
-    ArrayList<counterConditionFields> conditionFieldsOR2Arr = new ArrayList<counterConditionFields>();// (a)
+    ArrayList<CounterConditionFields> conditionFieldsOR2Arr = new ArrayList<CounterConditionFields>();// (a)
     conditionFieldsOR2Arr.add(conditionFieldsOr11);
 
     // (a|b)&(a)
-    ArrayList<ArrayList<counterConditionFields>> counterConditionFd = new ArrayList<ArrayList<counterConditionFields>>();
+    ArrayList<ArrayList<CounterConditionFields>> counterConditionFd = new ArrayList<ArrayList<CounterConditionFields>>();
     counterConditionFd.add(conditionFieldsOR1Arr);
     counterConditionFd.add(conditionFieldsOR2Arr);
 

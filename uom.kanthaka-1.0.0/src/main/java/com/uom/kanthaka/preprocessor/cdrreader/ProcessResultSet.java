@@ -13,7 +13,7 @@ import java.util.Iterator;
  * 
  * @author Makumar
  */
-public class processResultSet {
+public class ProcessResultSet {
 
   HashSet<String> setOne;
   HashSet<String> setTwo;
@@ -21,7 +21,7 @@ public class processResultSet {
   HashSet<String> setFour;
   ArrayList<ArrayList<HashSet<String>>> result;
 
-  public processResultSet() {
+  public ProcessResultSet() {
 
     this.setOne = new HashSet<String>();
     setOne.add("1111");
@@ -64,7 +64,7 @@ public class processResultSet {
   }
 
   public static void main(String args[]) {
-    processResultSet process = new processResultSet();
+    ProcessResultSet process = new ProcessResultSet();
     process.compareResultSet(process.result);
   }
 
