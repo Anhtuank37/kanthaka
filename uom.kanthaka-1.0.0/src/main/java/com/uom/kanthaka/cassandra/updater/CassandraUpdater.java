@@ -9,6 +9,8 @@ import me.prettyprint.hector.api.Keyspace;
 import me.prettyprint.hector.api.factory.HFactory;
 import me.prettyprint.hector.api.mutation.Mutator;
 import me.prettyprint.hector.api.query.ColumnQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -29,7 +31,7 @@ public class CassandraUpdater extends TimerTask {
     ArrayList<Rule> businessRules;
     private static final StringSerializer se = new StringSerializer();
     private static final LongSerializer le = new LongSerializer();
-
+    final Logger logger = LoggerFactory.getLogger(CassandraUpdater.class);
 
     public CassandraUpdater(ArrayList<Rule> businessRules) {
 
@@ -40,32 +42,31 @@ public class CassandraUpdater extends TimerTask {
     }
 
 
-       private void dataInserter(String ruleName, String columnName, ConcurrentHashMap<String, Long> entries) {
+    private void dataInserter(String ruleName, String columnName, ConcurrentHashMap<String, Long> entries) {
 
-        Mutator<String> mutator = HFactory.createMutator(keyspace,StringSerializer.get());
+        Mutator<String> mutator = HFactory.createMutator(keyspace, StringSerializer.get());
         Set<String> keys = entries.keySet();
         for (String s : keys) {
-            long currentValue=0;
-        //    String rowKey=s+"000";
-            try{
+            long currentValue = 0;
+            //    String rowKey=s+"000";
+            try {
 
-                currentValue= getValueInCell(ruleName, s,columnName);
-                System.out.println("updated value from");
-            }catch(NullPointerException ex){
-                System.out.println("new row column addded");
+                currentValue = getValueInCell(ruleName, s, columnName);
+                logger.debug("updated value from {}.", currentValue);
+            } catch (NullPointerException ex) {
+                logger.debug("new row column addded");
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
 
-            long newValue=currentValue+entries.get(s);
-         //   long phone=Long.parseLong(s);
+            long newValue = currentValue + entries.get(s);
             mutator = mutator
-                    .addInsertion(s, ruleName,HFactory.createColumn(columnName, newValue, StringSerializer.get(), LongSerializer.get()))  ;
+                    .addInsertion(s, ruleName, HFactory.createColumn(columnName, newValue, StringSerializer.get(), LongSerializer.get()));
             try {
-                long l=this.getValueInCell(ruleName, s, "flag");
+                long l = this.getValueInCell(ruleName, s, "flag");
 
             } catch (Exception e) {
-                mutator.addInsertion(s, ruleName, HFactory.createColumn("flag", 1L, se, le))   ;
+                mutator.addInsertion(s, ruleName, HFactory.createColumn("flag", 1L, se, le));
             }
 
         }
@@ -73,6 +74,7 @@ public class CassandraUpdater extends TimerTask {
 
     }
 
+    // to get the current count
     public Long getValueInCell(String tableName, String rowID,
                                String columnID) throws Exception {
         Keyspace keyspace = HFactory.createKeyspace(BasicConf.KEYSPACE, cluster);

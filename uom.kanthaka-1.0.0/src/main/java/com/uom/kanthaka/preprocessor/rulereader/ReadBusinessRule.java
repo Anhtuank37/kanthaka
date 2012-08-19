@@ -5,14 +5,15 @@
 package com.uom.kanthaka.preprocessor.rulereader;
 
 import com.uom.kanthaka.preprocessor.Constant;
+import com.uom.kanthaka.preprocessor.cdrreader.CdrFields;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import com.uom.kanthaka.preprocessor.cdrreader.CdrFields;
-
 /**
- * 
  * @author Makumar
  */
 
@@ -20,6 +21,7 @@ public class ReadBusinessRule {
 
     Connection connection;
     ArrayList<Rule> rules;
+    final Logger logger = LoggerFactory.getLogger(ReadBusinessRule.class);
 
     /**
      * Constructor to initiate class object
@@ -29,7 +31,6 @@ public class ReadBusinessRule {
     }
 
     /**
-     * 
      * @return ArrayList<Rule>
      */
     public ArrayList<Rule> readRulesFromDatabase() {
@@ -45,9 +46,8 @@ public class ReadBusinessRule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void processBusinessRule(Rule tempRuleComp) {
@@ -159,15 +159,14 @@ public class ReadBusinessRule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void getCdrFields(String type, Rule tempRuleComp) {
         CdrFields cdr = new CdrFields();
         String temp[] = cdr.getList(type);
-        for(int i = 0; i < temp.length; i++) {
+        for (int i = 0; i < temp.length; i++) {
             tempRuleComp.getCdrReadingFields().add(temp[i]);
         }
     }

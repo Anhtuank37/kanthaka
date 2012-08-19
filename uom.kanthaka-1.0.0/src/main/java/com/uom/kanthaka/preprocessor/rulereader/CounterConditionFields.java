@@ -4,8 +4,10 @@
  */
 package com.uom.kanthaka.preprocessor.rulereader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
- * 
  * @author Makumar
  */
 
@@ -14,11 +16,11 @@ public class CounterConditionFields {
     String conditionName;
     String condition;
     Long value;
+    final Logger logger = LoggerFactory.getLogger(CounterConditionFields.class);
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public CounterConditionFields(String conditionName, String condition, Long value) {
@@ -28,9 +30,8 @@ public class CounterConditionFields {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public String printDetails() {
@@ -38,9 +39,8 @@ public class CounterConditionFields {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public String getConditionName() {
@@ -48,9 +48,8 @@ public class CounterConditionFields {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public String getCondition() {
@@ -58,9 +57,8 @@ public class CounterConditionFields {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public Long getValue() {
@@ -68,9 +66,8 @@ public class CounterConditionFields {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void setConditionName(String conditionName) {
@@ -78,9 +75,8 @@ public class CounterConditionFields {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void setCondition(String condition) {
@@ -88,9 +84,8 @@ public class CounterConditionFields {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void setValue(Long value) {

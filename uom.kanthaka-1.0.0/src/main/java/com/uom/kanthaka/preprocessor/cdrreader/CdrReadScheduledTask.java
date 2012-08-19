@@ -11,7 +11,8 @@ import com.uom.kanthaka.cassandra.updater.TableCreater;
 import com.uom.kanthaka.preprocessor.Constant;
 import com.uom.kanthaka.preprocessor.rulereader.ConditionField;
 import com.uom.kanthaka.preprocessor.rulereader.Rule;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,10 +25,11 @@ import java.util.TimerTask;
 public class CdrReadScheduledTask extends TimerTask {
 
     static String cdrUrl = "src/main/resources/CDR";
-    static Logger _logger = Logger.getLogger(CdrReadScheduledTask.class.getName());
     ArrayList<Rule> businessRules;
     CassandraUpdater couUpdater;
     TableCreater tableCreater;
+    final Logger logger = LoggerFactory.getLogger(CdrReadScheduledTask.class);
+
 
     public CdrReadScheduledTask(ArrayList<Rule> businessRules) {
         this.businessRules = businessRules;
@@ -77,7 +79,7 @@ public class CdrReadScheduledTask extends TimerTask {
                 //   couUpdater.createTable(businessRule.getRuleName());
                 tableCreater.createTable(businessRule.getRuleName());
             } catch (Exception e) {
-                _logger.error("columnfamily" + businessRule.getRuleName()
+                logger.error("columnfamily" + businessRule.getRuleName()
                         + "not created");
                 e.printStackTrace();
 

@@ -4,8 +4,10 @@
  */
 package com.uom.kanthaka.preprocessor.rulereader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
- * 
  * @author Makumar
  */
 
@@ -14,11 +16,12 @@ public class ConditionField {
     String conditionName;
     String condition;
     String value;
+    final Logger logger = LoggerFactory.getLogger(ConditionField.class);
 
     /**
-     * 
-     * @param 
-     * @param 
+     *
+     * @param
+     * @param
      * @return
      */
 //    public conditionField(String conditionName, String value) {
@@ -27,9 +30,8 @@ public class ConditionField {
 //    }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public ConditionField(String conditionName, String condition, String value) {
@@ -39,9 +41,8 @@ public class ConditionField {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public String printDetails() {
@@ -49,9 +50,8 @@ public class ConditionField {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public String getConditionName() {
@@ -59,9 +59,8 @@ public class ConditionField {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public String getCondition() {
@@ -69,9 +68,8 @@ public class ConditionField {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public String getValue() {
@@ -79,9 +77,8 @@ public class ConditionField {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void setConditionName(String conditionName) {
@@ -89,9 +86,8 @@ public class ConditionField {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void setCondition(String condition) {
@@ -99,9 +95,8 @@ public class ConditionField {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void setValue(String value) {

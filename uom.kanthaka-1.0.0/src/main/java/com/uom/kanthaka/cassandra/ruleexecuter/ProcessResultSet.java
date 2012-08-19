@@ -6,7 +6,8 @@ package com.uom.kanthaka.cassandra.ruleexecuter;
 
 import com.uom.kanthaka.preprocessor.rulereader.MysqlDatabaseUtil;
 import com.uom.kanthaka.preprocessor.rulereader.Rule;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -14,12 +15,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 /**
- *
  * @author Makumar
  */
 public class ProcessResultSet {
 
-    static Logger _logger = Logger.getLogger(ProcessResultSet.class.getName());
     HashSet<String> setOne;
     HashSet<String> setTwo;
     HashSet<String> setThree;
@@ -27,6 +26,7 @@ public class ProcessResultSet {
     ArrayList<ArrayList<HashSet<String>>> result;
     Connection conn;
     MysqlDatabaseUtil mySqlMethod;
+    final Logger logger = LoggerFactory.getLogger(ProcessResultSet.class);
 
 
     public ProcessResultSet() {
@@ -36,13 +36,12 @@ public class ProcessResultSet {
     }
 
 
-/**
+    /**
      * compare the String records in the ArrayList<ArrayList<HashSet<String>>> data structure
      * to select matching records to select eligible users
-     * @param resultSet
      */
-    public void compareResultSet(Rule businessRule,QueryRunner queryRunner) {
-        ArrayList<ArrayList<HashSet<String>>> resultSet =  businessRule.getCounterResultSet();
+    public void compareResultSet(Rule businessRule, QueryRunner queryRunner) {
+        ArrayList<ArrayList<HashSet<String>>> resultSet = businessRule.getCounterResultSet();
         HashSet<String> outerCondition = new HashSet<String>();
         int initializer = 0;
         for (int i = 0; i < resultSet.size(); i++) {
@@ -64,19 +63,20 @@ public class ProcessResultSet {
         }
         mySqlMethod.insertUsersToDatabase(conn, businessRule);
         businessRule.setSelectedList(outerCondition);
-        System.out.println("Final Set : " + outerCondition);
-        queryRunner.removeUser(outerCondition,businessRule);
+        // System.out.println("Final Set : " + outerCondition);
+        logger.debug("Final Set: {}.", outerCondition);
+        queryRunner.removeUser(outerCondition, businessRule);
     }
 
     /**
      * Compute the union of given records in HashSet<HashSet<String>>
+     *
      * @param setList
      * @return HashSet<String> of the union result
      */
     public HashSet<String> union(HashSet<HashSet<String>> setList) {
         HashSet<String> tempSet = new HashSet<String>();
-        for (Iterator<HashSet<String>> it = setList.iterator(); it.hasNext();) {
-//            HashSet<String> set = it.next();
+        for (Iterator<HashSet<String>> it = setList.iterator(); it.hasNext(); ) {
             tempSet.addAll(it.next());
         }
         return tempSet;
@@ -84,6 +84,7 @@ public class ProcessResultSet {
 
     /**
      * Compute the union of given two HashSet<String> hashSets
+     *
      * @param setA
      * @param setB
      * @return HashSet<String> of the union result
@@ -96,6 +97,7 @@ public class ProcessResultSet {
 
     /**
      * Compute the intersection of given two HashSet<String> hashSets
+     *
      * @param setA
      * @param setB
      * @return HashSet<String> of the intersection result
@@ -112,6 +114,7 @@ public class ProcessResultSet {
 
     /**
      * Compute the difference of given two HashSet<String> hashSets
+     *
      * @param setA
      * @param setB
      * @return HashSet<String> of the difference result
@@ -124,6 +127,7 @@ public class ProcessResultSet {
 
     /**
      * Compute the symDifference of given two HashSet<String> hashSets
+     *
      * @param setA
      * @param setB
      * @return HashSet<String> of the symDifference result

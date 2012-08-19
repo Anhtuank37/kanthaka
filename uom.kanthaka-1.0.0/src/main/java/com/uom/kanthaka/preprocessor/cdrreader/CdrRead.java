@@ -5,6 +5,11 @@
 package com.uom.kanthaka.preprocessor.cdrreader;
 
 import com.uom.kanthaka.preprocessor.Constant;
+import com.uom.kanthaka.preprocessor.rulereader.ConditionField;
+import com.uom.kanthaka.preprocessor.rulereader.Rule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -14,11 +19,7 @@ import java.util.Iterator;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.uom.kanthaka.preprocessor.rulereader.ConditionField;
-import com.uom.kanthaka.preprocessor.rulereader.Rule;
-
 /**
- * 
  * @author Makumar
  */
 public class CdrRead extends TimerTask {
@@ -33,10 +34,11 @@ public class CdrRead extends TimerTask {
     ArrayList<RecordMap> maps;
     RecordMap callMap;
     RecordMap smsMap;
+    final Logger logger = LoggerFactory.getLogger(CdrRead.class);
 
     /**
      * constructor of CdrRead which initiate object to given Rule object
-     * 
+     *
      * @param buisinessRule
      */
     public CdrRead(Rule buisinessRule) {
@@ -50,7 +52,7 @@ public class CdrRead extends TimerTask {
 
     /**
      * Read the given CDR file and process entries
-     * 
+     *
      * @param file
      */
     public void readCdrFile(File file) {
@@ -63,7 +65,7 @@ public class CdrRead extends TimerTask {
                 record = tempRec;
                 // System.out.println(record);
                 String ruleName[] = tempRec.split(Constant.COMMA);
-                for (Iterator it = getRule().getCdrReadingFields().iterator(); it.hasNext();) {
+                for (Iterator it = getRule().getCdrReadingFields().iterator(); it.hasNext(); ) {
                     String ruleField = (String) it.next();
                     if (ruleField.equalsIgnoreCase(Constant.TimeStamp)) {
                         setTimeStamp(ruleName[cdrMap.getMappingNo(ruleField) - 2]);
@@ -164,12 +166,12 @@ public class CdrRead extends TimerTask {
 
     /**
      * Checks the CDR attribute with rule condition fields
-     * 
+     *
      * @param conField
      * @param cdr
      * @return boolean value of success of operation
      */
-     public boolean checkCdrAttribute(ConditionField conField, CdrRead cdr) {
+    public boolean checkCdrAttribute(ConditionField conField, CdrRead cdr) {
         if ((conField.getConditionName()).equalsIgnoreCase(Constant.DestinationNumber)) {
             if (conField.getCondition().equalsIgnoreCase(Constant.Equals)) {
                 return (conField.getValue()).equalsIgnoreCase(cdr.getDestinationAddress());
@@ -188,6 +190,7 @@ public class CdrRead extends TimerTask {
 
     /**
      * Map CDR attribute with CDR properties
+     *
      * @param attribute
      * @return String
      */
@@ -209,7 +212,7 @@ public class CdrRead extends TimerTask {
 
     /**
      * Getter method for Rule object
-     * 
+     *
      * @return Rule
      */
     public Rule getRule() {
@@ -218,7 +221,7 @@ public class CdrRead extends TimerTask {
 
     /**
      * Getter method for RecordMap object
-     * 
+     *
      * @return RecordMap
      */
     private RecordMap getCallMap() {
@@ -227,7 +230,7 @@ public class CdrRead extends TimerTask {
 
     /**
      * Getter method for RecordMap object
-     * 
+     *
      * @return RecordMap
      */
     private RecordMap getSmsMap() {
@@ -236,7 +239,7 @@ public class CdrRead extends TimerTask {
 
     /**
      * Getter method for Record object
-     * 
+     *
      * @return String
      */
     public String getRecord() {
@@ -245,7 +248,7 @@ public class CdrRead extends TimerTask {
 
     /**
      * Getter method for RecordMap object
-     * 
+     *
      * @return RecordMap
      */
     public String getTimeStamp() {
@@ -253,7 +256,6 @@ public class CdrRead extends TimerTask {
     }
 
     /**
-     * 
      * @param
      * @param
      * @return
@@ -263,7 +265,6 @@ public class CdrRead extends TimerTask {
     }
 
     /**
-     * 
      * @param
      * @param
      * @return
@@ -273,7 +274,6 @@ public class CdrRead extends TimerTask {
     }
 
     /**
-     * 
      * @param
      * @param
      * @return
@@ -283,7 +283,6 @@ public class CdrRead extends TimerTask {
     }
 
     /**
-     * 
      * @param
      * @param
      * @return
@@ -293,7 +292,6 @@ public class CdrRead extends TimerTask {
     }
 
     /**
-     * 
      * @param
      * @param
      * @return
@@ -303,7 +301,6 @@ public class CdrRead extends TimerTask {
     }
 
     /**
-     * 
      * @param
      * @param
      * @return
@@ -313,7 +310,6 @@ public class CdrRead extends TimerTask {
     }
 
     /**
-     * 
      * @param
      * @param
      * @return
@@ -323,7 +319,6 @@ public class CdrRead extends TimerTask {
     }
 
     /**
-     * 
      * @param
      * @param
      * @return
@@ -333,7 +328,6 @@ public class CdrRead extends TimerTask {
     }
 
     /**
-     * 
      * @param
      * @param
      * @return
@@ -343,7 +337,6 @@ public class CdrRead extends TimerTask {
     }
 
     /**
-     * 
      * @param
      * @param
      * @return

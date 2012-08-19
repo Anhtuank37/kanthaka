@@ -9,6 +9,12 @@ package com.uom.kanthaka.preprocessor.rulereader;
  * @author Makumar
  */
 //import com.mysql.jdbc.Statement;
+
+import com.mysql.jdbc.Statement;
+import com.uom.kanthaka.preprocessor.Constant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -19,12 +25,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 
-import com.mysql.jdbc.Statement;
-import com.uom.kanthaka.preprocessor.Constant;
-
 public class MysqlDatabaseUtil {
 
     static Connection connection;
+    final Logger logger = LoggerFactory.getLogger(MysqlDatabaseUtil.class);
 
     public static void main(String[] argv) {
         MysqlDatabaseUtil data = new MysqlDatabaseUtil();
@@ -34,6 +38,7 @@ public class MysqlDatabaseUtil {
 
     /**
      * Establish the connection with MySql database and initiate it
+     *
      * @return Connection object with database connection
      */
     public Connection initiateDB() {
@@ -62,6 +67,7 @@ public class MysqlDatabaseUtil {
 
     /**
      * Access the mySql database and get stored Rule data and return it
+     *
      * @param connection
      * @return ArrayList<Rule> with business rules stored on the mySql database
      */
@@ -97,6 +103,7 @@ public class MysqlDatabaseUtil {
 
     /**
      * Insert elegible user to mySql database
+     *
      * @param connection
      */
     public void insertUsersToDatabase(Connection connection, Rule businessRule) {

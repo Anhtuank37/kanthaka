@@ -4,20 +4,24 @@
  */
 package com.uom.kanthaka.preprocessor.cdrreader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
- * 
  * @author Makumar
  */
 
 public class RecordMap {
     String type;
     ConcurrentHashMap<String, Long> DataMap;
+    final Logger logger = LoggerFactory.getLogger(RecordMap.class);
 
     /**
      * RecordMap constructor to initilize object variables
+     *
      * @param type
      */
     public RecordMap(String type) {
@@ -27,6 +31,7 @@ public class RecordMap {
 
     /**
      * RecordMap constructor to initilize object variables
+     *
      * @param type
      * @param DataMap
      */
@@ -34,9 +39,10 @@ public class RecordMap {
         this.type = type;
         this.DataMap = DataMap;
     }
-    
+
     /**
      * Return the object type
+     *
      * @return type of the object
      */
     public String getType() {
@@ -45,6 +51,7 @@ public class RecordMap {
 
     /**
      * return the ConcurrentHashMap of the object
+     *
      * @return ConcurrentHashMap of the object
      */
     public ConcurrentHashMap<String, Long> getDataMap() {
@@ -53,17 +60,19 @@ public class RecordMap {
 
     /**
      * Set ConcurrentHashMap of the object
+     *
      * @param DataMap
      */
     public void setDataMap(ConcurrentHashMap<String, Long> DataMap) {
         this.DataMap = DataMap;
     }
-    
+
     /**
      * Initialize the ConcurrentHashMap object
+     *
      * @return
      */
-    public void initilizeMap(){
+    public void initilizeMap() {
         DataMap = new ConcurrentHashMap<String, Long>();
     }
 

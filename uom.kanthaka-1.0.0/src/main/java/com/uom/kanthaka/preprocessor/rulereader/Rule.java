@@ -1,30 +1,33 @@
 package com.uom.kanthaka.preprocessor.rulereader;
 
+import com.uom.kanthaka.preprocessor.cdrreader.RecordMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.uom.kanthaka.preprocessor.cdrreader.RecordMap;
-
 public class Rule {
 
-  private String ruleName;
-  private String ruleString;
-  private String channelType;
-  private Set<String> cdrReadingFields;
-  private ArrayList<String> fields;
-  private ArrayList<ArrayList<ConditionField>> conditionFields;
-  private ArrayList<ArrayList<CounterConditionFields>> counterConditionFields;
-  ArrayList<ArrayList<HashSet<String>>> counterResultSet;
-  private ArrayList<String> counters;
-  HashSet<String> selectedList;// counter fields
-  ArrayList<RecordMap> recordMaps;
-  ArrayList<HashSet<Long>> DoORresultset;
+    final Logger logger = LoggerFactory.getLogger(Rule.class);
 
-  /**
-     * 
-     * @param 
-     * @param 
+    private String ruleName;
+    private String ruleString;
+    private String channelType;
+    private Set<String> cdrReadingFields;
+    private ArrayList<String> fields;
+    private ArrayList<ArrayList<ConditionField>> conditionFields;
+    private ArrayList<ArrayList<CounterConditionFields>> counterConditionFields;
+    ArrayList<ArrayList<HashSet<String>>> counterResultSet;
+    private ArrayList<String> counters;
+    HashSet<String> selectedList;// counter fields
+    ArrayList<RecordMap> recordMaps;
+    ArrayList<HashSet<Long>> DoORresultset;
+
+    /**
+     * @param
+     * @param
      * @return
      */
     public Rule() {
@@ -43,7 +46,7 @@ public class Rule {
         //ruleMaps = new HashMap<String, ConcurrentHashMap<String, Long>>();
     }
 
-//    public void createCounterMaps(ArrayList<String> counters){
+    //    public void createCounterMaps(ArrayList<String> counters){
 //        for (int i = 0; i < counters.size(); i++) {
 //            ruleMaps.put(counters.get(i), new ConcurrentHashMap<String, Long>());
 //        }
@@ -63,9 +66,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public String getRuleName() {
@@ -73,19 +75,17 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public HashSet<String> getSelectedList() {
         return selectedList;
     }
-    
+
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public String getRuleString() {
@@ -93,9 +93,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public Set<String> getCdrReadingFields() {
@@ -103,9 +102,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public ArrayList<ArrayList<ConditionField>> getConditionFields() {
@@ -113,9 +111,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public ArrayList<ArrayList<CounterConditionFields>> getCounterConditionFields() {
@@ -123,9 +120,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public ArrayList<String> getCounters() {
@@ -133,9 +129,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public ArrayList<String> getFields() {
@@ -143,9 +138,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void setRuleName(String ruleName) {
@@ -153,9 +147,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void setChannelType(String channelType) {
@@ -163,9 +156,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void setCdrReadingFields(Set<String> cdrReadingFields) {
@@ -173,9 +165,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void setConditionFields(ArrayList<ArrayList<ConditionField>> conditionFields) {
@@ -183,9 +174,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void setRecordMaps(ArrayList<RecordMap> recordMaps) {
@@ -193,9 +183,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void setcounterConditionFields(ArrayList<ArrayList<CounterConditionFields>> counterConditionFd) {
@@ -203,9 +192,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void setCounters(ArrayList<String> counters) {
@@ -213,9 +201,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void setRuleString(String ruleString) {
@@ -223,9 +210,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void setFields(ArrayList<String> conditionFields) {
@@ -233,9 +219,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public ArrayList<ArrayList<HashSet<String>>> getCounterResultSet() {
@@ -243,9 +228,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public ArrayList<HashSet<Long>> getDoORresultset() {
@@ -253,9 +237,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void setDoORresultset(ArrayList<HashSet<Long>> doORresultset) {
@@ -263,9 +246,8 @@ public class Rule {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
+     * @param
+     * @param
      * @return
      */
     public void setSelectedList(HashSet<String> selectedList) {

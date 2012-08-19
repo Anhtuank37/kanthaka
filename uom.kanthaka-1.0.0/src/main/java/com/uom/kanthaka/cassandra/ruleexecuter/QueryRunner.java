@@ -29,7 +29,8 @@ public class QueryRunner extends TimerTask {
     private Cluster cluster = null;
     private static final StringSerializer se = new StringSerializer();
     private static final LongSerializer le = new LongSerializer();
-    static Logger _logger = LoggerFactory.getLogger(QueryRunner.class.getName());
+    final Logger logger = LoggerFactory.getLogger(QueryRunner.class);
+
 
     public QueryRunner(ArrayList<Rule> businessRules) {
         this.businessRules = businessRules;
@@ -38,7 +39,6 @@ public class QueryRunner extends TimerTask {
         keyspace = HFactory
                 .createKeyspace(BasicConf.KEYSPACE, cluster);
 
-        //To change body of created methods use File | Settings | File Templates.
     }
 
     public ArrayList<Rule> getBusinessRules() {
@@ -46,15 +46,15 @@ public class QueryRunner extends TimerTask {
     }
 
     // compile query on Cassandra and return the result
-    HashSet<String> runQuery(StringBuffer query){
+    HashSet<String> runQuery(StringBuffer query) {
 
         HashSet<String> returnSet = new HashSet<String>();
 
         CqlQuery<String, String, String> cqlQuery = new CqlQuery<String, String, String>(
-                HFactory.createKeyspace(BasicConf.KEYSPACE, cluster), se, se,se);
+                HFactory.createKeyspace(BasicConf.KEYSPACE, cluster), se, se, se);
 
 
-        String queryString=query.toString();
+        String queryString = query.toString();
         System.out.println(queryString);
         cqlQuery.setQuery(queryString);
 
@@ -65,34 +65,33 @@ public class QueryRunner extends TimerTask {
             for (Row row : list) {
                 System.out.println(".");
                 List columns = row.getColumnSlice().getColumns();
-                for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
+                for (Iterator iterator = columns.iterator(); iterator.hasNext(); ) {
                     HColumn column = (HColumn) iterator.next();
 
                     System.out.print(column.getName() + ":" + column.getValue()
                             + "\t");
 
-                    String s=(String)column.getName();
-                    if("KEY".equals(s)){
-                        returnSet.add((String)column.getValue());
-                        System.out.println(column.getValue());
+                    String s = (String) column.getName();
+                    if ("KEY".equals(s)) {
+                        returnSet.add((String) column.getValue());
                     }
                 }
                 System.out.println("");
             }
         }
-        System.out.println(returnSet);
+        logger.debug("results returned from query {}.", returnSet);
         return returnSet;
     }
 
     // to run all the queries related to a rule and return a list of eligible subscribers
-    void runRuleQueries(Rule rule){
+    void runRuleQueries(Rule rule) {
         ArrayList<ArrayList<CounterConditionFields>> rulesSet = rule.getCounterConditionFields();
         ArrayList<ArrayList<HashSet<String>>> ANDlist = rule.getCounterResultSet();
 
         for (ArrayList<CounterConditionFields> list : rulesSet) {
             ArrayList<HashSet<String>> ORlist = new ArrayList<HashSet<String>>();
             for (CounterConditionFields counterConditionFields : list) {
-                StringBuffer query=new StringBuffer("SELECT KEY FROM "+rule.getRuleName()+" WHERE flag=1 AND "+counterConditionFields.getConditionName()+counterConditionFields.getCondition()+counterConditionFields.getValue());
+                StringBuffer query = new StringBuffer("SELECT KEY FROM " + rule.getRuleName() + " WHERE flag=1 AND " + counterConditionFields.getConditionName() + counterConditionFields.getCondition() + counterConditionFields.getValue());
                 HashSet<String> resultset = this.runQuery(query);
 
                 ORlist.add(resultset);
@@ -103,26 +102,27 @@ public class QueryRunner extends TimerTask {
         }
 
         ProcessResultSet processResultSet = new ProcessResultSet();
-        processResultSet.compareResultSet(rule,this);      // send to combine results to get ANDs ORs
+        processResultSet.compareResultSet(rule, this);      // send to combine results to get ANDs ORs
     }
 
-     void removeUser(HashSet<String> removeSet,Rule rule){
+    // set the flag to zero of the entries in cassandra who got selected
+    void removeUser(HashSet<String> removeSet, Rule rule) {
 
-         for(String rmvNo:removeSet){
+        for (String rmvNo : removeSet) {
 
-             StringBuffer removeQuery=new StringBuffer("UPDATE "+ rule.getRuleName()+ " SET 'flag'=0 WHERE KEY="+rmvNo);
-             CqlQuery<String, String, String> cqlQuery = new CqlQuery<String, String, String>(
-                     HFactory.createKeyspace(BasicConf.KEYSPACE, cluster), se, se,se);
-
-
-             String queryString=removeQuery.toString();
-             cqlQuery.setQuery(queryString);
-             cqlQuery.execute();
+            StringBuffer removeQuery = new StringBuffer("UPDATE " + rule.getRuleName() + " SET 'flag'=0 WHERE KEY=" + rmvNo);
+            CqlQuery<String, String, String> cqlQuery = new CqlQuery<String, String, String>(
+                    HFactory.createKeyspace(BasicConf.KEYSPACE, cluster), se, se, se);
 
 
-         }
+            String queryString = removeQuery.toString();
+            cqlQuery.setQuery(queryString);
+            cqlQuery.execute();
 
-     }
+
+        }
+
+    }
 
 
     @Override

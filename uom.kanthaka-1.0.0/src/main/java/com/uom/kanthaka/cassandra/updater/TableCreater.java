@@ -13,6 +13,8 @@ import me.prettyprint.hector.api.ddl.ColumnIndexType;
 import me.prettyprint.hector.api.ddl.ComparatorType;
 import me.prettyprint.hector.api.ddl.KeyspaceDefinition;
 import me.prettyprint.hector.api.factory.HFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,14 +27,16 @@ import java.util.List;
  * Time: 2:36 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TableCreater  {
+public class TableCreater {
     private Keyspace keyspace;
     private Cluster cluster = null;
     ArrayList<Rule> businessRules;
     private static final StringSerializer se = new StringSerializer();
     private static final LongSerializer le = new LongSerializer();
+    final Logger logger = LoggerFactory.getLogger(TableCreater.class);
 
-    public TableCreater(ArrayList<Rule> businessRules)  {
+
+    public TableCreater(ArrayList<Rule> businessRules) {
 
         this.businessRules = businessRules;
         this.cluster = HFactory.getOrCreateCluster(BasicConf.CASSANDRA_CLUSTER,
@@ -69,7 +73,7 @@ public class TableCreater  {
         }
         if (!isAlreadyExists) {
             cluster.addColumnFamily(cfDef);
-            System.out.println("column Family"+tableName+"created");
+            logger.info("column family {}. created", tableName);
         }
     }
 
@@ -97,11 +101,11 @@ public class TableCreater  {
         BasicColumnDefinition bcdf = new BasicColumnDefinition();
 
         bcdf.setName(StringSerializer.get().toByteBuffer(idxColumnName));
-        bcdf.setIndexName(cfName+idxColumnName + "index");
+        bcdf.setIndexName(cfName + idxColumnName + "index");
         bcdf.setIndexType(ColumnIndexType.KEYS);
 
 
-            bcdf.setValidationClass(ComparatorType.LONGTYPE.getClassName());
+        bcdf.setValidationClass(ComparatorType.LONGTYPE.getClassName());
 
 
         columnFamilyDefinition.addColumnDefinition(bcdf);
@@ -116,7 +120,6 @@ public class TableCreater  {
                 break;
             }
         }
-        System.out.println(cfd1.getColumnMetadata());
 
     }
 
