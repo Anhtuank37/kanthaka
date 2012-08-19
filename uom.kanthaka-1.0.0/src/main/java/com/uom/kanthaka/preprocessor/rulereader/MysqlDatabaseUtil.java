@@ -33,7 +33,6 @@ public class MysqlDatabaseUtil {
     public static void main(String[] argv) {
         MysqlDatabaseUtil data = new MysqlDatabaseUtil();
         Connection conn = data.initiateDB();
-        // data.insertUsersToDatabase(conn);
     }
 
     /**
@@ -45,7 +44,7 @@ public class MysqlDatabaseUtil {
         try {
             Class.forName(Constant.DatabaseDriver);
         } catch (ClassNotFoundException e) {
-            System.out.println(" - MySQL JDBC Driver Not Found - ");
+            logger.error(" - MySQL JDBC Driver Not Found - ");
             e.printStackTrace();
         }
 
@@ -58,9 +57,9 @@ public class MysqlDatabaseUtil {
             e.printStackTrace();
         }
         if (connection != null) {
-            System.out.println("connection established !");
+            logger.info("connection established !");
         } else {
-            System.out.println("Failed to make connection!");
+            logger.error("Failed to make connection!");
         }
         return connection;
     }
@@ -129,7 +128,7 @@ public class MysqlDatabaseUtil {
             // connection.close();
             Stmt.close();
         } catch (SQLException E) {
-            System.out.println("SQLException: " + E.getMessage());
+            logger.error("SQLException: {}. ", E.getMessage());
         }
     }
 }
