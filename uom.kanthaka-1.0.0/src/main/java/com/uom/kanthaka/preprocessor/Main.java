@@ -22,7 +22,7 @@ public class Main {
     public static void main(String args[]) throws InterruptedException {
 
         ReadBusinessRule readRules = new ReadBusinessRule();
-        ArrayList<Rule> businessRules = readRules.readFilesOnPath();
+        ArrayList<Rule> businessRules = readRules.readRulesFromDatabase();
         // ArrayList<Rule> businessRules = readRules.readFilesOnPath(new
         // File(ruleUrl));
 

@@ -36,7 +36,11 @@ public class ProcessResultSet {
     }
 
 
-    // calculate ANDs and ORs and take final result
+/**
+     * compare the String records in the ArrayList<ArrayList<HashSet<String>>> data structure
+     * to select matching records to select eligible users
+     * @param resultSet
+     */
     public void compareResultSet(Rule businessRule,QueryRunner queryRunner) {
         ArrayList<ArrayList<HashSet<String>>> resultSet =  businessRule.getCounterResultSet();
         HashSet<String> outerCondition = new HashSet<String>();
@@ -64,6 +68,11 @@ public class ProcessResultSet {
         queryRunner.removeUser(outerCondition,businessRule);
     }
 
+    /**
+     * Compute the union of given records in HashSet<HashSet<String>>
+     * @param setList
+     * @return HashSet<String> of the union result
+     */
     public HashSet<String> union(HashSet<HashSet<String>> setList) {
         HashSet<String> tempSet = new HashSet<String>();
         for (Iterator<HashSet<String>> it = setList.iterator(); it.hasNext();) {
@@ -73,12 +82,24 @@ public class ProcessResultSet {
         return tempSet;
     }
 
+    /**
+     * Compute the union of given two HashSet<String> hashSets
+     * @param setA
+     * @param setB
+     * @return HashSet<String> of the union result
+     */
     public HashSet<String> union(HashSet<String> setA, HashSet<String> setB) {
         HashSet<String> tempSet = new HashSet<String>(setA);
         tempSet.addAll(setB);
         return tempSet;
     }
 
+    /**
+     * Compute the intersection of given two HashSet<String> hashSets
+     * @param setA
+     * @param setB
+     * @return HashSet<String> of the intersection result
+     */
     public HashSet<String> intersection(HashSet<String> setA, HashSet<String> setB) {
         HashSet<String> tmp = new HashSet<String>();
         for (String x : setA) {
@@ -89,12 +110,24 @@ public class ProcessResultSet {
         return tmp;
     }
 
+    /**
+     * Compute the difference of given two HashSet<String> hashSets
+     * @param setA
+     * @param setB
+     * @return HashSet<String> of the difference result
+     */
     public HashSet<String> difference(HashSet<String> setA, HashSet<String> setB) {
         HashSet<String> tmp = new HashSet<String>(setA);
         tmp.removeAll(setB);
         return tmp;
     }
 
+    /**
+     * Compute the symDifference of given two HashSet<String> hashSets
+     * @param setA
+     * @param setB
+     * @return HashSet<String> of the symDifference result
+     */
     public HashSet<String> symDifference(HashSet<String> setA, HashSet<String> setB) {
         HashSet<String> tmpA;
         HashSet<String> tmpB;

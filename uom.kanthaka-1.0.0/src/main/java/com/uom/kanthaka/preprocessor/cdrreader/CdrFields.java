@@ -4,6 +4,8 @@
  */
 package com.uom.kanthaka.preprocessor.cdrreader;
 
+import com.uom.kanthaka.preprocessor.Constant;
+
 /**
  * 
  * @author Makumar
@@ -21,19 +23,19 @@ public class CdrFields {
    * @param type
    * @return String[] which maps to the given input type
    */
-  public String[] getList(String type) {
-    if (type.equalsIgnoreCase("Dest_No")) {
-      return getDest_No();
-    } else if (type.equalsIgnoreCase("Connection_Type")) {
-      return getConnection_Type();
-    } else if (type.equalsIgnoreCase("No_of_Calls")) {
-      return getNo_of_Calls();
-    } else if (type.equalsIgnoreCase("No_of_SMSs")) {
-      return getNo_of_SMSs();
-    } else {
-      return null;
+  public String[] getList(String type){
+        if (type.equalsIgnoreCase(Constant.DestinationNumber)) {
+            return getDest_No();
+        } else if(type.equalsIgnoreCase(Constant.ConnectionType)){
+            return getConnection_Type();
+        } else if(type.equalsIgnoreCase(Constant.NumOfCalls)){
+            return getNo_of_Calls();
+        } else if(type.equalsIgnoreCase(Constant.NumOfSMSs)){
+            return getNo_of_SMSs();
+        }else {
+            return null;
+        }
     }
-  }
 
   /**
    * Return Called_No array

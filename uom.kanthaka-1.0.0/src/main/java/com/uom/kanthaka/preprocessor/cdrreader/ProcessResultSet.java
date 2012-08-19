@@ -15,58 +15,58 @@ import java.util.Iterator;
  */
 public class ProcessResultSet {
 
-  HashSet<String> setOne;
-  HashSet<String> setTwo;
-  HashSet<String> setThree;
-  HashSet<String> setFour;
-  ArrayList<ArrayList<HashSet<String>>> result;
+//  HashSet<String> setOne;
+//  HashSet<String> setTwo;
+//  HashSet<String> setThree;
+//  HashSet<String> setFour;
+//  ArrayList<ArrayList<HashSet<String>>> result;
 
-  public ProcessResultSet() {
+//  public ProcessResultSet() {
+//
+//    this.setOne = new HashSet<String>();
+//    setOne.add("1111");
+//    setOne.add("1112");
+//    setOne.add("1113");
+//    setOne.add("1114");
+//    setOne.add("1115");
+//
+//    this.setTwo = new HashSet<String>();
+//    setTwo.add("1112");
+//    setTwo.add("1113");
+//    setTwo.add("1114");
+//
+//    this.setThree = new HashSet<String>();
+//    setThree.add("1112");
+//    setThree.add("1115");
+//    setThree.add("1116");
+//    setThree.add("1117");
+//
+//    this.setFour = new HashSet<String>();
+//    setFour.add("1112");
+//    setFour.add("1115");
+//    setFour.add("1116");
+//    setFour.add("1117");
+//
+//    ArrayList<HashSet<String>> orOne = new ArrayList<HashSet<String>>();
+//    orOne.add(setOne);
+//    orOne.add(setTwo);
+//    ArrayList<HashSet<String>> orTwo = new ArrayList<HashSet<String>>();
+//    orTwo.add(setTwo);
+//    orTwo.add(setThree);
+//    ArrayList<HashSet<String>> orThree = new ArrayList<HashSet<String>>();
+//    orThree.add(setFour);
+//
+//    result = new ArrayList<ArrayList<HashSet<String>>>();
+//    result.add(orOne);
+//    result.add(orTwo);
+//    result.add(orThree);
+//
+//  }
 
-    this.setOne = new HashSet<String>();
-    setOne.add("1111");
-    setOne.add("1112");
-    setOne.add("1113");
-    setOne.add("1114");
-    setOne.add("1115");
-
-    this.setTwo = new HashSet<String>();
-    setTwo.add("1112");
-    setTwo.add("1113");
-    setTwo.add("1114");
-
-    this.setThree = new HashSet<String>();
-    setThree.add("1112");
-    setThree.add("1115");
-    setThree.add("1116");
-    setThree.add("1117");
-
-    this.setFour = new HashSet<String>();
-    setFour.add("1112");
-    setFour.add("1115");
-    setFour.add("1116");
-    setFour.add("1117");
-
-    ArrayList<HashSet<String>> orOne = new ArrayList<HashSet<String>>();
-    orOne.add(setOne);
-    orOne.add(setTwo);
-    ArrayList<HashSet<String>> orTwo = new ArrayList<HashSet<String>>();
-    orTwo.add(setTwo);
-    orTwo.add(setThree);
-    ArrayList<HashSet<String>> orThree = new ArrayList<HashSet<String>>();
-    orThree.add(setFour);
-
-    result = new ArrayList<ArrayList<HashSet<String>>>();
-    result.add(orOne);
-    result.add(orTwo);
-    result.add(orThree);
-
-  }
-
-  public static void main(String args[]) {
-    ProcessResultSet process = new ProcessResultSet();
-    process.compareResultSet(process.result);
-  }
+//  public static void main(String args[]) {
+//    ProcessResultSet process = new ProcessResultSet();
+//    process.compareResultSet(process.result);
+//  }
 
   public void compareResultSet(ArrayList<ArrayList<HashSet<String>>> resultSet) {
     HashSet<String> outerCondition = new HashSet<String>();

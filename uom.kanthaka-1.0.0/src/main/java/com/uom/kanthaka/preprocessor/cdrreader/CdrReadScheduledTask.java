@@ -8,6 +8,7 @@ package com.uom.kanthaka.preprocessor.cdrreader;
 
 import com.uom.kanthaka.cassandra.updater.CassandraUpdater;
 import com.uom.kanthaka.cassandra.updater.TableCreater;
+import com.uom.kanthaka.preprocessor.Constant;
 import com.uom.kanthaka.preprocessor.rulereader.ConditionField;
 import com.uom.kanthaka.preprocessor.rulereader.Rule;
 import org.apache.log4j.Logger;
@@ -23,8 +24,7 @@ import java.util.TimerTask;
 public class CdrReadScheduledTask extends TimerTask {
 
     static String cdrUrl = "src/main/resources/CDR";
-    static Logger _logger = Logger
-            .getLogger(CdrReadScheduledTask.class.getName());
+    static Logger _logger = Logger.getLogger(CdrReadScheduledTask.class.getName());
     ArrayList<Rule> businessRules;
     CassandraUpdater couUpdater;
     TableCreater tableCreater;
@@ -46,7 +46,7 @@ public class CdrReadScheduledTask extends TimerTask {
     public void run() {
 
         File files[];
-        files = new File(cdrUrl).listFiles();
+        files = new File(Constant.CDR_URL).listFiles();
 
         if (files.length > 0) {
             for (int i = 0; i < files.length; i++) {
@@ -93,8 +93,7 @@ public class CdrReadScheduledTask extends TimerTask {
 
 
             for (int j = 0; j < businessRule.getConditionFields().size(); j++) {
-                ArrayList<ConditionField> temp = businessRule.getConditionFields().get(
-                        j);
+                ArrayList<ConditionField> temp = businessRule.getConditionFields().get(j);
                 for (int k = 0; k < temp.size(); k++) {
                     System.out.println(temp.get(k).printDetails());
                 }

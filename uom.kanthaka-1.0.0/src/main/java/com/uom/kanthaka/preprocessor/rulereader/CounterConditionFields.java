@@ -8,44 +8,92 @@ package com.uom.kanthaka.preprocessor.rulereader;
  * 
  * @author Makumar
  */
+
 public class CounterConditionFields {
 
-  String conditionName;
-  String condition;
-  Long value;
+    String conditionName;
+    String condition;
+    Long value;
 
-  public CounterConditionFields(String conditionName, String condition,
-      Long value) {
-    this.conditionName = conditionName;
-    this.condition = condition;
-    this.value = value;
-  }
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
+    public CounterConditionFields(String conditionName, String condition, Long value) {
+        this.conditionName = conditionName;
+        this.condition = condition;
+        this.value = value;
+    }
 
-  public String printDetails() {
-    return conditionName + " " + condition + " " + value;
-  }
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
+    public String printDetails() {
+        return conditionName + " " + condition + " " + value;
+    }
 
-  public String getConditionName() {
-    return conditionName;
-  }
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
+    public String getConditionName() {
+        return conditionName;
+    }
 
-  public String getCondition() {
-    return condition;
-  }
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
+    public String getCondition() {
+        return condition;
+    }
 
-  public Long getValue() {
-    return value;
-  }
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
+    public Long getValue() {
+        return value;
+    }
 
-  public void setConditionName(String conditionName) {
-    this.conditionName = conditionName;
-  }
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
+    public void setConditionName(String conditionName) {
+        this.conditionName = conditionName;
+    }
 
-  public void setCondition(String condition) {
-    this.condition = condition;
-  }
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
 
-  public void setValue(Long value) {
-    this.value = value;
-  }
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
+    public void setValue(Long value) {
+        this.value = value;
+    }
 }
