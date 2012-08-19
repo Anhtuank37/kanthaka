@@ -112,14 +112,7 @@ public class TableCreater {
         cluster.updateColumnFamily(new ThriftCfDef(columnFamilyDefinition));
 
         List<ColumnFamilyDefinition> cdfs1 = keyspaceDefinition.getCfDefs();
-        ColumnFamilyDefinition cfd1 = null;
-        for (ColumnFamilyDefinition c : cdfs1) {
-            if (c.getName().toString().equals(cfName)) {
-                System.out.println(c.getName());
-                cfd1 = c;
-                break;
-            }
-        }
+
 
     }
 
