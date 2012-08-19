@@ -137,7 +137,6 @@ public class CdrRead extends TimerTask {
             }
             condition = (condition && innerCondition);
         }
-        // System.out.println("");
         if (condition) {
             if ((this.getSourceChannelType() != null)
                     && this.getSourceChannelType().equalsIgnoreCase(Constant.EventTypeCall)) {
