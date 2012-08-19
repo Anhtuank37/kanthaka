@@ -111,9 +111,6 @@ public class TableCreater {
         columnFamilyDefinition.addColumnDefinition(bcdf);
         cluster.updateColumnFamily(new ThriftCfDef(columnFamilyDefinition));
 
-        List<ColumnFamilyDefinition> cdfs1 = keyspaceDefinition.getCfDefs();
-
-
     }
 
 
