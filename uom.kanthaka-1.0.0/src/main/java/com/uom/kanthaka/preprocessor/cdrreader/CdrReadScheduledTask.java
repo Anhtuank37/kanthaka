@@ -55,10 +55,10 @@ public class CdrReadScheduledTask extends TimerTask {
                 File file = new File(files[i].toString());
                 readCdr(file);
                 // file.delete();
-                System.out.println("--- One File Done ----");
+                logger.info("--- One File Done ----");
             }
         } else {
-            System.out.println("--- No files ---");
+            logger.info("--- No files ---");
         }
 
         try {
