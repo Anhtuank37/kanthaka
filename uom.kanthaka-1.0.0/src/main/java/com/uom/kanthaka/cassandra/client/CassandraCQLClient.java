@@ -63,6 +63,12 @@ public class CassandraCQLClient {
     }
   }
 
+  /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
   public String getLastColumnValue(String columnFamily, String rowKey) {
     Cluster cluster = HFactory.getOrCreateCluster(BasicConf.CASSANDRA_CLUSTER,
         BasicConf.CLUSTER_PORT);
@@ -83,6 +89,12 @@ public class CassandraCQLClient {
 
   }
 
+  /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
   void Hcl() {
     Cluster cluster = HFactory.getOrCreateCluster(BasicConf.CASSANDRA_CLUSTER,
         BasicConf.CLUSTER_PORT);

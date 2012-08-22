@@ -33,7 +33,12 @@ public class CassandraUpdater extends TimerTask {
     private static final LongSerializer le = new LongSerializer();
     static Logger logger = LoggerFactory.getLogger(CassandraUpdater.class.getName());
 
-
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public CassandraUpdater(ArrayList<Rule> businessRules) {
         this.businessRules = businessRules;
         this.cluster = HFactory.getOrCreateCluster(BasicConf.CASSANDRA_CLUSTER,
@@ -41,31 +46,35 @@ public class CassandraUpdater extends TimerTask {
         keyspace = HFactory.createKeyspace(BasicConf.KEYSPACE, cluster);
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
+    private void dataInserter(String ruleName, String columnName, ConcurrentHashMap<String, Long> entries) {
 
-       private void dataInserter(String ruleName, String columnName, ConcurrentHashMap<String, Long> entries) {
-
-        Mutator<String> mutator = HFactory.createMutator(keyspace,StringSerializer.get());
+        Mutator<String> mutator = HFactory.createMutator(keyspace, StringSerializer.get());
         Set<String> keys = entries.keySet();
         for (String s : keys) {
-            long currentValue=0;
-            try{
+            long currentValue = 0;
+            try {
 
-                currentValue= getValueInCell(ruleName, s,columnName);
+                currentValue = getValueInCell(ruleName, s, columnName);
                 logger.debug("updated value from");
-            }catch(NullPointerException ex){
+            } catch (NullPointerException ex) {
                 logger.debug("new row column addded");
             } catch (Exception e) {
-                 e.printStackTrace();  
+                e.printStackTrace();
             }
 
-            long newValue=currentValue+entries.get(s);
-            mutator = mutator
-                    .addInsertion(s, ruleName,HFactory.createColumn(columnName, newValue, StringSerializer.get(), LongSerializer.get()))  ;
+            long newValue = currentValue + entries.get(s);
+            mutator = mutator.addInsertion(s, ruleName, HFactory.createColumn(columnName, newValue, StringSerializer.get(), LongSerializer.get()));
             try {
-                long l=this.getValueInCell(ruleName, s, "flag");
+                long l = this.getValueInCell(ruleName, s, "flag");
 
             } catch (Exception e) {
-                mutator.addInsertion(s, ruleName, HFactory.createColumn("flag", 1L, se, le))   ;
+                mutator.addInsertion(s, ruleName, HFactory.createColumn("flag", 1L, se, le));
             }
 
         }
@@ -73,8 +82,14 @@ public class CassandraUpdater extends TimerTask {
 
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public Long getValueInCell(String tableName, String rowID,
-                               String columnID) throws Exception {
+            String columnID) throws Exception {
         Keyspace keyspace = HFactory.createKeyspace(BasicConf.KEYSPACE, cluster);
 
         ColumnQuery<String, String, Long> cq = HFactory.createColumnQuery(keyspace, StringSerializer.get(),
@@ -84,6 +99,12 @@ public class CassandraUpdater extends TimerTask {
         return cq.execute().get().getValue();
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public void updateDatabaseTables(Rule businessRule) {
         ArrayList<RecordMap> recordMaps = businessRule.getRecordMaps();
         for (int i = 0; i < recordMaps.size(); i++) {
@@ -92,6 +113,12 @@ public class CassandraUpdater extends TimerTask {
         }
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     @Override
     public void run() {
         for (int i = 0; i < businessRules.size(); i++) {
@@ -100,6 +127,4 @@ public class CassandraUpdater extends TimerTask {
         Thread.yield();
         logger.info("Thread - Updating Cassandra Database");
     }
-
-
 }

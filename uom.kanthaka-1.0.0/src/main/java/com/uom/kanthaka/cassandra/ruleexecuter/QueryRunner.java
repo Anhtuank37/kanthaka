@@ -30,6 +30,12 @@ public class QueryRunner extends TimerTask {
     private static final LongSerializer le = new LongSerializer();
    static Logger logger = LoggerFactory.getLogger(QueryRunner.class.getName());
 
+   /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public QueryRunner(ArrayList<Rule> businessRules) {
         this.businessRules = businessRules;
         cluster = HFactory.getOrCreateCluster(
@@ -40,10 +46,22 @@ public class QueryRunner extends TimerTask {
         //To change body of created methods use File | Settings | File Templates.
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     public ArrayList<Rule> getBusinessRules() {
         return businessRules;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     // compile query on Cassandra and return the result
     HashSet<String> runQuery(StringBuffer query){
 
@@ -78,6 +96,12 @@ public class QueryRunner extends TimerTask {
         return returnSet;
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     // to run all the queries related to a rule and return a list of eligible subscribers
     void runRuleQueries(Rule rule){
         ArrayList<ArrayList<CounterConditionFields>> rulesSet = rule.getCounterConditionFields();
@@ -106,6 +130,12 @@ public class QueryRunner extends TimerTask {
         processResultSet.compareResultSet(rule,this);      // send to combine results to get ANDs ORs
     }
 
+    /**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
      void removeUser(HashSet<String> removeSet,Rule rule){
 
          for(String rmvNo:removeSet){
@@ -124,7 +154,12 @@ public class QueryRunner extends TimerTask {
 
      }
 
-
+/**
+     * 
+     * @param 
+     * @param 
+     * @return
+     */
     @Override
     public void run() {
         for (int i = 0; i < getBusinessRules().size(); i++) {
