@@ -55,7 +55,7 @@ public class CassandraUpdater extends TimerTask {
             }catch(NullPointerException ex){
                 logger.debug("new row column addded");
             } catch (Exception e) {
-                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                 e.printStackTrace();  
             }
 
             long newValue=currentValue+entries.get(s);
