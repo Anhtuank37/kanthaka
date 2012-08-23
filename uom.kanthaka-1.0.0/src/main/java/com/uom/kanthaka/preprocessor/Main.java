@@ -16,23 +16,26 @@ import java.util.Timer;
 /**
  * @author Makumar
  */
-
 public class Main {
 
     public static void main(String args[]) throws InterruptedException {
 
         ReadBusinessRule readRules = new ReadBusinessRule();
         ArrayList<Rule> businessRules = readRules.readRulesFromDatabase();
-        Timer time = new Timer(); // Instantiate Timer Object
+        
+        Timer cdrReadingTimer = new Timer(); // Instantiate Timer Object
         CdrReadScheduledTask scheduleTask = new CdrReadScheduledTask(businessRules); // Instantiate SheduledTask class
-        time.schedule(scheduleTask, 0, 5000); // Create Repetitively task for every 5 secs
+        cdrReadingTimer.schedule(scheduleTask, 0, 5000); // Create Repetitively task for every 5 secs
+
+        Timer mapUpdatingTimer = new Timer(); // Instantiate Timer Object
+        mapUpdatingTimer.schedule(scheduleTask.getCdrRead(), 1000, 2000); // Create Repetitively task for every 1 secs
+
 
         Timer cassandraUpdateTimer = new Timer(); // Instantiate Timer Object
-        CassandraUpdater cassUpdater = readRules.getCassandraUpdater();
-        cassandraUpdateTimer.schedule(cassUpdater, 0, 2000);
+        cassandraUpdateTimer.schedule(readRules.getCassandraUpdater(), 1500, 2000);
 
         Timer cassandraQueryTimer = new Timer(); // Instantiate Timer Object
         QueryRunner queryRun = new QueryRunner(businessRules);
-        cassandraQueryTimer.schedule(queryRun, 0, 5000);
+        cassandraQueryTimer.schedule(queryRun, 4000, 5000);
     }
 }

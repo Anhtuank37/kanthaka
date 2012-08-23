@@ -9,13 +9,7 @@ import com.uom.kanthaka.preprocessor.rulereader.ConditionField;
 import com.uom.kanthaka.preprocessor.rulereader.Rule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,16 +19,18 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class CdrRead extends TimerTask {
 
-    Rule rule;
+    ArrayList<Rule> businessRules;
     String record;
     String timeStamp;
     String sourceAddress;
     String destinationAddress;
     String billingType;
     String sourceChannelType;
-    ArrayList<RecordMap> maps;
-    RecordMap callMap;
-    RecordMap smsMap;
+    CdrAttributeMapping cdrMap;
+//    ArrayList<RecordMap> maps;
+//    RecordMap callMap;
+//    RecordMap smsMap;
+//    TempCDREntry tempEntries;
     final Logger logger = LoggerFactory.getLogger(CdrRead.class);
 
     /**
@@ -42,13 +38,9 @@ public class CdrRead extends TimerTask {
      * 
      * @param buisinessRule
      */
-    public CdrRead(Rule buisinessRule) {
-        this.rule = buisinessRule;
-        this.maps = new ArrayList<RecordMap>();
-        callMap = new RecordMap(Constant.CallCounterName);
-        smsMap = new RecordMap(Constant.SMSCounterName);
-        maps.add(callMap);
-        maps.add(smsMap);
+    public CdrRead(ArrayList<Rule> rules) {
+        cdrMap = new CdrAttributeMapping();
+        businessRules = rules;
     }
 
     /**
@@ -56,63 +48,39 @@ public class CdrRead extends TimerTask {
      * 
      * @param file
      */
-    public void readCdrFile(File file) {
-        try {
-            BufferedReader bufReader = new BufferedReader(new FileReader(file));
-            String tempRec;
-
-            while ((tempRec = bufReader.readLine()) != null) {
-                CdrAttributeMapping cdrMap = new CdrAttributeMapping();
-                record = tempRec;
-                // System.out.println(record);
-                String ruleName[] = tempRec.split(Constant.COMMA);
-                for (Iterator it = getRule().getCdrReadingFields().iterator(); it.hasNext();) {
-                    String ruleField = (String) it.next();
-                    if (ruleField.equalsIgnoreCase(Constant.TimeStamp)) {
-                        setTimeStamp(ruleName[cdrMap.getMappingNo(ruleField) - 2]);
-                    } else if (ruleField.equalsIgnoreCase(Constant.SourceAddress)) {
-                        setSourceAddress(ruleName[cdrMap.getMappingNo(ruleField) - 2]);
-                    } else if (ruleField.equalsIgnoreCase(Constant.DestinationAddress)) {
-                        setDestinationAddress(ruleName[cdrMap.getMappingNo(ruleField) - 2]);
-                    } else if (ruleField.equalsIgnoreCase(Constant.BillingType)) {
-                        setBillingType(ruleName[cdrMap.getMappingNo(ruleField) - 2]);
-                    } else if (ruleField.equalsIgnoreCase(Constant.SourceChannelType)) {
-                        setSourceChannelType(ruleName[cdrMap.getMappingNo(ruleField) - 2]);
-                    } else {
-                    }
-                    // System.out.print(ruleName[cdrMap.getMappingNo(ruleField) - 2] +
-                    // " - " + (cdrMap.getMappingNo(ruleField)) + ", ");
-                }
-                // System.out.println("");
-                this.compareCdrAndRule();
+    public void readCdrFile(String record) {
+        this.record = record;
+        String ruleName[] = record.split(Constant.COMMA);
+        for (int i = 0; i < Constant.cdrReadingFields.length; i++) {
+            String ruleField = Constant.cdrReadingFields[i];
+            if (ruleField.equalsIgnoreCase(Constant.TimeStamp)) {
+                setTimeStamp(ruleName[cdrMap.getMappingNo(ruleField) - 2]);
+            } else if (ruleField.equalsIgnoreCase(Constant.SourceAddress)) {
+                setSourceAddress(ruleName[cdrMap.getMappingNo(ruleField) - 2]);
+            } else if (ruleField.equalsIgnoreCase(Constant.DestinationAddress)) {
+                setDestinationAddress(ruleName[cdrMap.getMappingNo(ruleField) - 2]);
+            } else if (ruleField.equalsIgnoreCase(Constant.BillingType)) {
+                setBillingType(ruleName[cdrMap.getMappingNo(ruleField) - 2]);
+            } else if (ruleField.equalsIgnoreCase(Constant.SourceChannelType)) {
+                setSourceChannelType(ruleName[cdrMap.getMappingNo(ruleField) - 2]);
+            } else {
             }
-            bufReader.close();
-            updateRuleMaps();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+        testRulesWithCDR();
     }
 
-    /**
-     * Update record maps of the business rule
-     */
-    public synchronized void updateRuleMaps() {
-        while (maps.size() > 0) {
-            RecordMap tempRec = maps.remove(0);
-            // System.out.println("Updating Maps .....");
-            // System.out.println(tempRec.getType() + "  -  " + tempRec.getDataMap());
-            // System.out.println("Updated .....");
-            getRule().getRecordMaps().add(
-                    new RecordMap(tempRec.getType(), tempRec.getDataMap()));
-            // tempRec.initilizeMap();
+    public void testRulesWithCDR() {
+        for (int i = 0; i < businessRules.size(); i++) {
+            compareCdrWithARule(businessRules.get(i));
         }
     }
 
     /**
      * Compare the CDR entries with the Rule object and process them
      */
-    public void compareCdrAndRule() {
-        ArrayList<ArrayList<ConditionField>> conditionComp = getRule().getConditionFields();
+    public void compareCdrWithARule(Rule rule) {
+        ArrayList<ArrayList<ConditionField>> conditionComp = rule.getConditionFields();
+        TempCDREntry tempEntries = rule.getTempEntries();
         boolean condition = true;
         for (int j = 0; j < conditionComp.size(); j++) {
             ArrayList<ConditionField> conditionOr = conditionComp.get(j);
@@ -142,7 +110,7 @@ public class CdrRead extends TimerTask {
         if (condition) {
             if ((this.getSourceChannelType() != null)
                     && this.getSourceChannelType().equalsIgnoreCase(Constant.EventTypeCall)) {
-                ConcurrentHashMap<String, Long> callCounter = getCallMap().getDataMap();
+                ConcurrentHashMap<String, Long> callCounter = tempEntries.getCallMap().getDataMap();
                 if (callCounter.containsKey(this.getSourceAddress())) {
                     long currentCount = callCounter.get(this.getSourceAddress());
                     callCounter.replace(this.getSourceAddress(), currentCount,
@@ -152,7 +120,7 @@ public class CdrRead extends TimerTask {
                 }
             } else if ((this.getSourceChannelType() != null)
                     && this.getSourceChannelType().equalsIgnoreCase(Constant.EventTypeSMS)) {
-                ConcurrentHashMap<String, Long> smsCounter = getSmsMap().getDataMap();
+                ConcurrentHashMap<String, Long> smsCounter = tempEntries.getSmsMap().getDataMap();
                 if (smsCounter.containsKey(this.getSourceAddress())) {
                     long currentCount = smsCounter.get(this.getSourceAddress());
                     smsCounter.replace(this.getSourceAddress(), currentCount,
@@ -172,7 +140,7 @@ public class CdrRead extends TimerTask {
      * @param cdr
      * @return boolean value of success of operation
      */
-     public boolean checkCdrAttribute(ConditionField conField, CdrRead cdr) {
+    public boolean checkCdrAttribute(ConditionField conField, CdrRead cdr) {
         if ((conField.getConditionName()).equalsIgnoreCase(Constant.DestinationNumber)) {
             if (conField.getCondition().equalsIgnoreCase(Constant.Equals)) {
                 return (conField.getValue()).equalsIgnoreCase(cdr.getDestinationAddress());
@@ -215,26 +183,8 @@ public class CdrRead extends TimerTask {
      * 
      * @return Rule
      */
-    public Rule getRule() {
-        return rule;
-    }
-
-    /**
-     * Getter method for RecordMap object
-     * 
-     * @return RecordMap
-     */
-    private RecordMap getCallMap() {
-        return callMap;
-    }
-
-    /**
-     * Getter method for RecordMap object
-     * 
-     * @return RecordMap
-     */
-    private RecordMap getSmsMap() {
-        return smsMap;
+    public ArrayList<Rule> getRules() {
+        return businessRules;
     }
 
     /**
@@ -343,6 +293,26 @@ public class CdrRead extends TimerTask {
      */
     private void setBillingType(String billingType) {
         this.billingType = billingType;
+    }
+
+    /**
+     * Update record maps of the business rule
+     */
+    public synchronized void updateRuleMaps() {
+        for (int i = 0; i < businessRules.size(); i++) {
+            Rule tempRule = businessRules.get(i);
+            ArrayList<RecordMap> tempMaps = tempRule.getTempEntries().getMaps();
+
+            while (tempMaps.size() > 0) {
+                RecordMap tempRec = tempMaps.remove(0);
+                // System.out.println("Updating Maps .....");
+                // System.out.println(tempRec.getType() + "  -  " + tempRec.getDataMap());
+                // System.out.println("Updated .....");
+                tempRule.getRecordMaps().add(
+                        new RecordMap(tempRec.getType(), tempRec.getDataMap()));
+                // tempRec.initilizeMap();
+            }
+        }
     }
 
     /**

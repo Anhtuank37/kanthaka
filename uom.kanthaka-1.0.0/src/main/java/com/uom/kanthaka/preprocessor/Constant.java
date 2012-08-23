@@ -10,8 +10,8 @@ public interface Constant {
     //public static final int TYPE_SMS = 5;
     
     
-    static String CDR_URL = "src/main/resources/CDR";
-//    static String CDR_URL = "C:\\Users\\Makumar\\Desktop\\New Folder\\CDR";
+//    static String CDR_URL = "src/main/resources/CDR";
+    static String CDR_URL = "C:\\Users\\Makumar\\Desktop\\New Folder\\CDR";
 //    static String CDR_URL = "C:\\Users\\Makumar\\Documents\\NetBeansProjects\\XML Read\\CDR";
    
     //  Rule format strings
@@ -45,8 +45,14 @@ public interface Constant {
     //  MySQL configurations
     public static final String DatabaseDriver = "com.mysql.jdbc.Driver";
     public static final String DatabaseURL = "jdbc:mysql://localhost/kanthaka";
-    public static final String DatabaseUserName = "root";
+//    public static final String DatabaseUserName = "root";
   //  public static final String DatabasePassword = "kanthaka";
-  public static final String DatabasePassword = "abc";
+//    public static final String DatabasePassword = "abc";
     
+    
+    public static final String DatabaseUserName = "user";
+    public static final String DatabasePassword = "abc";
+ 
+    public static final String[] cdrReadingFields = {"timeStamp", "sourceAddress",
+        "destinationAddress", "billingType", "sourceChannelType"};
 }

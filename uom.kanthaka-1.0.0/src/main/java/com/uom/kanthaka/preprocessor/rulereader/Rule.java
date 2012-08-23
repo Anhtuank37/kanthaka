@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.uom.kanthaka.preprocessor.cdrreader.RecordMap;
+import com.uom.kanthaka.preprocessor.cdrreader.TempCDREntry;
 
 public class Rule {
 
@@ -20,6 +21,7 @@ public class Rule {
   HashSet<String> selectedList;// counter fields
   ArrayList<RecordMap> recordMaps;
   ArrayList<HashSet<Long>> DoORresultset;
+  TempCDREntry tempEntries;
 
   /**
      * 
@@ -29,7 +31,6 @@ public class Rule {
      */
     public Rule() {
         super();
-//        query = new StringBuffer();
         cdrReadingFields = new HashSet<String>();
         cdrReadingFields.add("sourceAddress");
         fields = new ArrayList<String>();
@@ -40,7 +41,7 @@ public class Rule {
         recordMaps = new ArrayList<RecordMap>();
         selectedList = new HashSet<String>();
         DoORresultset = new ArrayList<HashSet<Long>>();
-        //ruleMaps = new HashMap<String, ConcurrentHashMap<String, Long>>();
+        tempEntries = new TempCDREntry();
     }
 
 //    public void createCounterMaps(ArrayList<String> counters){
@@ -271,4 +272,10 @@ public class Rule {
     public void setSelectedList(HashSet<String> selectedList) {
         this.selectedList = selectedList;
     }
+
+    public TempCDREntry getTempEntries() {
+        return tempEntries;
+    }
+    
+    
 }
