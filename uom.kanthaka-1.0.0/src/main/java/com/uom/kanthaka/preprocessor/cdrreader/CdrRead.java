@@ -7,22 +7,21 @@ package com.uom.kanthaka.preprocessor.cdrreader;
 import com.uom.kanthaka.preprocessor.Constant;
 import com.uom.kanthaka.preprocessor.rulereader.ConditionField;
 import com.uom.kanthaka.preprocessor.rulereader.Rule;
-import org.apache.commons.pool.ObjectPool;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
+import org.apache.commons.pool.ObjectPool;
 
 /**
  * 
  * @author Makumar
  */
 public class CdrRead extends Thread {
-    
+
     ArrayList<Rule> businessRules;
     String record;
     String timeStamp;
@@ -37,10 +36,9 @@ public class CdrRead extends Thread {
 
     /**
      * constructor of CdrRead which initiate object to given Rule object
-     * @param rules
-     * @param pool
+     * 
+     * @param buisinessRule
      */
-
     public CdrRead(ArrayList<Rule> rules, ObjectPool<CdrRead> pool) {
         cdrMap = new CdrAttributeMapping();
         businessRules = rules;
@@ -48,9 +46,9 @@ public class CdrRead extends Thread {
     }
 
     /**
-     *
+     * Read CDR files according to the given business rules
+     * @param file
      */
-
     public void readCdr() {
         CdrRead newCdrObject = null;
         try {
@@ -67,6 +65,8 @@ public class CdrRead extends Thread {
             printRuleRecordMaps();
 //  *****************************************************************          
             bufReader.close();
+            logger.info("--- One File Done ----");
+            file.delete();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -81,9 +81,10 @@ public class CdrRead extends Thread {
     }
 
     /**
-     *
+     * Read the given CDR file and process entries
+     * 
+     * @param file
      */
-
 //    public void readCdrFile(String record) {
     public void readCdrFile() {
         String ruleName[] = record.split(Constant.COMMA);
@@ -104,7 +105,7 @@ public class CdrRead extends Thread {
         }
         testRulesWithCDR();
     }
-    
+
     public void testRulesWithCDR() {
         for (int i = 0; i < businessRules.size(); i++) {
             compareCdrWithARule(businessRules.get(i));
@@ -242,25 +243,29 @@ public class CdrRead extends Thread {
     }
 
     /**
-     *
+     * 
+     * @param
+     * @param
      * @return
      */
-
     public String getSourceAddress() {
         return sourceAddress;
     }
 
     /**
-     *
+     * 
+     * @param
+     * @param
      * @return
      */
-
     public String getDestinationAddress() {
         return destinationAddress;
     }
 
     /**
-     *
+     * 
+     * @param
+     * @param
      * @return
      */
     public String getSourceChannelType() {
@@ -268,7 +273,9 @@ public class CdrRead extends Thread {
     }
 
     /**
-     *
+     * 
+     * @param
+     * @param
      * @return
      */
     public String getBillingType() {
@@ -276,8 +283,10 @@ public class CdrRead extends Thread {
     }
 
     /**
-     *
-     * @param timeStamp
+     * 
+     * @param
+     * @param
+     * @return
      */
     private void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
@@ -286,44 +295,52 @@ public class CdrRead extends Thread {
     public void setFile(File file) {
         this.file = file;
     }
-    
+
     public void setRecord(String record) {
         this.record = record;
     }
 
     /**
-     *
-     * @param sourceAddress
+     * 
+     * @param
+     * @param
+     * @return
      */
     private void setSourceAddress(String sourceAddress) {
         this.sourceAddress = sourceAddress;
     }
 
     /**
-     *
-     * @param destinationAddress
+     * 
+     * @param
+     * @param
+     * @return
      */
     private void setDestinationAddress(String destinationAddress) {
         this.destinationAddress = destinationAddress;
     }
 
     /**
-     *
-     * @param sourceChannelType
+     * 
+     * @param
+     * @param
+     * @return
      */
     private void setSourceChannelType(String sourceChannelType) {
         this.sourceChannelType = sourceChannelType;
     }
 
     /**
-     *
-     * @param billingType
+     * 
+     * @param
+     * @param
+     * @return
      */
     private void setBillingType(String billingType) {
         this.billingType = billingType;
     }
-    
-      public void printRuleRecordMaps() {
+
+    public void printRuleRecordMaps() {
         CdrRead newCdrObject = null;
         try {
             newCdrObject = pool.borrowObject();
@@ -343,8 +360,11 @@ public class CdrRead extends Thread {
                 ArrayList<RecordMap> mapList = businessRule.getRecordMaps();
                 for (int j = 0; j < mapList.size(); j++) {
                     RecordMap record = mapList.get(j);
-                logger.debug("hashmap for the database in rule {}. - {}.", businessRule.getRuleName(), record.getDataMap());
+//                    System.out.println(record.getType() + "  -  " + record.getDataMap());
+                logger.debug("{}. - {}.", record.getType(), record.getDataMap());
                 }
+                System.out.println("");
+//            logger.debug("");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -358,7 +378,7 @@ public class CdrRead extends Thread {
             }
         }
     }
-  
+
     public void initilizeFields() {
         setTimeStamp(null);
         setSourceAddress(null);
@@ -368,7 +388,10 @@ public class CdrRead extends Thread {
     }
 
     /**
-     *
+     * 
+     * @param
+     * @param
+     * @return
      */
     @Override
     public void run() {

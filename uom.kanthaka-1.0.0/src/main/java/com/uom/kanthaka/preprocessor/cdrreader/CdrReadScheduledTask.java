@@ -13,10 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Timer;
 import java.util.TimerTask;
 
 //import org.apache.log4j.Logger;
-
 /**
  * @author Makumar
  */
@@ -59,14 +59,10 @@ public class CdrReadScheduledTask extends TimerTask {
                     File file = new File(files[i].toString());
                     newCdrObject.setFile(file);
                     newCdrObject.start();
-//                file.delete();
-//                    System.out.println("--- One File Done ----");
-//                  System.out.println("");
-                logger.info("--- One File Done ----");
                 }
             } else {
 //                System.out.println("--- No files ---");
-            logger.info("--- No files ---");
+                logger.info("--- No files ---");
             }
         } catch (Exception e) {
 //            e.printStackTrace();
@@ -112,7 +108,6 @@ public class CdrReadScheduledTask extends TimerTask {
 //            }
 //        }
 //    }
-    
 //    public void printRuleRecordMaps() {
 //        CdrRead newCdrObject = null;
 //        try {
@@ -151,7 +146,6 @@ public class CdrReadScheduledTask extends TimerTask {
 //            }
 //        }
 //    }
-
     public CdrRead getCdrRead() {
         CdrRead newCdrObject = null;
         try {
