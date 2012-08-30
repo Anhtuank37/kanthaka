@@ -29,17 +29,11 @@ public class MysqlDatabaseUtil {
     static Connection connection;
     static Logger logger = LoggerFactory.getLogger(MysqlDatabaseUtil.class.getName());
 
-
-    public static void main(String[] argv) {
-        MysqlDatabaseUtil data = new MysqlDatabaseUtil();
-        Connection conn = data.initiateDB();
-    }
-
     /**
      * Establish the connection with MySql database and initiate it
      * @return Connection object with database connection
      */
-    public Connection initiateDB() {
+    private static Connection initiateDB() {
         try {
             Class.forName(Constant.DatabaseDriver);
         } catch (ClassNotFoundException e) {
@@ -61,6 +55,7 @@ public class MysqlDatabaseUtil {
         }
         return connection;
     }
+
     /**
      * Access the mySql database and get stored Rule data and return it
      * @param connection
@@ -93,7 +88,11 @@ public class MysqlDatabaseUtil {
     }
 
     public static Connection getConnection() {
-        return connection;
+        if (connection == null) {
+            connection = initiateDB();
+        }
+            return connection;
+        
     }
 
     /**
@@ -105,17 +104,17 @@ public class MysqlDatabaseUtil {
         ArrayList<Rule> rules = new ArrayList<Rule>();
         try {
             Statement Stmt = (Statement) connection.createStatement();
-            Map<String,String> selectedUsers=businessRule.getSelectedUsers();
+            Map<String, String> selectedUsers = businessRule.getSelectedUsers();
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
 
-            for(String s:selectedUsers.keySet())   {
-                if(selectedUsers.get(s).equalsIgnoreCase("selected")){
+            for (String s : selectedUsers.keySet()) {
+                if (selectedUsers.get(s).equalsIgnoreCase("selected")) {
                     Stmt.executeUpdate("INSERT into selectedusers values ('"
                             + businessRule.getRuleName() + "','" + s + "','"
                             + dateFormat.format(date) + "')");
 
-                    selectedUsers.put(s,"inserted");
+                    selectedUsers.put(s, "inserted");
 
                 }
 
@@ -125,10 +124,9 @@ public class MysqlDatabaseUtil {
             // connection.close();
             Stmt.close();
         } catch (SQLException E) {
-            logger.error("SQLException: {}.",E.getMessage());
+            logger.error("SQLException: {}.", E.getMessage());
 
-        }
-        catch(NullPointerException e){
+        } catch (NullPointerException e) {
             logger.info("no users selected yet");
         }
     }

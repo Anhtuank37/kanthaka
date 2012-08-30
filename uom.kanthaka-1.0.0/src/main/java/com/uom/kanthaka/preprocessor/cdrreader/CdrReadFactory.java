@@ -4,6 +4,7 @@
  */
 package com.uom.kanthaka.preprocessor.cdrreader;
 
+import com.uom.kanthaka.cassandra.updater.CassandraUpdater;
 import com.uom.kanthaka.preprocessor.rulereader.Rule;
 import java.util.ArrayList;
 import org.apache.commons.pool.BasePoolableObjectFactory;

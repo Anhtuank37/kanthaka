@@ -40,7 +40,7 @@ public class ReadBusinessRule {
      */
     public ArrayList<Rule> readRulesFromDatabase() {
         MysqlDatabaseUtil databaseConnect = new MysqlDatabaseUtil();
-        connection = databaseConnect.initiateDB();
+        connection = MysqlDatabaseUtil.getConnection();
         rules = databaseConnect.getRulesFromDatabase(connection);
 
         for (int i = 0; i < rules.size(); i++) {

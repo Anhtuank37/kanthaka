@@ -4,6 +4,7 @@
  */
 package com.uom.kanthaka.preprocessor.cdrreader;
 
+import com.uom.kanthaka.cassandra.updater.CassandraUpdater;
 import com.uom.kanthaka.preprocessor.Constant;
 import com.uom.kanthaka.preprocessor.rulereader.ConditionField;
 import com.uom.kanthaka.preprocessor.rulereader.Rule;
@@ -37,7 +38,7 @@ public class CdrRead extends Thread {
 
     /**
      * constructor of CdrRead which initiate object to given Rule object
-     * 
+     * and objectPool to be used
      * @param
      */
     public CdrRead(ArrayList<Rule> rules, ObjectPool<CdrRead> pool) {
@@ -47,39 +48,40 @@ public class CdrRead extends Thread {
     }
 
     /**
-     * Read CDR files according to the given business rules
+     * Read CDR files on multiple threads and process CDR record by record on corresponding
+     * promotion rules. This will also update the record maps during the reading process
      * @param
      */
     public void readCdr() {
         CdrRead newCdrObject = null;
+        BufferedReader bufReader;
         try {
-            BufferedReader bufReader = new BufferedReader(new FileReader(file));
-            newCdrObject = pool.borrowObject();
-            int counter = 0;
+            bufReader = new BufferedReader(new FileReader(file));
+            newCdrObject = pool.borrowObject();         // borrow CdrRead pool object
+            int counter = 0;                            // initialize counter
             String tempRec;
 
             while ((tempRec = bufReader.readLine()) != null) {
                 newCdrObject.setRecord(tempRec);
                 newCdrObject.readCdrFile();
                 counter++;
-                if (counter == 10000) {
-                    updateRuleMaps();
-                //    printRuleRecordMaps();
+                if (counter == Constant.CDR_Counter_Val) {      // Check wether counter value reached
+                    updateRuleMaps();                   // update record maps
+                    printRuleRecordMaps();
                     counter = 0;
                 }
             }
-            updateRuleMaps();
-            System.out.println();
-            printRuleRecordMaps();
+            updateRuleMaps();                   // update record maps in EOF
+//            printRuleRecordMaps();
             bufReader.close();
             logger.info("--- One File Done ----");
-           // file.delete();
+            file.delete();                      // delete the file after reading
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
                 if (null != newCdrObject) {
-                    pool.returnObject(newCdrObject);
+                    pool.returnObject(newCdrObject);    // return pool object
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -91,43 +93,44 @@ public class CdrRead extends Thread {
      * Update record maps of the business rule
      */
     public synchronized void updateRuleMaps() {
-        for (int i = 0; i < businessRules.size(); i++) {
+        for (int i = 0; i < businessRules.size(); i++) {    // iterate through  business rule objects
             Rule tempRule = businessRules.get(i);
             ArrayList<RecordMap> tempMaps = tempRule.getTempEntries().getMaps();
 
-            while (tempMaps.size() > 0) {
-                RecordMap tempRec = tempMaps.remove(0);
+            while (tempMaps.size() > 0) {                   // Updating dataMaps using tempMaps 
+                RecordMap tempRec = tempMaps.remove(0);     // removing temp map components and add them on data maps
                 tempRule.getRecordMaps().add(
                         new RecordMap(tempRec.getType(), tempRec.getDataMap()));
             }
         }
     }
 
+    /**
+     * Printing the record maps to display(during tests)
+     */
     public void printRuleRecordMaps() {
         CdrRead newCdrObject = null;
         try {
-            newCdrObject = pool.borrowObject();
+            newCdrObject = pool.borrowObject();                         // receive pool object
             ArrayList<Rule> businessRules = newCdrObject.getRules();
-            for (int i = 0; i < businessRules.size(); i++) {
+            for (int i = 0; i < businessRules.size(); i++) {                // iterate through business rules
                 Rule businessRule = businessRules.get(i);
-             //   System.out.println("Rule Name : " + businessRule.getRuleName());
-                logger.debug("Rule Name : {}.", businessRule.getRuleName());
+                System.out.println("Rule Name : " + businessRule.getRuleName());
+                logger.debug("Rule Name : {}.", businessRule.getRuleName());        // print rule name
 
-                ArrayList<RecordMap> mapList = businessRule.getRecordMaps();
+                ArrayList<RecordMap> mapList = businessRule.getRecordMaps();    // iterate through records maps on rules
                 for (int j = 0; j < mapList.size(); j++) {
                     RecordMap record = mapList.get(j);
-                //    System.out.println(record.getType() + "  -  " + record.getDataMap());
-                    logger.debug("{}. - {}.", record.getType(), record.getDataMap());
+                    System.out.println(record.getType() + "  -  " + record.getDataMap());
+                    logger.debug("{}. - {}.", record.getType(), record.getDataMap());    // print record map correspond to promotion
                 }
-            //    System.out.println("");
-//            logger.debug("");
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
                 if (null != newCdrObject) {
-                    pool.returnObject(newCdrObject);
+                    pool.returnObject(newCdrObject);        // rerurn pool object
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -136,9 +139,8 @@ public class CdrRead extends Thread {
     }
 
     /**
-     * Read the given CDR file and process entries
-     * 
-     * @param
+     * Read the given CDR record and process the entry
+     * read the required fields form CDR record and assign them to fields for check
      */
     public void readCdrFile() {
         String ruleName[] = record.split(Constant.COMMA);
@@ -160,64 +162,67 @@ public class CdrRead extends Thread {
         testRulesWithCDR();
     }
 
+    /**
+     * Compare the business promotions with the given CDR attributes
+     */
     public void testRulesWithCDR() {
-        for (int i = 0; i < businessRules.size(); i++) {
+        for (int i = 0; i < businessRules.size(); i++) {        // iterate throgh the rules
             compareCdrWithARule(businessRules.get(i));
         }
     }
 
     /**
      * Compare the CDR entries with the Rule object and process them
+     * compare conditonal attributes and counter attributes
      */
     public void compareCdrWithARule(Rule rule) {
         ArrayList<ArrayList<ConditionField>> conditionComp = rule.getConditionFields();
         TempCDREntry tempEntries = rule.getTempEntries();
-        boolean condition = true;
-        for (int j = 0; j < conditionComp.size(); j++) {
-            ArrayList<ConditionField> conditionOr = conditionComp.get(j);
+        boolean condition = true;                           // boolean condition of given promotion
+        for (int j = 0; j < conditionComp.size(); j++) {        // process business promotion rule by rule
+            ArrayList<ConditionField> conditionOr = conditionComp.get(j);  // get the OR condition fields of a business promotion(1 rule)
             int count = 0;
-            boolean innerCondition = false;
-            for (int k = 0; k < conditionOr.size(); k++) {
+            boolean innerCondition = false;                     // conditon for inner rule
+            for (int k = 0; k < conditionOr.size(); k++) {      // check the boolean conditon of inner rule
                 ConditionField conField = conditionOr.get(k);
                 // System.out.print(conField.getConditionName() + ", " +
                 // conField.getValue());
-                if (conditionOr.size() > 1) {
+                if (conditionOr.size() > 1) {           // if more than one or condition exist
                     innerCondition = (innerCondition || checkCdrAttribute(conField, this));
-                } else {
+                } else {                                // if only one or condition exist
                     innerCondition = checkCdrAttribute(conField, this);
                 }
                 count++;
-                if (count > 0 && count < conditionOr.size()) {
-                    // System.out.print(" OR ");
-                }
+//                if (count > 0 && count < conditionOr.size()) {
+//                     System.out.print(" OR ");
+//                }
             }
-            if ((j < conditionComp.size() - 1) && !(count == 0)) {
-                // System.out.println("");
-                // System.out.println(" AND ");
-            }
-            condition = (condition && innerCondition);
+//            if ((j < conditionComp.size() - 1) && !(count == 0)) {
+//                // System.out.println("");
+//                // System.out.println(" AND ");
+//            }
+            condition = (condition && innerCondition);      // geting boolean condition among rules
         }
-        // System.out.println("");
-        if (condition) {
+        if (condition) {                // if conditions get satisfied for the CDR record process the counters of the promotion
             if ((this.getSourceChannelType() != null)
-                    && this.getSourceChannelType().equalsIgnoreCase(Constant.EventTypeCall)) {
+                    && this.getSourceChannelType().equalsIgnoreCase(Constant.EventTypeCall)) {      // for event type Call
                 ConcurrentHashMap<String, Long> callCounter = tempEntries.getCallMap().getDataMap();
                 if (callCounter.containsKey(this.getSourceAddress())) {
                     long currentCount = callCounter.get(this.getSourceAddress());
-                    callCounter.replace(this.getSourceAddress(), currentCount,
+                    callCounter.replace(this.getSourceAddress(), currentCount,          // increment the counters
                             currentCount + 1L);
                 } else {
-                    callCounter.put(this.getSourceAddress(), 1L);
+                    callCounter.put(this.getSourceAddress(), 1L);                       // create new counter field
                 }
             } else if ((this.getSourceChannelType() != null)
-                    && this.getSourceChannelType().equalsIgnoreCase(Constant.EventTypeSMS)) {
+                    && this.getSourceChannelType().equalsIgnoreCase(Constant.EventTypeSMS)) {       // for event type SMS
                 ConcurrentHashMap<String, Long> smsCounter = tempEntries.getSmsMap().getDataMap();
                 if (smsCounter.containsKey(this.getSourceAddress())) {
                     long currentCount = smsCounter.get(this.getSourceAddress());
-                    smsCounter.replace(this.getSourceAddress(), currentCount,
+                    smsCounter.replace(this.getSourceAddress(), currentCount,               // increment the counters
                             currentCount + 1L);
                 } else {
-                    smsCounter.put(this.getSourceAddress(), 1L);
+                    smsCounter.put(this.getSourceAddress(), 1L);                        // create new counter field
                 }
             } else {
             }
@@ -225,23 +230,23 @@ public class CdrRead extends Thread {
     }
 
     /**
-     * Checks the CDR attribute with rule condition fields
+     * Checks the CDR attribute with promotion condition fields
      * 
      * @param conField
      * @param cdr
      * @return boolean value of success of operation
      */
     public boolean checkCdrAttribute(ConditionField conField, CdrRead cdr) {
-        if ((conField.getConditionName()).equalsIgnoreCase(Constant.DestinationNumber)) {
-            if (conField.getCondition().equalsIgnoreCase(Constant.Equals)) {
+        if ((conField.getConditionName()).equalsIgnoreCase(Constant.DestinationNumber)) {   // check two eqalities on sourse address
+            if (conField.getCondition().equalsIgnoreCase(Constant.Equals)) {                // equals case
                 return (conField.getValue()).equalsIgnoreCase(cdr.getDestinationAddress());
-            } else if (conField.getCondition().equalsIgnoreCase(Constant.StartsWith)) {
+            } else if (conField.getCondition().equalsIgnoreCase(Constant.StartsWith)) {     // startsWith case
                 return (cdr.getDestinationAddress()).startsWith(conField.getValue());
             }
             return false;
-        } else if ((conField.getConditionName()).equalsIgnoreCase(Constant.ConnectionType)) {
+        } else if ((conField.getConditionName()).equalsIgnoreCase(Constant.ConnectionType)) {   // check ConnectionType (prepaid, postpaid)
             return (conField.getValue()).equalsIgnoreCase(cdr.getBillingType());
-        } else if ((conField.getConditionName()).equalsIgnoreCase(Constant.ChannelType)) {
+        } else if ((conField.getConditionName()).equalsIgnoreCase(Constant.ChannelType)) {      // check ChannelType(Sms, Call, Ussd)
             return (conField.getValue()).equalsIgnoreCase(cdr.getSourceChannelType());
         } else {
             return false;

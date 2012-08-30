@@ -120,6 +120,12 @@ public class CassandraUpdater extends TimerTask {
             dataInserter(businessRule.getRuleName(), record.getType(), record.getDataMap());
         }
     }
+    
+      public void updateCassandra() {
+        for (int i = 0; i < businessRules.size(); i++) {
+            updateDatabaseTables(businessRules.get(i));
+        }
+    }
 
     /**
      * to update database table periodically

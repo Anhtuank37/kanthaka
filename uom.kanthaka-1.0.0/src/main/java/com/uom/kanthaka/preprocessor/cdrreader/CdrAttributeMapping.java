@@ -10,24 +10,17 @@ import com.uom.kanthaka.preprocessor.Constant;
  * 
  * @author Makumar
  */
-// Called No - sourceAddress, sourceChannelType, destinationAddress
-// SMSed No - sourceAddress, sourceChannelType, destinationAddress
-// No of Calls - sourceAddress, sourceChannelType
-// No of SMSs - sourceAddress, sourceChannelType
-// Connection Type - sourceAddress, billingType
-// Call Duration
 public class CdrAttributeMapping {
 
-  final int timeStamp = 3;
+  final int timeStamp = 3;              // Attributes taken form CDR's and their positions
   final int sourceAddress = 9;
   final int destinationAddress = 13;
   final int billingType = 19;
   final int sourceChannelType = 11;
 
-  // int duration = ;
-
   /**
      * Map the attribute name with the position in the CDR file record
+     * the position value in the CDR will be returned as int value
      * @param attribute
      * @return int value of the mapping attribute
      */

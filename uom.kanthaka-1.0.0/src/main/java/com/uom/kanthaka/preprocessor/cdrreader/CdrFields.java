@@ -12,13 +12,13 @@ import com.uom.kanthaka.preprocessor.Constant;
  */
 public class CdrFields {
 
-  final String Dest_No[] = { "destinationAddress" };
-  final String Connection_Type[] = { "billingType" };
+  final String Dest_No[] = { "destinationAddress" };    //  Attribute names used in Kanthaka on the CDR record
+  final String Connection_Type[] = { "billingType" };   
   final String No_of_Calls[] = { "sourceChannelType" };
   final String No_of_SMSs[] = { "sourceChannelType" };
 
   /**
-   * return the String[] which mapping to given input type
+   * return the String[] which mapping to given input attribute type
    * 
    * @param type
    * @return String[] which maps to the given input type

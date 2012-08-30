@@ -39,6 +39,6 @@ public class Main {
 
         Timer cassandraQueryTimer = new Timer(); // Instantiate Timer Object
         QueryRunner queryRun = new QueryRunner(businessRules);
-        cassandraQueryTimer.schedule(queryRun, 5000, 5000);
+        cassandraQueryTimer.schedule(queryRun, 5000, 3000);
     }
 }

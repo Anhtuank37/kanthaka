@@ -16,21 +16,10 @@ public class ConditionField {
     String value;
 
     /**
-     * 
-     * @param 
-     * @param 
-     * @return
-     */
-//    public conditionField(String conditionName, String value) {
-//        this.conditionName = conditionName;
-//        this.value = value;
-//    }
-
-    /**
-     * 
-     * @param 
-     * @param 
-     * @return
+     * Constructor for to set the condition field
+     * @param conditionName
+     * @param condition
+     * @param value
      */
     public ConditionField(String conditionName, String condition, String value) {
         this.conditionName = conditionName;
@@ -39,10 +28,8 @@ public class ConditionField {
     }
 
     /**
-     * 
-     * @param 
-     * @param 
-     * @return
+     * Print the details in the condition field
+     * @return string value of condition field
      */
     public String printDetails() {
         return conditionName + " " + condition + " " + value;
