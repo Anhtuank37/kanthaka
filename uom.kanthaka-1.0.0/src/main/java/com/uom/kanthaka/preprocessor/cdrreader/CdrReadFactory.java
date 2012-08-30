@@ -4,7 +4,6 @@
  */
 package com.uom.kanthaka.preprocessor.cdrreader;
 
-import com.uom.kanthaka.cassandra.updater.CassandraUpdater;
 import com.uom.kanthaka.preprocessor.rulereader.Rule;
 import java.util.ArrayList;
 import org.apache.commons.pool.BasePoolableObjectFactory;
@@ -17,17 +16,29 @@ import org.apache.commons.pool.impl.StackObjectPool;
 public class CdrReadFactory  extends BasePoolableObjectFactory<CdrRead>{
     ArrayList<Rule> rules;
 
+    
+    /**
+     * constructor of CdrReadFactory
+     * initialize the object with business Promotions
+     */
     public CdrReadFactory(ArrayList<Rule> rules) {
         this.rules = rules;
     }
     
+    
+    /**
+     * Create poolar objecet to return
+     * @return CdrRead object form pool
+     */
     @Override
     public CdrRead makeObject() { 
         return new CdrRead(rules, new StackObjectPool<CdrRead>(new CdrReadFactory(rules))); 
     } 
      
-    // when an object is returned to the pool,  
-    // we'll clear it out 
+    /**
+     * initialize poolar objecet which returns
+     * @param CdrRead object form pool need to initialize
+     */
     @Override
     public void passivateObject(CdrRead cdrObject) { 
         cdrObject.initilizeFields();
