@@ -12,8 +12,10 @@ import com.uom.kanthaka.preprocessor.Constant;
  */
 public class CdrFields {
 
-  final String Dest_No[] = { "destinationAddress" };    //  Attribute names used in Kanthaka on the CDR record
-  final String Connection_Type[] = { "billingType" };   
+  final String Dest_No[] = { "destinationAddress" }; // Attribute names used in
+                                                     // Kanthaka on the CDR
+                                                     // record
+  final String Connection_Type[] = { "billingType" };
   final String No_of_Calls[] = { "sourceChannelType" };
   final String No_of_SMSs[] = { "sourceChannelType" };
 
@@ -23,19 +25,19 @@ public class CdrFields {
    * @param type
    * @return String[] which maps to the given input type
    */
-  public String[] getList(String type){
-        if (type.equalsIgnoreCase(Constant.DestinationNumber)) {
-            return getDest_No();
-        } else if(type.equalsIgnoreCase(Constant.ConnectionType)){
-            return getConnection_Type();
-        } else if(type.equalsIgnoreCase(Constant.NumOfCalls)){
-            return getNo_of_Calls();
-        } else if(type.equalsIgnoreCase(Constant.NumOfSMSs)){
-            return getNo_of_SMSs();
-        }else {
-            return null;
-        }
+  public String[] getList(String type) {
+    if (type.equalsIgnoreCase(Constant.DestinationNumber)) {
+      return getDest_No();
+    } else if (type.equalsIgnoreCase(Constant.ConnectionType)) {
+      return getConnection_Type();
+    } else if (type.equalsIgnoreCase(Constant.NumOfCalls)) {
+      return getNo_of_Calls();
+    } else if (type.equalsIgnoreCase(Constant.NumOfSMSs)) {
+      return getNo_of_SMSs();
+    } else {
+      return null;
     }
+  }
 
   /**
    * Return Called_No array
