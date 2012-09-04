@@ -1,67 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--Developed as a final year project in Computer Science & Engineering Department of-->
+<!--University of Moratuwa. All the content of project is owned by the University of-->
+<!--Moratuwa.-->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>uom.kanthaka-1.0.0</groupId>
+
+  <groupId>com.uom</groupId>
+  <artifactId>kanthaka</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <!--<relativePath>../pom.xml</relativePath>-->
+  <name>Kanthaka</name>
+  <packaging>jar</packaging>
+
+  <!--<groupId>uom.kanthaka-1.0.0</groupId>
     <artifactId>uom.kanthaka-1.0.0</artifactId>
-    <version>1.0</version>
-    <description>
-        Kanthaka is a high volume Caller Detail Record analyzer implemented to be used by telecom operators to
-        offer near real time promotions, that involve complex attributes. This has the capability to run multiple rules
-        in parallel, even in the scale of 30M records per day.
-    </description>
-    <url>http://kanthaka.net63.net/</url>
+    <version>1.0</version> -->
+  <description>
+    Kanthaka is a high volume Caller Detail Record(CDR) analyzer implemented to be used by telecom operators to
+    offer near real time promotions, that involve complex attributes. This has the capability to run multiple rules
+    in parallel, even in the scale of 30M records per day.
+  </description>
+  <url>http://kanthaka.net63.net/</url>
 
 
-    <dependencies>
+  <dependencies>
 
-        <!--dependencies for cassandra -->
-        <dependency>
-            <groupId>org.apache.cassandra</groupId>
-            <artifactId>cassandra-all</artifactId>
-            <version>1.1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>me.prettyprint</groupId>
-            <artifactId>hector-core</artifactId>
-            <version>1.0-3</version>
-        </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+    </dependency>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
+    <!--dependencies for cassandra -->
+    <dependency>
+      <groupId>org.apache.cassandra</groupId>
+      <artifactId>cassandra-all</artifactId>
+      <version>1.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>me.prettyprint</groupId>
+      <artifactId>hector-core</artifactId>
+      <version>1.0-3</version>
+    </dependency>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.6.6</version>
-        </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.6.6</version>
+    </dependency>
 
-        <dependency>
-            <groupId>commons-pool</groupId>
-            <artifactId>commons-pool</artifactId>
-            <version>1.6</version>
-        </dependency>
+    <dependency>
+      <groupId>commons-pool</groupId>
+      <artifactId>commons-pool</artifactId>
+      <version>1.6</version>
+    </dependency>
 
-        <!--dependencies for preprocessor -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.13</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8.2</version>
-        </dependency>
+    <!--dependencies for preprocessor -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.13</version>
+    </dependency>
 
 
-    </dependencies>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+
+
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>com.uom.kanthaka.preprocessor.Main</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
 
 
 </project>
