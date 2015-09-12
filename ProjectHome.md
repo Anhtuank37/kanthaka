@@ -1,0 +1,1 @@
+A high volume Caller Detail Record (CDR) analyzer. This is to select qualified entries within a short period which satisfy the rules defined by telecom operators from large scale call records. This is a research based project with research on big data technologies and best algorithms to analyze big data.
